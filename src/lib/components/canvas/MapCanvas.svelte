@@ -39,61 +39,30 @@ Perfect for Proximity's "Google Maps for agents" concept
 		activationTime: number;
 	}> = [];
 
-	// Colors - responsive to dark mode using CSS variables
+	// Clean monochrome color palette
 	const getColors = () => {
-		const rootStyles = getComputedStyle(document.documentElement);
 		const isDark = document.documentElement.dataset.theme === "dark";
 
-		// Helper function to get CSS variable and convert OKLCH to canvas-compatible format
-		const getCSSVar = (varName) => {
-			const value = rootStyles.getPropertyValue(varName).trim();
-			// If it's already an OKLCH value, convert to hex for canvas compatibility
-			if (value.startsWith("oklch(")) {
-				// Create a temporary element to let the browser convert OKLCH to RGB
-				const temp = document.createElement("div");
-				temp.style.color = value;
-				document.body.appendChild(temp);
-				const computed = getComputedStyle(temp).color;
-				document.body.removeChild(temp);
-
-				// Convert RGB to hex
-				const rgb = computed.match(/\d+/g);
-				if (rgb) {
-					return `#${parseInt(rgb[0]).toString(16).padStart(2, "0")}${parseInt(rgb[1]).toString(16).padStart(2, "0")}${parseInt(rgb[2]).toString(16).padStart(2, "0")}`;
-				}
-			}
-			return value;
-		};
-
-		// Helper function to create alpha variations for canvas
-		const withAlpha = (color, alpha) => {
-			if (color.startsWith("#")) {
-				const r = parseInt(color.slice(1, 3), 16);
-				const g = parseInt(color.slice(3, 5), 16);
-				const b = parseInt(color.slice(5, 7), 16);
-				return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-			}
-			return color;
-		};
-
-		const primary = getCSSVar("--color-primary-950");
-		const secondary = getCSSVar("--color-secondary-950");
-		const accent = getCSSVar("--color-accent");
-		const background = getCSSVar("--color-background");
-		const border = getCSSVar("--color-border");
+		// Monochrome greys based on black
+		const baseGrey = isDark ? "#1a1a1a" : "#f8f8f8";
+		const lightGrey = isDark ? "#2a2a2a" : "#f0f0f0";
+		const mediumGrey = isDark ? "#404040" : "#e0e0e0";
+		const darkGrey = isDark ? "#606060" : "#c0c0c0";
 
 		return {
-			primary,
-			secondary,
-			accent,
-			success: getCSSVar("--color-primary-900"), // Using primary-500 as success
-			warning: getCSSVar("--color-secondary-900"), // Using secondary-500 as warning
-			grid: withAlpha(primary, isDark ? 0.08 : 0.05),
-			gridActive: withAlpha(primary, isDark ? 0.25 : 0.15),
-			background: withAlpha(background, 0.95),
-			connections: withAlpha(primary, isDark ? 0.2 : 0.15),
-			particles: withAlpha(primary, isDark ? 0.08 : 0.05),
-			hexStroke: isDark ? withAlpha(border, 0.15) : primary
+			// Subtle colored dots with opacity
+			primary: `rgba(59, 130, 246, 0.6)`, // Blue
+			secondary: `rgba(168, 85, 247, 0.6)`, // Purple
+			accent: `rgba(34, 197, 94, 0.6)`, // Green
+			success: `rgba(249, 115, 22, 0.6)`, // Orange
+			warning: `rgba(239, 68, 68, 0.6)`, // Red
+			// Clean monochrome background elements
+			grid: `rgba(128, 128, 128, ${isDark ? 0.03 : 0.02})`,
+			gridActive: `rgba(128, 128, 128, ${isDark ? 0.08 : 0.05})`,
+			background: baseGrey,
+			connections: `rgba(128, 128, 128, ${isDark ? 0.05 : 0.03})`,
+			particles: `rgba(128, 128, 128, ${isDark ? 0.02 : 0.01})`,
+			hexStroke: `rgba(128, 128, 128, ${isDark ? 0.05 : 0.03})`
 		};
 	};
 
@@ -149,7 +118,6 @@ Perfect for Proximity's "Google Maps for agents" concept
 
 		agents = [];
 		const colors = getColors();
-		console.log(colors);
 		const agentColors = [
 			colors.primary,
 			colors.secondary,
@@ -167,7 +135,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 				progress: 0,
 				speed: 0.001 + Math.random() * 0.002,
 				color: agentColors[Math.floor(Math.random() * agentColors.length)],
-				size: 3 + Math.random() * 4,
+				size: 2 + Math.random() * 2, // Smaller, more subtle dots
 				pulse: 0
 			});
 		}
@@ -192,8 +160,8 @@ Perfect for Proximity's "Google Maps for agents" concept
 		}
 		ctx.closePath();
 
-		ctx.strokeStyle = colors.hexStroke.replace("1)", `${opacity})`);
-		ctx.lineWidth = 1;
+		ctx.strokeStyle = colors.hexStroke;
+		ctx.lineWidth = 0.5; // Thinner lines for cleaner look
 		ctx.stroke();
 	}
 
@@ -213,37 +181,13 @@ Perfect for Proximity's "Google Maps for agents" concept
 			agent.y = agent.y + (agent.targetY - agent.y) * agent.progress;
 		}
 
-		agent.pulse = Math.sin(time * 0.001 + agent.x * 0.005) * 0.3 + 0.7;
+		agent.pulse = Math.sin(time * 0.001 + agent.x * 0.005) * 0.2 + 0.8;
 
-		// Draw agent trail
-		const gradient = ctx.createRadialGradient(
-			agent.x,
-			agent.y,
-			0,
-			agent.x,
-			agent.y,
-			agent.size * 2.5
-		);
-		gradient.addColorStop(0, agent.color + "20");
-		gradient.addColorStop(1, agent.color + "00");
-
-		ctx.fillStyle = gradient;
-		ctx.beginPath();
-		ctx.arc(agent.x, agent.y, agent.size * 2.5, 0, Math.PI * 2);
-		ctx.fill();
-
-		// Draw agent core
+		// Draw subtle agent core only - clean and minimal
 		ctx.fillStyle = agent.color;
 		ctx.beginPath();
-		ctx.arc(agent.x, agent.y, agent.size * (0.8 + agent.pulse * 0.4), 0, Math.PI * 2);
+		ctx.arc(agent.x, agent.y, agent.size * (0.7 + agent.pulse * 0.3), 0, Math.PI * 2);
 		ctx.fill();
-
-		// Draw agent pulse ring
-		ctx.strokeStyle = agent.color + "30";
-		ctx.lineWidth = 1;
-		ctx.beginPath();
-		ctx.arc(agent.x, agent.y, agent.size * (1.5 + agent.pulse * 1), 0, Math.PI * 2);
-		ctx.stroke();
 	}
 
 	function activateNearbyHexes(agent: any, time: number) {
@@ -281,19 +225,17 @@ Perfect for Proximity's "Google Maps for agents" concept
 			}
 		});
 
-		// Draw connection lines between nearby agents
+		// Draw subtle connection lines between nearby agents
 		for (let i = 0; i < agents.length; i++) {
 			for (let j = i + 1; j < agents.length; j++) {
 				const distance = Math.sqrt(
 					(agents[i].x - agents[j].x) ** 2 + (agents[i].y - agents[j].y) ** 2
 				);
 
-				if (distance < 200) {
-					const opacity = (1 - distance / 200) * 0.15;
-					ctx.strokeStyle = colors.connections
-						.replace("0.2)", `${opacity})`)
-						.replace("0.15)", `${opacity})`);
-					ctx.lineWidth = 0.5;
+				if (distance < 150) {
+					const opacity = (1 - distance / 150) * 0.08;
+					ctx.strokeStyle = colors.connections.replace(/[\d.]+\)$/, `${opacity})`);
+					ctx.lineWidth = 0.3;
 					ctx.beginPath();
 					ctx.moveTo(agents[i].x, agents[i].y);
 					ctx.lineTo(agents[j].x, agents[j].y);
@@ -308,18 +250,16 @@ Perfect for Proximity's "Google Maps for agents" concept
 			drawAgent(agent, time);
 		});
 
-		// Add subtle moving particles
-		const particleCount = 12;
+		// Add very subtle moving particles
+		const particleCount = 8;
 		for (let i = 0; i < particleCount; i++) {
-			const x = ((time * 0.008 + i * 80) % (canvas.offsetWidth + 100)) - 50;
-			const y = Math.sin(time * 0.0005 + i) * 30 + canvas.offsetHeight * (i / particleCount);
-			const opacity = Math.sin(time * 0.001 + i) * 0.05 + 0.05;
+			const x = ((time * 0.005 + i * 100) % (canvas.offsetWidth + 100)) - 50;
+			const y = Math.sin(time * 0.0003 + i) * 20 + canvas.offsetHeight * (i / particleCount);
+			const opacity = Math.sin(time * 0.0008 + i) * 0.02 + 0.02;
 
-			ctx.fillStyle = colors.particles
-				.replace("0.08)", `${opacity})`)
-				.replace("0.05)", `${opacity})`);
+			ctx.fillStyle = colors.particles.replace(/[\d.]+\)$/, `${opacity})`);
 			ctx.beginPath();
-			ctx.arc(x, y, 0.8, 0, Math.PI * 2);
+			ctx.arc(x, y, 0.5, 0, Math.PI * 2);
 			ctx.fill();
 		}
 
