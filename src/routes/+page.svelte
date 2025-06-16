@@ -1,7 +1,5 @@
 <script lang="ts">
 	// Components
-	// import UseCases from "$lib/components/layout/UseCases.svelte";
-	import CanvasUseCases from "$lib/components/layout/CanvasUseCases.svelte";
 	import Summary from "$lib/components/layout/Summary.svelte";
 	import Features from "$lib/components/layout/Features.svelte";
 	import Testimonials from "$lib/components/layout/Testimonials.svelte";
@@ -17,6 +15,7 @@
 	import DatabaseIcon from "~icons/lucide/database";
 	import ActivityIcon from "~icons/lucide/activity";
 	import NetworkIcon from "~icons/lucide/network";
+	import UseCases from "$lib/components/layout/UseCases.svelte";
 </script>
 
 <CenteredTextOnlyHero
@@ -54,7 +53,7 @@
 			company: "Vertex Metrics",
 			quote:
 				"Proximity eliminated manual data errors that used to keep us up at night. Our project reviews run smoother, with far less risk and rework.",
-			image: "REPLACE_IMG_LINA"
+			image: "/generated/image-a-professional-female-data-scientist-in-.webp"
 		},
 		{
 			name: "Viktor Haas",
@@ -110,8 +109,6 @@
 	]}
 />
 
-<!-- Original Use Cases Section - Commented Out -->
-<!--
 <UseCases
 	title="Use Cases"
 	subtitle="Real-world applications for your business needs"
@@ -147,13 +144,6 @@
 			}
 		}
 	]}
-/>
--->
-
-<!-- New Interactive Canvas Use Cases Section -->
-<CanvasUseCases
-	title="See agents in action"
-	subtitle="Interactive demonstrations of how Proximity transforms complex geospatial analysis into simple, visual insights"
 />
 
 <AboutTeaser />

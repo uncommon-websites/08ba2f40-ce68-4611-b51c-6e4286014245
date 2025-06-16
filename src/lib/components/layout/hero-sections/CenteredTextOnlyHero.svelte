@@ -26,19 +26,13 @@ Takes up the full viewport height and centers content vertically.
 		}>; // A maximum of two calls to action, with the first one being primary and the second one being secondary
 	};
 
-	let {
-		title,
-		subtitle,
-		callsToAction = [cta],
-		imageSrc,
-		...rest
-	}: Props = $props();
+	let { title, subtitle, callsToAction = [cta], imageSrc, ...rest }: Props = $props();
 </script>
 
 <div class="grid h-[calc(100vh-var(--nav-height))] grid-rows-[1fr_auto]" {...rest}>
 	<div class="bg-background relative isolate flex items-center justify-center overflow-hidden">
 		<!-- Canvas Map Background -->
-		<div class="absolute top-0 right-4 bottom-4 left-4 -z-10 rounded-(--radius-xl) overflow-hidden">
+		<div class="absolute top-0 right-4 bottom-4 left-4 -z-10 overflow-hidden rounded-(--radius-xl)">
 			<MapCanvas class="size-full" />
 		</div>
 
@@ -64,8 +58,11 @@ Takes up the full viewport height and centers content vertically.
 			{#if callsToAction.length > 0}
 				<div class="mt-8 flex gap-4" data-enter>
 					{#each callsToAction as cta, index}
-						<Button href={cta.href} size="lg" variant="secondary" class="text-black max-lg:hidden"
-							>{cta.label}</Button
+						<Button
+							href={cta.href}
+							size="lg"
+							variant="secondary"
+							class="text-black max-lg:hidden dark:text-current">{cta.label}</Button
 						>
 						<Button
 							href={cta.href}
