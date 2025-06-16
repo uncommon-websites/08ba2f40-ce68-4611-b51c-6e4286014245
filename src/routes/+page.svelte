@@ -13,7 +13,6 @@
 <CenteredTextOnlyHero
   title="Like Google Maps, but for agents"
   subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
-  imageSrc="/generated/image-a-bustling-city-street-filled-with-diver.webp"
 />
 <LogoScroller
 	label="Trusted by industry leaders"
