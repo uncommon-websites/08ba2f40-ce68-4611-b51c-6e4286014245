@@ -46,9 +46,9 @@ Perfect for Proximity's "Google Maps for agents" concept
 		accent: '#06b6d4',
 		success: '#10b981',
 		warning: '#f59e0b',
-		grid: 'rgba(59, 130, 246, 0.1)',
-		gridActive: 'rgba(59, 130, 246, 0.3)',
-		background: 'rgba(15, 23, 42, 0.95)'
+		grid: 'rgba(59, 130, 246, 0.05)',
+		gridActive: 'rgba(59, 130, 246, 0.15)',
+		background: 'rgba(248, 250, 252, 0.95)'
 	};
 
 	function resizeCanvas() {
@@ -90,7 +90,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 				hexGrid.push({
 					x,
 					y,
-					opacity: Math.random() * 0.3 + 0.1,
+					opacity: Math.random() * 0.15 + 0.05,
 					active: false,
 					activationTime: 0
 				});
@@ -104,16 +104,16 @@ Perfect for Proximity's "Google Maps for agents" concept
 		agents = [];
 		const agentColors = [colors.primary, colors.secondary, colors.accent, colors.success, colors.warning];
 		
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < 6; i++) {
 			agents.push({
 				x: Math.random() * canvas.offsetWidth,
 				y: Math.random() * canvas.offsetHeight,
 				targetX: Math.random() * canvas.offsetWidth,
 				targetY: Math.random() * canvas.offsetHeight,
 				progress: 0,
-				speed: 0.005 + Math.random() * 0.01,
+				speed: 0.001 + Math.random() * 0.002,
 				color: agentColors[Math.floor(Math.random() * agentColors.length)],
-				size: 4 + Math.random() * 6,
+				size: 3 + Math.random() * 4,
 				pulse: 0
 			});
 		}
@@ -157,16 +157,16 @@ Perfect for Proximity's "Google Maps for agents" concept
 			agent.y = agent.y + (agent.targetY - agent.y) * agent.progress;
 		}
 		
-		agent.pulse = Math.sin(time * 0.003 + agent.x * 0.01) * 0.5 + 0.5;
+		agent.pulse = Math.sin(time * 0.001 + agent.x * 0.005) * 0.3 + 0.7;
 		
 		// Draw agent trail
-		const gradient = ctx.createRadialGradient(agent.x, agent.y, 0, agent.x, agent.y, agent.size * 3);
-		gradient.addColorStop(0, agent.color + '40');
+		const gradient = ctx.createRadialGradient(agent.x, agent.y, 0, agent.x, agent.y, agent.size * 2.5);
+		gradient.addColorStop(0, agent.color + '20');
 		gradient.addColorStop(1, agent.color + '00');
 		
 		ctx.fillStyle = gradient;
 		ctx.beginPath();
-		ctx.arc(agent.x, agent.y, agent.size * 3, 0, Math.PI * 2);
+		ctx.arc(agent.x, agent.y, agent.size * 2.5, 0, Math.PI * 2);
 		ctx.fill();
 		
 		// Draw agent core
@@ -176,10 +176,10 @@ Perfect for Proximity's "Google Maps for agents" concept
 		ctx.fill();
 		
 		// Draw agent pulse ring
-		ctx.strokeStyle = agent.color + '60';
-		ctx.lineWidth = 2;
+		ctx.strokeStyle = agent.color + '30';
+		ctx.lineWidth = 1;
 		ctx.beginPath();
-		ctx.arc(agent.x, agent.y, agent.size * (2 + agent.pulse * 2), 0, Math.PI * 2);
+		ctx.arc(agent.x, agent.y, agent.size * (1.5 + agent.pulse * 1), 0, Math.PI * 2);
 		ctx.stroke();
 	}
 
@@ -189,7 +189,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 			if (distance < 100) {
 				hex.active = true;
 				hex.activationTime = time;
-			} else if (hex.active && time - hex.activationTime > 2000) {
+			} else if (hex.active && time - hex.activationTime > 4000) {
 				hex.active = false;
 			}
 		});
@@ -208,7 +208,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 		// Draw hexagonal grid
 		hexGrid.forEach(hex => {
 			const opacity = hex.active 
-				? Math.min(hex.opacity * 3, 0.6) * (1 - Math.min((time - hex.activationTime) / 2000, 1))
+				? Math.min(hex.opacity * 2, 0.3) * (1 - Math.min((time - hex.activationTime) / 4000, 1))
 				: hex.opacity;
 			
 			if (opacity > 0.01) {
@@ -224,9 +224,9 @@ Perfect for Proximity's "Google Maps for agents" concept
 				);
 				
 				if (distance < 200) {
-					const opacity = (1 - distance / 200) * 0.3;
+					const opacity = (1 - distance / 200) * 0.15;
 					ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
-					ctx.lineWidth = 1;
+					ctx.lineWidth = 0.5;
 					ctx.beginPath();
 					ctx.moveTo(agents[i].x, agents[i].y);
 					ctx.lineTo(agents[j].x, agents[j].y);
@@ -242,15 +242,15 @@ Perfect for Proximity's "Google Maps for agents" concept
 		});
 		
 		// Add subtle moving particles
-		const particleCount = 20;
+		const particleCount = 12;
 		for (let i = 0; i < particleCount; i++) {
-			const x = (time * 0.02 + i * 50) % (canvas.offsetWidth + 100) - 50;
-			const y = (Math.sin(time * 0.001 + i) * 50) + (canvas.offsetHeight * (i / particleCount));
-			const opacity = Math.sin(time * 0.003 + i) * 0.1 + 0.1;
+			const x = (time * 0.008 + i * 80) % (canvas.offsetWidth + 100) - 50;
+			const y = (Math.sin(time * 0.0005 + i) * 30) + (canvas.offsetHeight * (i / particleCount));
+			const opacity = Math.sin(time * 0.001 + i) * 0.05 + 0.05;
 			
 			ctx.fillStyle = `rgba(59, 130, 246, ${opacity})`;
 			ctx.beginPath();
-			ctx.arc(x, y, 1, 0, Math.PI * 2);
+			ctx.arc(x, y, 0.8, 0, Math.PI * 2);
 			ctx.fill();
 		}
 		

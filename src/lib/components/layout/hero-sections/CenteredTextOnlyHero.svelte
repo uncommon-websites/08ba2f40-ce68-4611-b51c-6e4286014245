@@ -42,7 +42,7 @@ Takes up the full viewport height and centers content vertically.
 			<MapCanvas class="size-full" />
 		</div>
 
-		<div class="bg-background/20 absolute inset-0"></div>
+		<div class="bg-background/60 absolute inset-0"></div>
 
 		<header
 			class="section-px z-50 container mx-auto grid place-items-center text-center text-balance dark:text-white"
