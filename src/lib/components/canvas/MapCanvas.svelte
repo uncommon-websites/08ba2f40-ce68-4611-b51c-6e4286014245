@@ -31,9 +31,9 @@
 		{ name: "Tokyo", coords: [139.6917, 35.6895] },
 		{ name: "Sydney", coords: [151.2093, -33.8688] },
 		{ name: "São Paulo", coords: [-46.6333, -23.5505] },
-		{ name: "Mumbai", coords: [72.8777, 19.0760] },
+		{ name: "Mumbai", coords: [72.8777, 19.076] },
 		{ name: "Lagos", coords: [3.3792, 6.5244] },
-		{ name: "Berlin", coords: [13.4050, 52.5200] }
+		{ name: "Berlin", coords: [13.405, 52.52] }
 	];
 
 	let projectedDots = $state([]);
@@ -82,17 +82,11 @@
 		<!-- <path d={path(graticule)} stroke="var(--color-gray-900)" fill="none" /> -->
 		<path d={path(land)} fill="var(--color-gray-800)" />
 		<path d={path(borders)} fill="none" stroke="var(--color-gray-900)" />
-		
+
 		<!-- Activity dots -->
 		{#each projectedDots as dot}
 			<g class="activity-dot" style="--delay: {dot.delay}s">
-				<circle
-					cx={dot.x}
-					cy={dot.y}
-					r="2"
-					fill="var(--color-primary-500)"
-					class="dot-core"
-				/>
+				<circle cx={dot.x} cy={dot.y} r="2" fill="var(--color-primary-500)" class="dot-core" />
 				<circle
 					cx={dot.x}
 					cy={dot.y}
@@ -108,7 +102,7 @@
 
 <style>
 	.activity-dot {
-		animation: pulse 2s ease-in-out infinite;
+		animation: pulse 20s ease-in-out infinite;
 		animation-delay: var(--delay);
 	}
 
@@ -122,7 +116,8 @@
 	}
 
 	@keyframes pulse {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 1;
 		}
 		50% {
@@ -131,7 +126,8 @@
 	}
 
 	@keyframes glow {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 0.4;
 			transform: scale(1);
 		}
