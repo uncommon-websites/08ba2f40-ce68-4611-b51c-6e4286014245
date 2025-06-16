@@ -39,16 +39,22 @@ Perfect for Proximity's "Google Maps for agents" concept
 		activationTime: number;
 	}> = [];
 
-	// Colors
-	const colors = {
-		primary: '#3b82f6',
-		secondary: '#8b5cf6',
-		accent: '#06b6d4',
-		success: '#10b981',
-		warning: '#f59e0b',
-		grid: 'rgba(59, 130, 246, 0.05)',
-		gridActive: 'rgba(59, 130, 246, 0.15)',
-		background: 'rgba(248, 250, 252, 0.95)'
+	// Colors - responsive to dark mode
+	const getColors = () => {
+		const isDark = document.documentElement.classList.contains('dark');
+		return {
+			primary: '#3b82f6',
+			secondary: '#8b5cf6',
+			accent: '#06b6d4',
+			success: '#10b981',
+			warning: '#f59e0b',
+			grid: isDark ? 'rgba(59, 130, 246, 0.08)' : 'rgba(59, 130, 246, 0.05)',
+			gridActive: isDark ? 'rgba(59, 130, 246, 0.25)' : 'rgba(59, 130, 246, 0.15)',
+			background: isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(248, 250, 252, 0.95)',
+			connections: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)',
+			particles: isDark ? 'rgba(59, 130, 246, 0.08)' : 'rgba(59, 130, 246, 0.05)',
+			hexStroke: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(59, 130, 246, 1)'
+		};
 	};
 
 	function resizeCanvas() {
@@ -122,6 +128,8 @@ Perfect for Proximity's "Google Maps for agents" concept
 	function drawHexagon(x: number, y: number, size: number, opacity: number) {
 		if (!ctx) return;
 		
+		const colors = getColors();
+		
 		ctx.beginPath();
 		for (let i = 0; i < 6; i++) {
 			const angle = (i * Math.PI) / 3;
@@ -136,7 +144,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 		}
 		ctx.closePath();
 		
-		ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+		ctx.strokeStyle = colors.hexStroke.replace('1)', `${opacity})`);
 		ctx.lineWidth = 1;
 		ctx.stroke();
 	}
@@ -198,6 +206,8 @@ Perfect for Proximity's "Google Maps for agents" concept
 	function animate(time: number) {
 		if (!ctx || !canvas || !isVisible) return;
 		
+		const colors = getColors();
+		
 		// Clear canvas
 		ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 		
@@ -225,7 +235,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 				
 				if (distance < 200) {
 					const opacity = (1 - distance / 200) * 0.15;
-					ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+					ctx.strokeStyle = colors.connections.replace('0.2)', `${opacity})`).replace('0.15)', `${opacity})`);
 					ctx.lineWidth = 0.5;
 					ctx.beginPath();
 					ctx.moveTo(agents[i].x, agents[i].y);
@@ -248,7 +258,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 			const y = (Math.sin(time * 0.0005 + i) * 30) + (canvas.offsetHeight * (i / particleCount));
 			const opacity = Math.sin(time * 0.001 + i) * 0.05 + 0.05;
 			
-			ctx.fillStyle = `rgba(59, 130, 246, ${opacity})`;
+			ctx.fillStyle = colors.particles.replace('0.08)', `${opacity})`).replace('0.05)', `${opacity})`);
 			ctx.beginPath();
 			ctx.arc(x, y, 0.8, 0, Math.PI * 2);
 			ctx.fill();
@@ -276,9 +286,30 @@ Perfect for Proximity's "Google Maps for agents" concept
 		
 		observer.observe(canvas);
 		
-		// Handle resize
+		// Handle resize with both ResizeObserver and window resize
 		const resizeObserver = new ResizeObserver(resizeCanvas);
 		resizeObserver.observe(canvas);
+		
+		const handleWindowResize = () => {
+			// Debounce resize to avoid excessive calls
+			clearTimeout(window.resizeTimeout);
+			window.resizeTimeout = setTimeout(resizeCanvas, 100);
+		};
+		
+		window.addEventListener('resize', handleWindowResize);
+		
+		// Listen for theme changes to update colors
+		const themeObserver = new MutationObserver(() => {
+			// Re-render when theme changes
+			if (isVisible) {
+				animate(performance.now());
+			}
+		});
+		
+		themeObserver.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['class']
+		});
 		
 		return () => {
 			if (animationId) {
@@ -286,6 +317,9 @@ Perfect for Proximity's "Google Maps for agents" concept
 			}
 			observer.disconnect();
 			resizeObserver.disconnect();
+			themeObserver.disconnect();
+			window.removeEventListener('resize', handleWindowResize);
+			clearTimeout(window.resizeTimeout);
 		};
 	});
 </script>
