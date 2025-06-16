@@ -10,31 +10,31 @@
 	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
 
 	// Icons
-	import GamepadIcon from '~icons/lucide/gamepad-2';
-	import GlobeIcon from '~icons/lucide/globe';
-	import UserCheckIcon from '~icons/lucide/user-check';
-	import DatabaseIcon from '~icons/lucide/database';
-	import ActivityIcon from '~icons/lucide/activity';
-	import NetworkIcon from '~icons/lucide/network';
+	import GamepadIcon from "~icons/lucide/gamepad-2";
+	import GlobeIcon from "~icons/lucide/globe";
+	import UserCheckIcon from "~icons/lucide/user-check";
+	import DatabaseIcon from "~icons/lucide/database";
+	import ActivityIcon from "~icons/lucide/activity";
+	import NetworkIcon from "~icons/lucide/network";
 </script>
 
 <CenteredTextOnlyHero
-  title="Like Google Maps, but for agents"
-  subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
+	title="Like Google Maps, but for agents"
+	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
 />
 <LogoScroller
 	label="Trusted by industry leaders"
 	logoUrls={[
-		'https://logo.clearbit.com/tesla.com',
-		'https://logo.clearbit.com/mckinsey.com',
-		'https://logo.clearbit.com/walmart.com',
-		'https://logo.clearbit.com/amazon.com'
+		"https://logo.clearbit.com/tesla.com",
+		"https://logo.clearbit.com/mckinsey.com",
+		"https://logo.clearbit.com/walmart.com",
+		"https://logo.clearbit.com/amazon.com"
 	]}
 />
 
 <Summary
-  title="What we do"
-  text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage AI agents on a global map to generate business insights—no GIS experience needed."
+	title="What we do"
+	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage AI agents on a global map to generate business insights—no GIS experience needed."
 />
 
 <Testimonials
@@ -60,7 +60,7 @@
 			position: "SVP, Business Operations",
 			company: "Horizon Market Group",
 			quote:
-				"We’ve saved over $30,000 this quarter by reducing outside GIS spend with Proximity’s agent platform. It pays for itself in weeks.",
+				"We've saved over $30,000 this quarter by reducing outside GIS spend with Proximity's agent platform. It pays for itself in weeks.",
 			image: "/generated/image-an-older-male-business-executive-in-a-so.webp"
 		}
 	]}
@@ -72,31 +72,39 @@
 	features={[
 		{
 			title: "Gaming-inspired interface",
-			description: "Deploy and coordinate agents with a map that feels instantly familiar to any analyst.",
+			description:
+				"Deploy and coordinate agents with a map that feels instantly familiar to any analyst.",
 			icon: GamepadIcon
 		},
 		{
 			title: "Deploy agents globally",
-			description: "Place AI agents anywhere on a global hex grid and launch them instantly—no GIS training needed.",
+			description:
+				"Place AI agents anywhere on a global hex grid and launch them instantly—no GIS training needed.",
 			icon: GlobeIcon
 		},
 		{
 			title: "No GIS expertise required",
-			description: "Built for data analysts and product managers, not GIS professionals; start analyzing from day one.",
+			description:
+				"Built for data analysts and product managers, not GIS professionals; start analyzing from day one.",
 			icon: UserCheckIcon
 		},
 		{
 			title: "Seamless geospatial data integration",
-			description: "Bring in messy datasets and harmonize them for instant use; we handle the technical details.",
+			description:
+				"Bring in messy datasets and harmonize them for instant use; we handle the technical details.",
 			icon: DatabaseIcon
 		},
 		{
 			title: "Real-time agent visualization",
-			description: "Watch agent activity and results update live, so you always know what’s happening and where."
+			description:
+				"Watch agent activity and results update live, so you always know what's happening and where.",
+			icon: ActivityIcon
 		},
 		{
 			title: "Scale with multi-agent support",
-			description: "Deploy one or hundreds of agents at once, managing global analysis from a single interface.",\n\t\t\ticon: NetworkIcon
+			description:
+				"Deploy one or hundreds of agents at once, managing global analysis from a single interface.",
+			icon: NetworkIcon
 		}
 	]}
 />
@@ -107,7 +115,8 @@
 	useCases={[
 		{
 			title: "Retail site selection",
-			description: "Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
+			description:
+				"Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
 			image: "/generated/image-a-group-of-diverse-urban-planners-gather.webp",
 			link: {
 				href: "/use-cases/retail-site-selection",
@@ -116,7 +125,8 @@
 		},
 		{
 			title: "Emergency resource deployment",
-			description: "Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
+			description:
+				"Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
 			image: "/generated/image-a-team-of-emergency-response-professiona.webp",
 			link: {
 				href: "/use-cases/emergency-resource-deployment",
@@ -125,7 +135,8 @@
 		},
 		{
 			title: "Logistics route planning",
-			description: "Coordinate delivery and supply chain agents over a global map; model routes, avoid bottlenecks, and optimize last-mile efficiency—making real-time adjustments as demand and disruptions change.",
+			description:
+				"Coordinate delivery and supply chain agents over a global map; model routes, avoid bottlenecks, and optimize last-mile efficiency—making real-time adjustments as demand and disruptions change.",
 			image: "/generated/image-a-logistics-team-in-a-spacious-well-lit-.webp",
 			link: {
 				href: "/use-cases/logistics-route-planning",
@@ -137,12 +148,12 @@
 
 <AboutTeaser />
 <CallToAction
-  title="Put agents on the map"
-  subtitle="Geospatial insights, minus the complexity"
-  description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
-  imageSrc="/generated/image-a-happy-smiling-data-analyst-standing-in.webp"
-  callsToAction={[
-    { href: "/get-started", label: "Get started", variant: "primary" },
-    { href: "/contact", label: "Talk to sales", variant: "secondary" }
-  ]}
+	title="Put agents on the map"
+	subtitle="Geospatial insights, minus the complexity"
+	description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
+	imageSrc="/generated/image-a-happy-smiling-data-analyst-standing-in.webp"
+	callsToAction={[
+		{ href: "/get-started", label: "Get started", variant: "primary" },
+		{ href: "/contact", label: "Talk to sales", variant: "secondary" }
+	]}
 />
