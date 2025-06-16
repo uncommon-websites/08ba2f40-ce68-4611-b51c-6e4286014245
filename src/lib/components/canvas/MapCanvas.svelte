@@ -51,19 +51,19 @@
 	function createMovingDots() {
 		const dots = [];
 		const numDots = 8;
-		
+
 		for (let i = 0; i < numDots; i++) {
 			const startIndex = Math.floor(Math.random() * landLocations.length);
 			let endIndex = Math.floor(Math.random() * landLocations.length);
 			while (endIndex === startIndex) {
 				endIndex = Math.floor(Math.random() * landLocations.length);
 			}
-			
+
 			const start = landLocations[startIndex];
 			const end = landLocations[endIndex];
 			const [startX, startY] = projection(start.coords);
 			const [endX, endY] = projection(end.coords);
-			
+
 			dots.push({
 				id: i,
 				startX,
@@ -73,7 +73,7 @@
 				currentX: startX,
 				currentY: startY,
 				progress: 0,
-				speed: 0.0008 + Math.random() * 0.0004, // Very slow movement
+				speed: 0.004 + Math.random() * 0.0004, // Very slow movement
 				trail: [], // Store trail points
 				maxTrailLength: 15,
 				startLocation: start,
@@ -81,54 +81,52 @@
 				delay: i * 2000 + Math.random() * 3000 // Stagger start times
 			});
 		}
-		
+
 		return dots;
 	}
 
 	// Animation function
 	function animateDots() {
-		movingDots = movingDots.map(dot => {
+		movingDots = movingDots.map((dot) => {
 			// Update progress
 			dot.progress += dot.speed;
-			
+
 			// Calculate current position using smooth interpolation
 			const t = Math.min(dot.progress, 1);
 			const smoothT = t * t * (3 - 2 * t); // Smooth step function
-			
+
 			const newX = dot.startX + (dot.endX - dot.startX) * smoothT;
 			const newY = dot.startY + (dot.endY - dot.startY) * smoothT;
-			
+
 			// Add current position to trail
 			dot.trail.push({ x: dot.currentX, y: dot.currentY, opacity: 1 });
-			
+
 			// Limit trail length and fade older points
 			if (dot.trail.length > dot.maxTrailLength) {
 				dot.trail.shift();
 			}
-			
+
 			// Update trail opacity
 			dot.trail = dot.trail.map((point, index) => ({
 				...point,
 				opacity: (index / dot.trail.length) * 0.6
 			}));
-			
+
 			dot.currentX = newX;
 			dot.currentY = newY;
-			
+
 			// Reset when reaching destination
 			if (dot.progress >= 1) {
 				// Choose new random destination
 				let newEndIndex = Math.floor(Math.random() * landLocations.length);
-				const currentEndIndex = landLocations.findIndex(loc => 
-					loc.name === dot.endLocation.name
-				);
+				const currentEndIndex = landLocations.findIndex((loc) => loc.name === dot.endLocation.name);
 				while (newEndIndex === currentEndIndex) {
 					newEndIndex = Math.floor(Math.random() * landLocations.length);
 				}
-				
+
 				const newEnd = landLocations[newEndIndex];
 				const [newEndX, newEndY] = projection(newEnd.coords);
-				
+
 				dot.startX = dot.currentX;
 				dot.startY = dot.currentY;
 				dot.endX = newEndX;
@@ -138,10 +136,10 @@
 				dot.progress = 0;
 				dot.trail = []; // Clear trail when starting new journey
 			}
-			
+
 			return dot;
 		});
-		
+
 		animationId = requestAnimationFrame(animateDots);
 	}
 
@@ -166,11 +164,11 @@
 			land = topojson.feature(world, world.objects.land);
 			// and border-shapes
 			borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
-			
+
 			// Initialize moving dots after projection is set up
 			if (width > 0 && height > 0) {
 				movingDots = createMovingDots();
-				
+
 				// Start animation after a brief delay
 				setTimeout(() => {
 					if (animationId) {
@@ -180,7 +178,7 @@
 				}, 1000);
 			}
 		});
-		
+
 		// Cleanup animation on component destroy
 		return () => {
 			if (animationId) {
@@ -211,7 +209,7 @@
 						class="trail-point"
 					/>
 				{/each}
-				
+
 				<!-- Main dot -->
 				<circle
 					cx={dot.currentX}
@@ -243,9 +241,9 @@
 		animation: subtle-pulse 4s ease-in-out infinite;
 	}
 
-	.dot-glow {
+	/* .dot-glow {
 		animation: subtle-glow 3s ease-in-out infinite;
-	}
+	} */
 
 	.trail-point {
 		filter: drop-shadow(0 0 1px var(--color-primary-400));
