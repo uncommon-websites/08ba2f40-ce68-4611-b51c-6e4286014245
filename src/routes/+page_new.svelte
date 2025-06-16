@@ -60,7 +60,7 @@
 			position: "SVP, Business Operations",
 			company: "Horizon Market Group",
 			quote:
-				"We’ve saved over $30,000 this quarter by reducing outside GIS spend with Proximity’s agent platform. It pays for itself in weeks.",
+				"We've saved over $30,000 this quarter by reducing outside GIS spend with Proximity's agent platform. It pays for itself in weeks.",
 			image: "/generated/image-an-older-male-business-executive-in-a-so.webp"
 		}
 	]}
@@ -92,11 +92,13 @@
 		},
 		{
 			title: "Real-time agent visualization",
-			description: "Watch agent activity and results update live, so you always know what’s happening and where."
+			description: "Watch agent activity and results update live, so you always know what's happening and where.",
+			icon: ActivityIcon
 		},
 		{
 			title: "Scale with multi-agent support",
-			description: "Deploy one or hundreds of agents at once, managing global analysis from a single interface.",\n\t\t\ticon: NetworkIcon
+			description: "Deploy one or hundreds of agents at once, managing global analysis from a single interface.",
+			icon: NetworkIcon
 		}
 	]}
 />
