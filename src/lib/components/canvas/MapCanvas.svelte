@@ -55,7 +55,7 @@
 	<svg {width} {height} viewBox="0 0 {width} {height}" class="size-full">
 		<!-- <path d={path(outline)} fill="#fff" /> -->
 		<path d={path(graticule)} stroke="var(--color-gray-900)" fill="none" />
-		<path d={path(land)} fill="var(--color-gray-900)" />
-		<path d={path(borders)} fill="none" stroke="var(--color-gray-800)" />
+		<path d={path(land)} fill="var(--color-gray-800)" />
+		<path d={path(borders)} fill="none" stroke="var(--color-gray-900)" />
 	</svg>
 </div>

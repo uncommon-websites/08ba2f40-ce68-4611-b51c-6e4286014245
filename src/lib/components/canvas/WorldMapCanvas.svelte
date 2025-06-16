@@ -143,9 +143,9 @@ Animated world map background with pulsing dots on land areas
 		const canvasWidth = canvas.offsetWidth;
 		const canvasHeight = canvas.offsetHeight;
 
-		// Generate dots for each land area
+		// Generate dots for each land area - very minimal and subtle
 		landAreas.forEach((area) => {
-			const dotsInArea = Math.floor((area.width * area.height) * 1200); // Increased density
+			const dotsInArea = Math.floor((area.width * area.height) * 80); // Much lower density for minimal effect
 			let attempts = 0;
 			let dotsPlaced = 0;
 			
@@ -165,9 +165,9 @@ Animated world map background with pulsing dots on land areas
 						x,
 						y,
 						pulse: Math.random() * Math.PI * 2,
-						pulseSpeed: 0.01 + Math.random() * 0.02,
-						opacity: 0.2 + Math.random() * 0.4,
-						size: 0.5 + Math.random() * 1.5
+						pulseSpeed: 0.005 + Math.random() * 0.01, // Slower, more subtle pulsing
+						opacity: 0.1 + Math.random() * 0.2, // Much lower opacity for subtlety
+						size: 0.3 + Math.random() * 0.8 // Smaller dots
 					});
 					dotsPlaced++;
 				}
@@ -180,8 +180,8 @@ Animated world map background with pulsing dots on land areas
 		
 		return {
 			mapOutline: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)",
-			dots: isDark ? "rgba(59, 130, 246, 0.6)" : "rgba(59, 130, 246, 0.5)",
-			activeDots: isDark ? "rgba(34, 197, 94, 0.8)" : "rgba(34, 197, 94, 0.7)",
+			dots: isDark ? "rgba(59, 130, 246, 0.3)" : "rgba(59, 130, 246, 0.25)", // More subtle base opacity
+			activeDots: isDark ? "rgba(34, 197, 94, 0.5)" : "rgba(34, 197, 94, 0.4)", // More subtle active opacity
 			background: isDark ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.02)"
 		};
 	}
@@ -244,29 +244,27 @@ Animated world map background with pulsing dots on land areas
 			// Update pulse
 			dot.pulse += dot.pulseSpeed;
 			
-			// Calculate pulsing effect
-			const pulseIntensity = Math.sin(dot.pulse) * 0.5 + 0.5;
-			const currentOpacity = dot.opacity * (0.3 + pulseIntensity * 0.7);
-			const currentSize = dot.size * (0.8 + pulseIntensity * 0.4);
+			// Calculate very subtle pulsing effect
+			const pulseIntensity = Math.sin(dot.pulse) * 0.3 + 0.7; // More subtle pulsing range
+			const currentOpacity = dot.opacity * pulseIntensity;
+			const currentSize = dot.size * (0.9 + pulseIntensity * 0.2); // Minimal size variation
 
-			// Occasionally make some dots more active
-			const isActive = Math.sin(time * 0.001 + index * 0.1) > 0.95;
+			// Very rarely make some dots more active for minimal effect
+			const isActive = Math.sin(time * 0.0005 + index * 0.05) > 0.98; // Much rarer activation
 			const dotColor = isActive ? colors.activeDots : colors.dots;
-			const finalOpacity = isActive ? Math.min(currentOpacity * 1.5, 1) : currentOpacity;
+			const finalOpacity = isActive ? Math.min(currentOpacity * 1.2, 0.6) : currentOpacity; // Cap max opacity
 
-			// Draw dot
+			// Draw dot with subtle glow
 			ctx.fillStyle = dotColor.replace(/[\d.]+\)$/, `${finalOpacity})`);
 			ctx.beginPath();
 			ctx.arc(dot.x, dot.y, currentSize, 0, Math.PI * 2);
 			ctx.fill();
 
-			// Add subtle glow for active dots
-			if (isActive) {
-				ctx.fillStyle = dotColor.replace(/[\d.]+\)$/, `${finalOpacity * 0.3})`);
-				ctx.beginPath();
-				ctx.arc(dot.x, dot.y, currentSize * 2, 0, Math.PI * 2);
-				ctx.fill();
-			}
+			// Add very subtle glow for all dots
+			ctx.fillStyle = dotColor.replace(/[\d.]+\)$/, `${finalOpacity * 0.2})`);
+			ctx.beginPath();
+			ctx.arc(dot.x, dot.y, currentSize * 1.5, 0, Math.PI * 2);
+			ctx.fill();
 		});
 	}
 

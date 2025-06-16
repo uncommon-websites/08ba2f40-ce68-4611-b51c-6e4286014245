@@ -109,7 +109,7 @@
 	]}
 />
 
-<UseCases
+<!-- <UseCases
 	title="Use Cases"
 	subtitle="Real-world applications for your business needs"
 	useCases={[
@@ -144,7 +144,7 @@
 			}
 		}
 	]}
-/>
+/> -->
 
 <AboutTeaser />
 <CallToAction
