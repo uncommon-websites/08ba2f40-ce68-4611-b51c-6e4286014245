@@ -127,7 +127,7 @@
 			title: "Emergency resource deployment",
 			description:
 				"Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
-			image: "/generated/image-an-emergency-responder-in-uniform-coordi.webp",
+			image: "/generated/image-an-emergency-responder-coordinating-cris.webp",
 			link: {
 				href: "/use-cases/emergency-resource-deployment",
 				label: "Learn more"
@@ -137,7 +137,7 @@
 			title: "Logistics route planning",
 			description:
 				"Coordinate delivery and supply chain agents over a global map; model routes, avoid bottlenecks, and optimize last-mile efficiency—making real-time adjustments as demand and disruptions change.",
-			image: "/generated/image-a-logistics-manager-in-a-spacious-wareho.webp",
+			image: "/generated/image-a-logistics-manager-overseeing-warehouse.webp",
 			link: {
 				href: "/use-cases/logistics-route-planning",
 				label: "Learn more"
