@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Components
-	import UseCases from "$lib/components/layout/UseCases.svelte";
+	// import UseCases from "$lib/components/layout/UseCases.svelte";
+	import CanvasUseCases from "$lib/components/layout/CanvasUseCases.svelte";
 	import Summary from "$lib/components/layout/Summary.svelte";
 	import Features from "$lib/components/layout/Features.svelte";
 	import Testimonials from "$lib/components/layout/Testimonials.svelte";
@@ -109,6 +110,8 @@
 	]}
 />
 
+<!-- Original Use Cases Section - Commented Out -->
+<!--
 <UseCases
 	title="Use Cases"
 	subtitle="Real-world applications for your business needs"
@@ -144,6 +147,13 @@
 			}
 		}
 	]}
+/>
+-->
+
+<!-- New Interactive Canvas Use Cases Section -->
+<CanvasUseCases
+	title="See agents in action"
+	subtitle="Interactive demonstrations of how Proximity transforms complex geospatial analysis into simple, visual insights"
 />
 
 <AboutTeaser />
