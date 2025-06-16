@@ -11,6 +11,7 @@ Takes up the full viewport height and centers content vertically.
 	import AnimateText from "$lib/components/animation/AnimateText.svelte";
 	import Button from "$lib/components/ui/Button.svelte";
 	import MapCanvas from "$lib/components/canvas/MapCanvas.svelte";
+	import WorldMapCanvas from "$lib/components/canvas/WorldMapCanvas.svelte";
 
 	// Constants
 	import { cta } from "$lib/navigation";
@@ -36,7 +37,10 @@ Takes up the full viewport height and centers content vertically.
 			<MapCanvas class="size-full" />
 		</div>
 
-		<div class="absolute inset-0 bg-background/60"></div>
+		<!-- World Map Background with Pulsing Dots -->
+		<div class="absolute inset-0 bg-background/60">
+			<WorldMapCanvas class="size-full" />
+		</div>
 
 		<header
 			class="section-px z-50 container mx-auto grid place-items-center text-center text-balance dark:text-white"
