@@ -416,9 +416,9 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 	<div class="section-px section-py container mx-auto">
 		<SectionHeader {title} {subtitle} />
 		
-		<div class="mt-16 grid gap-8 lg:grid-cols-[2fr_1fr] lg:gap-16">
+		<div class="section-mt grid gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
 			<!-- Interactive Canvas -->
-			<div class="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 relative h-[500px] overflow-hidden rounded-(--radius-xl) border lg:h-[600px]">
+			<div class="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 relative h-[500px] overflow-hidden rounded-(--radius-xl) border shadow-sm lg:h-[600px]">
 				<canvas
 					bind:this={canvas}
 					class="absolute inset-0 size-full"
@@ -427,9 +427,9 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 				></canvas>
 				
 				<!-- Overlay Instructions -->
-				<div class="absolute top-4 left-4 right-4 z-10">
-					<div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-(--radius) border p-4 shadow-sm">
-						<p class="text-sm font-medium text-slate-700 dark:text-slate-300">
+				<div class="absolute top-6 left-6 right-6 z-10">
+					<div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-(--radius-lg) border p-5 shadow-lg">
+						<p class="text-callout font-medium text-slate-700 dark:text-slate-300">
 							Click on the glowing hubs to explore different use cases
 						</p>
 					</div>
@@ -437,31 +437,31 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 			</div>
 			
 			<!-- Use Case Details -->
-			<div class="space-y-6">
-				<div class="bg-card border-border rounded-(--radius-lg) border p-6">
-					<div class="mb-4 flex items-center gap-3">
+			<div class="space-y-8">
+				<div class="bg-card border-border rounded-(--radius-xl) border p-8 shadow-sm">
+					<div class="mb-6 flex items-center gap-4">
 						<div 
-							class="flex size-12 items-center justify-center rounded-full text-2xl"
+							class="flex size-14 items-center justify-center rounded-full text-3xl"
 							style="background-color: {useCases[selectedUseCase].color}20; color: {useCases[selectedUseCase].color}"
 						>
 							{useCases[selectedUseCase].icon}
 						</div>
-						<h3 class="text-title2 font-semibold">{useCases[selectedUseCase].title}</h3>
+						<h3 class="text-title1 font-semibold">{useCases[selectedUseCase].title}</h3>
 					</div>
 					
-					<p class="text-body text-muted-foreground mb-6">
+					<p class="text-callout text-muted-foreground mb-8 leading-relaxed">
 						{useCases[selectedUseCase].description}
 					</p>
 					
-					<div class="space-y-3">
-						<h4 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-							Key Benefits
+					<div class="space-y-4">
+						<h4 class="text-headline font-semibold text-foreground">
+							Key benefits
 						</h4>
-						<ul class="space-y-2">
+						<ul class="space-y-3">
 							{#each useCases[selectedUseCase].benefits as benefit}
-								<li class="flex items-center gap-2 text-sm">
+								<li class="flex items-center gap-3 text-body">
 									<div 
-										class="size-2 rounded-full"
+										class="size-2.5 rounded-full flex-shrink-0"
 										style="background-color: {useCases[selectedUseCase].color}"
 									></div>
 									{benefit}
@@ -470,46 +470,47 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 						</ul>
 					</div>
 					
-					<div class="mt-6">
-						<Button href="/get-started" variant="primary" size="sm">
+					<div class="mt-8">
+						<Button href="/get-started" variant="primary" size="md">
 							Try this use case
 						</Button>
 					</div>
 				</div>
 				
 				<!-- Use Case Selector -->
-				<div class="space-y-2">
+				<div class="space-y-3">
 					{#each useCases as useCase, index}
 						<button
-							class="hover:bg-muted/50 flex w-full items-center gap-3 rounded-(--radius) p-3 text-left transition-colors"
+							class="hover:bg-muted/60 flex w-full items-center gap-4 rounded-(--radius-lg) p-4 text-left transition-all duration-200 hover:shadow-sm"
 							class:bg-muted={selectedUseCase === index}
+							class:shadow-sm={selectedUseCase === index}
 							onclick={() => selectedUseCase = index}
 						>
 							<div 
-								class="flex size-8 items-center justify-center rounded-full text-sm"
+								class="flex size-10 items-center justify-center rounded-full text-lg flex-shrink-0"
 								style="background-color: {useCase.color}20; color: {useCase.color}"
 							>
 								{useCase.icon}
 							</div>
-							<span class="text-sm font-medium">{useCase.title}</span>
+							<span class="text-callout font-medium">{useCase.title}</span>
 						</button>
 					{/each}
 				</div>
 			</div>
 		</div>
 		
-		<!-- Bottom CTA -->
-		<div class="mt-16 text-center">
-			<div class="bg-gradient-to-r from-blue-600 to-purple-600 mx-auto max-w-2xl rounded-(--radius-xl) p-8 text-white">
-				<h3 class="text-title1 mb-4 font-bold">Ready to deploy your agents?</h3>
-				<p class="text-blue-100 mb-6">
-					Join data teams at leading companies who are already using Proximity to transform their geospatial analysis.
+		<!-- Enhanced Bottom Section -->
+		<div class="section-mt-sm">
+			<div class="mx-auto max-w-4xl text-center">
+				<h3 class="text-title1 mb-6 font-semibold">Start deploying agents today</h3>
+				<p class="text-body text-muted-foreground mb-8 max-w-2xl mx-auto">
+					Transform your geospatial analysis workflow with intelligent agents that work across any location on the globe. No GIS expertise required.
 				</p>
-				<div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
-					<Button href="/get-started" variant="secondary" size="lg">
-						Start free trial
+				<div class="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6">
+					<Button href="/get-started" variant="primary" size="lg">
+						Get started free
 					</Button>
-					<Button href="/demo" variant="ghost" size="lg" class="text-white border-white/20 hover:bg-white/10">
+					<Button href="/demo" variant="secondary" size="lg">
 						Watch demo
 					</Button>
 				</div>
