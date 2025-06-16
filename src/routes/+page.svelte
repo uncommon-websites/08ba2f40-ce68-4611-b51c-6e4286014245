@@ -7,16 +7,23 @@
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
 	import LogoScroller from "$lib/components/layout/LogoScroller.svelte";
-	import Hero from "$lib/components/layout/hero-sections/Hero.svelte";
+	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
 </script>
 
-<Hero
-	title="Elevate your business with thoughtful design"
-	subtitle="Solutions that enhance user experience, and improve visual communication."
-	imageSrc="/sample.png"
-	generating
+<CenteredTextOnlyHero
+  title="Like Google Maps, but for agents"
+  subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
+  imageSrc="/generated/image-a-bustling-city-street-filled-with-diver.webp"
 />
-<LogoScroller label="" generating />
+<LogoScroller
+	label="Trusted by industry leaders"
+	logoUrls={[
+		'https://logo.clearbit.com/tesla.com',
+		'https://logo.clearbit.com/mckinsey.com',
+		'https://logo.clearbit.com/walmart.com',
+		'https://logo.clearbit.com/amazon.com'
+	]}
+/>
 
 <Summary
 	generating
