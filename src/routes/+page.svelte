@@ -45,7 +45,7 @@
 			company: "Nordic Insights",
 			quote:
 				"With Proximity, I cut my weekly analysis time from two days to just a few hours. Faster answers means I can focus on strategy, not data wrangling.",
-			image: "/generated/image-a-male-data-analyst-sitting-in-a-contemp.webp"
+			image: "/generated/image-a-professional-male-data-analyst-in-a-mo.webp"
 		},
 		{
 			name: "Lina Chavez",
@@ -53,7 +53,7 @@
 			company: "Vertex Metrics",
 			quote:
 				"Proximity eliminated manual data errors that used to keep us up at night. Our project reviews run smoother, with far less risk and rework.",
-			image: "/generated/image-a-professional-female-data-scientist-in-.webp"
+			image: "/generated/image-a-female-data-scientist-in-a-contemporar.webp"
 		},
 		{
 			name: "Viktor Haas",
@@ -61,7 +61,7 @@
 			company: "Horizon Market Group",
 			quote:
 				"We've saved over $30,000 this quarter by reducing outside GIS spend with Proximity's agent platform. It pays for itself in weeks.",
-			image: "/generated/image-an-older-male-business-executive-in-a-so.webp"
+			image: "/generated/image-a-senior-business-executive-in-a-sophist.webp"
 		}
 	]}
 />
@@ -117,7 +117,7 @@
 			title: "Retail site selection",
 			description:
 				"Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
-			image: "/generated/image-a-professional-woman-in-business-attire-.webp",
+			image: "/generated/image-a-business-woman-analyzing-retail-locati.webp",
 			link: {
 				href: "/use-cases/retail-site-selection",
 				label: "Learn more"
