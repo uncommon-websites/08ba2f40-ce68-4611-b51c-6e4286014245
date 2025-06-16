@@ -9,7 +9,6 @@
 	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
 
 	// Icons
-	import GamepadIcon from "~icons/lucide/gamepad-2";
 	import GlobeIcon from "~icons/lucide/globe";
 	import UserCheckIcon from "~icons/lucide/user-check";
 	import DatabaseIcon from "~icons/lucide/database";
@@ -70,12 +69,6 @@
 	title="Key features"
 	subtitle="Everything you need to run agentic geospatial analysis at scale."
 	features={[
-		{
-			title: "Gaming-inspired interface",
-			description:
-				"Deploy and coordinate agents with a map that feels instantly familiar to any analyst.",
-			icon: GamepadIcon
-		},
 		{
 			title: "Deploy agents globally",
 			description:
