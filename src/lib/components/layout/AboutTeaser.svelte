@@ -21,10 +21,10 @@ A minimalist teaser for the about page.
 
 	// Data
 	const teamMember: TeamMember = {
-		name: "Alex Morgan",
-		role: "Founder & CEO",
+		name: "Kornel Grunwald",
+		role: "Co-founder & CEO",
 		image:
-			"https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
+			"/generated/image-a-confident-male-tech-founder-dressed-ca.webp"
 	};
 </script>
 
@@ -33,7 +33,7 @@ A minimalist teaser for the about page.
 		<div class="relative mx-auto grid max-w-2xl place-items-center gap-16">
 			<ScrollText
 				class="text-title1 text-center"
-				text={`"We're building the future of digital experiences, crafting innovative solutions that transform how people interact with technology in their everyday lives"`}
+				text={`"What LLMs did for text, we're doing for geospatial data—making it usable for the millions of analysts who’ve been locked out."`}
 			/>
 
 			<!-- Team Member & CTA Section -->

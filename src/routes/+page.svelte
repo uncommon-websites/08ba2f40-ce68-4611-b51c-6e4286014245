@@ -26,107 +26,112 @@
 />
 
 <Summary
-	generating
-	title="What we do"
-	text="Our technology delivers measurable results through secure, adaptable solutions that directly increase productivity and drive growth."
+  title="What we do"
+  text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage AI agents on a global map to generate business insights—no GIS experience needed."
 />
 
 <Testimonials
-	generating
 	testimonials={[
 		{
-			name: "Jane Smith",
-			position: "CTO",
-			company: "Tech Innovations",
+			name: "Eero Simonsen",
+			position: "Lead Data Analyst",
+			company: "Nordic Insights",
 			quote:
-				"Their cutting-edge automation boosted our productivity by 35%.\nThe intuitive interface reduced training time and improved team adoption.",
-			image:
-				"https://images.unsplash.com/photo-1571513722275-4b41940f54b8?q=80&w=3687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+				"With Proximity, I cut my weekly analysis time from two days to just a few hours. Faster answers means I can focus on strategy, not data wrangling.",
+			image: "/generated/image-a-male-data-analyst-sitting-in-a-contemp.webp"
 		},
 		{
-			name: "John Doe",
-			position: "Director of Operations",
-			company: "Global Solutions",
+			name: "Lina Chavez",
+			position: "Geospatial Data Scientist",
+			company: "Vertex Metrics",
 			quote:
-				"Their robust security protocols gave us confidence in handling sensitive data.\nThe 24/7 support team resolved issues within hours, not days.",
-			image:
-				"https://images.unsplash.com/photo-1600603405959-6d623e92445c?q=80&w=3687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+				"Proximity eliminated manual data errors that used to keep us up at night. Our project reviews run smoother, with far less risk and rework.",
+			image: "REPLACE_IMG_LINA"
 		},
 		{
-			name: "Sarah Johnson",
-			position: "Product Manager",
-			company: "Future Systems",
+			name: "Viktor Haas",
+			position: "SVP, Business Operations",
+			company: "Horizon Market Group",
 			quote:
-				"The scalable platform grew seamlessly with our business needs.\nTheir customization options allowed us to tailor solutions perfectly to our workflows.",
-			image:
-				"https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=3687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+				"We’ve saved over $30,000 this quarter by reducing outside GIS spend with Proximity’s agent platform. It pays for itself in weeks.",
+			image: "/generated/image-an-older-male-business-executive-in-a-so.webp"
 		}
 	]}
 />
 
 <Features
-	generating
-	title="Features"
-	subtitle="Some features"
+	title="Key features"
+	subtitle="Everything you need to run agentic geospatial analysis at scale."
 	features={[
 		{
-			title: "Streamlined Workflows",
-			description:
-				"Automate repetitive tasks and connect systems to improve productivity with our industry-leading 87% time savings."
+			title: "Gaming-inspired interface",
+			description: "Deploy and coordinate agents with a map that feels instantly familiar to any analyst."
 		},
 		{
-			title: "Data Analysis",
-			description:
-				"Extract meaningful insights from your data with powerful analytical tools backed by proprietary AI algorithms that are 3x more accurate than competitors."
+			title: "Deploy agents globally",
+			description: "Place AI agents anywhere on a global hex grid and launch them instantly—no GIS training needed."
 		},
 		{
-			title: "Secure Collaboration",
-			description:
-				"Work together seamlessly while maintaining strict data privacy standards with our zero-knowledge architecture and military-grade encryption."
+			title: "No GIS expertise required",
+			description: "Built for data analysts and product managers, not GIS professionals; start analyzing from day one."
+		},
+		{
+			title: "Seamless geospatial data integration",
+			description: "Bring in messy datasets and harmonize them for instant use; we handle the technical details."
+		},
+		{
+			title: "Real-time agent visualization",
+			description: "Watch agent activity and results update live, so you always know what’s happening and where."
+		},
+		{
+			title: "Scale with multi-agent support",
+			description: "Deploy one or hundreds of agents at once, managing global analysis from a single interface."
 		}
 	]}
 />
 
 <UseCases
-	generating
 	title="Use Cases"
 	subtitle="Real-world applications for your business needs"
 	useCases={[
 		{
-			title: "Streamlined Workflows",
-			description:
-				"Automate repetitive tasks and connect systems to improve productivity with our industry-leading 87% time savings.",
-			image:
-				"https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+			title: "Retail site selection",
+			description: "Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
+			image: "/generated/image-a-group-of-diverse-urban-planners-gather.webp",
 			link: {
-				href: "/use-cases/workflows",
+				href: "/use-cases/retail-site-selection",
 				label: "Learn more"
 			}
 		},
 		{
-			title: "Data Analysis",
-			description:
-				"Extract meaningful insights from your data with powerful analytical tools backed by proprietary AI algorithms that are 3x more accurate than competitors.",
-			image:
-				"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2488&q=80",
+			title: "Emergency resource deployment",
+			description: "Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
+			image: "/generated/image-a-team-of-emergency-response-professiona.webp",
 			link: {
-				href: "/use-cases/data-analysis",
-				label: "Explore analytics"
+				href: "/use-cases/emergency-resource-deployment",
+				label: "Learn more"
 			}
 		},
 		{
-			title: "Secure Collaboration",
-			description:
-				"Work together seamlessly while maintaining strict data privacy standards with our zero-knowledge architecture and military-grade encryption.",
-			image:
-				"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+			title: "Logistics route planning",
+			description: "Coordinate delivery and supply chain agents over a global map; model routes, avoid bottlenecks, and optimize last-mile efficiency—making real-time adjustments as demand and disruptions change.",
+			image: "/generated/image-a-logistics-team-in-a-spacious-well-lit-.webp",
 			link: {
-				href: "/use-cases/collaboration",
-				label: "See security features"
+				href: "/use-cases/logistics-route-planning",
+				label: "Learn more"
 			}
 		}
 	]}
 />
 
-<AboutTeaser generating />
-<CallToAction generating />
+<AboutTeaser />
+<CallToAction
+  title="Put agents on the map"
+  subtitle="Geospatial insights, minus the complexity"
+  description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
+  imageSrc="/generated/image-a-happy-smiling-data-analyst-standing-in.webp"
+  callsToAction={[
+    { href: "/get-started", label: "Get started", variant: "primary" },
+    { href: "/contact", label: "Talk to sales", variant: "secondary" }
+  ]}
+/>
