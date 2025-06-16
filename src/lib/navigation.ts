@@ -47,8 +47,8 @@ export type NavItem = {
 };
 
 export const cta = {
-	label: "Book demo",
-	href: "/"
+	label: "Join waitlist",
+	href: "/waitlist"
 };
 
 export const navigation: NavItem[] = [
