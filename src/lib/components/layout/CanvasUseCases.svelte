@@ -478,9 +478,8 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 				<div class="space-y-2">
 					{#each useCases as useCase, index}
 						<button
-							class="flex w-full items-center gap-5 rounded-2xl p-5 text-left transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+							class={["flex w-full items-center gap-5 rounded-2xl p-5 text-left transition-all duration-200", selectedUseCase === index ? 'hover:bg-gray-50 dark:hover:bg-gray-800/50' : '']}
 							class:bg-gray-50={selectedUseCase === index}
-							class:dark:bg-gray-800/50={selectedUseCase === index}
 							onclick={() => selectedUseCase = index}
 						>
 							<div 
