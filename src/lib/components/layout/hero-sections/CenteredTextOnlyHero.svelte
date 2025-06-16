@@ -15,6 +15,7 @@ Takes up the full viewport height and centers content vertically.
 
 	// Constants
 	import { cta } from "$lib/navigation";
+	import { browser } from "$app/environment";
 
 	// Types
 	type Props = {
@@ -33,14 +34,18 @@ Takes up the full viewport height and centers content vertically.
 <div class="grid h-[calc(100vh-var(--nav-height))] grid-rows-[1fr_auto]" {...rest}>
 	<div class="bg-background relative isolate flex items-center justify-center overflow-hidden">
 		<!-- Canvas Map Background -->
-		<div class="absolute top-0 right-4 bottom-4 left-4 -z-10 overflow-hidden rounded-(--radius-xl)">
-			<MapCanvas class="size-full" />
-		</div>
+		{#if browser}
+			<div
+				class="absolute top-0 right-4 bottom-4 left-4 -z-10 overflow-hidden rounded-(--radius-xl)"
+			>
+				<MapCanvas class="size-full" />
+			</div>
+		{/if}
 
 		<!-- World Map Background with Pulsing Dots -->
-		<div class="absolute inset-0 bg-background/60">
+		<!-- <div class="absolute inset-0 bg-background/60">
 			<WorldMapCanvas class="size-full" />
-		</div>
+		</div> -->
 
 		<header
 			class="section-px z-50 container mx-auto grid place-items-center text-center text-balance dark:text-white"
