@@ -117,7 +117,7 @@
 			title: "Retail site selection",
 			description:
 				"Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
-			image: "/generated/image-a-group-of-diverse-urban-planners-gather.webp",
+			image: "/generated/image-a-professional-woman-in-business-attire-.webp",
 			link: {
 				href: "/use-cases/retail-site-selection",
 				label: "Learn more"
@@ -127,7 +127,7 @@
 			title: "Emergency resource deployment",
 			description:
 				"Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
-			image: "/generated/image-a-team-of-emergency-response-professiona.webp",
+			image: "/generated/image-an-emergency-responder-in-uniform-coordi.webp",
 			link: {
 				href: "/use-cases/emergency-resource-deployment",
 				label: "Learn more"
@@ -137,7 +137,7 @@
 			title: "Logistics route planning",
 			description:
 				"Coordinate delivery and supply chain agents over a global map; model routes, avoid bottlenecks, and optimize last-mile efficiency—making real-time adjustments as demand and disruptions change.",
-			image: "/generated/image-a-logistics-team-in-a-spacious-well-lit-.webp",
+			image: "/generated/image-a-logistics-manager-in-a-spacious-wareho.webp",
 			link: {
 				href: "/use-cases/logistics-route-planning",
 				label: "Learn more"
