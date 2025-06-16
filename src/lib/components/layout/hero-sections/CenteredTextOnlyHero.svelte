@@ -32,12 +32,12 @@ Takes up the full viewport height and centers content vertically.
 </script>
 
 <div class="grid h-[calc(100vh-var(--nav-height))] grid-rows-[1fr_auto]" {...rest}>
-	<div class="bg-background relative isolate flex items-center justify-center overflow-hidden">
+	<div
+		class="bg-background relative relative isolate flex items-center justify-center overflow-hidden"
+	>
 		<!-- Canvas Map Background -->
 		{#if browser}
-			<div
-				class="absolute top-0 right-4 bottom-4 left-4 -z-10 overflow-hidden rounded-(--radius-xl)"
-			>
+			<div class="absolute inset-0">
 				<MapCanvas class="size-full" />
 			</div>
 		{/if}
