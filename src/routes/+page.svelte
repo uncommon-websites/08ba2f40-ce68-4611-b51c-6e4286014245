@@ -33,7 +33,7 @@
 
 <Summary
 	title="What we do"
-	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage AI agents on a global map to generate business insights—no GIS experience needed."
+	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage Geospatial AI Agents to generate business insights—no GIS experience needed. "
 />
 
 <Testimonials
