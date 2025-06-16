@@ -66,7 +66,7 @@ export const navigation: NavItem[] = [
 			{
 				label: "Retail site selection",
 				href: "/use-cases/retail-site-selection",
-				image: "/generated/image-a-group-of-diverse-urban-planners-gather.webp",
+				image: "/generated/image-a-business-analyst-standing-thoughtfully.webp",
 				description: "Deploy agents on the map to compare potential sites and analyze local data—demographic fit, traffic, and competition—for confident retail expansion.",
 				showInNav: true,
 				showInFooter: true
@@ -74,7 +74,7 @@ export const navigation: NavItem[] = [
 			{
 				label: "Emergency resource deployment",
 				href: "/use-cases/emergency-resource-deployment",
-				image: "/generated/image-a-team-of-emergency-response-professiona.webp",
+				image: "/generated/image-an-emergency-response-team-gathered-in-a.webp",
 				description: "Intelligent agents optimize where to place teams and equipment, simulating real-time routes for rapid disaster response and crisis management.",
 				showInNav: true,
 				showInFooter: true

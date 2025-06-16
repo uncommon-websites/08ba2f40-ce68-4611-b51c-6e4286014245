@@ -19,7 +19,7 @@
 </script>
 
 <CenteredTextOnlyHero
-	title="Like Google Maps, but for agents"
+	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
 />
 <LogoScroller
@@ -117,7 +117,7 @@
 			title: "Retail site selection",
 			description:
 				"Deploy agents on the map to compare potential sites across cities or countries; instantly analyze foot traffic, local competition, and demographic fit to pick the best location for expansion—no GIS background needed.",
-			image: "/generated/image-a-business-woman-analyzing-retail-locati.webp",
+			image: "/generated/image-a-business-analyst-standing-thoughtfully.webp",
 			link: {
 				href: "/use-cases/retail-site-selection",
 				label: "Learn more"
@@ -127,7 +127,7 @@
 			title: "Emergency resource deployment",
 			description:
 				"Use intelligent agents to optimize placement of emergency teams and equipment; simulate best routes and staging areas for rapid response to crises spanning floods, fires, or power outages—at municipal or national scale.",
-			image: "/generated/image-an-emergency-responder-coordinating-cris.webp",
+			image: "/generated/image-an-emergency-response-team-gathered-in-a.webp",
 			link: {
 				href: "/use-cases/emergency-resource-deployment",
 				label: "Learn more"
