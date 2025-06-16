@@ -39,22 +39,35 @@ Perfect for Proximity's "Google Maps for agents" concept
 		activationTime: number;
 	}> = [];
 
-	// Colors - responsive to dark mode
+	// Colors - responsive to dark mode using CSS variables
 	const getColors = () => {
+		const rootStyles = getComputedStyle(document.documentElement);
 		const isDark = document.documentElement.dataset.theme === "dark";
-		console.log({ isDark });
+		
 		return {
-			primary: "#3b82f6",
-			secondary: "#8b5cf6",
-			accent: "#06b6d4",
-			success: "#10b981",
-			warning: "#f59e0b",
-			grid: isDark ? "rgba(59, 130, 246, 0.08)" : "rgba(59, 130, 246, 0.05)",
-			gridActive: isDark ? "rgba(59, 130, 246, 0.25)" : "rgba(59, 130, 246, 0.15)",
-			background: isDark ? "rgba(15, 23, 42, 0.95)" : "rgba(248, 250, 252, 0.95)",
-			connections: isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.15)",
-			particles: isDark ? "rgba(59, 130, 246, 0.08)" : "rgba(59, 130, 246, 0.05)",
-			hexStroke: isDark ? "rgba(148, 163, 184, 0.15)" : "rgba(59, 130, 246, 1)"
+			primary: rootStyles.getPropertyValue('--color-primary').trim(),
+			secondary: rootStyles.getPropertyValue('--color-secondary').trim(),
+			accent: rootStyles.getPropertyValue('--color-accent').trim(),
+			success: rootStyles.getPropertyValue('--color-primary-500').trim(), // Using primary-500 as success
+			warning: rootStyles.getPropertyValue('--color-secondary-500').trim(), // Using secondary-500 as warning
+			grid: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 92%)`
+				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 95%)`,
+			gridActive: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 75%)`
+				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 85%)`,
+			background: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-background').trim()}, transparent 5%)`
+				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-background').trim()}, transparent 5%)`,
+			connections: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 80%)`
+				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 85%)`,
+			particles: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 92%)`
+				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 95%)`,
+			hexStroke: isDark 
+				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-border').trim()}, transparent 85%)`
+				: rootStyles.getPropertyValue('--color-primary').trim()
 		};
 	};
 
