@@ -43,31 +43,57 @@ Perfect for Proximity's "Google Maps for agents" concept
 	const getColors = () => {
 		const rootStyles = getComputedStyle(document.documentElement);
 		const isDark = document.documentElement.dataset.theme === "dark";
-		
+
+		// Helper function to get CSS variable and convert OKLCH to canvas-compatible format
+		const getCSSVar = (varName) => {
+			const value = rootStyles.getPropertyValue(varName).trim();
+			// If it's already an OKLCH value, convert to hex for canvas compatibility
+			if (value.startsWith("oklch(")) {
+				// Create a temporary element to let the browser convert OKLCH to RGB
+				const temp = document.createElement("div");
+				temp.style.color = value;
+				document.body.appendChild(temp);
+				const computed = getComputedStyle(temp).color;
+				document.body.removeChild(temp);
+
+				// Convert RGB to hex
+				const rgb = computed.match(/\d+/g);
+				if (rgb) {
+					return `#${parseInt(rgb[0]).toString(16).padStart(2, "0")}${parseInt(rgb[1]).toString(16).padStart(2, "0")}${parseInt(rgb[2]).toString(16).padStart(2, "0")}`;
+				}
+			}
+			return value;
+		};
+
+		// Helper function to create alpha variations for canvas
+		const withAlpha = (color, alpha) => {
+			if (color.startsWith("#")) {
+				const r = parseInt(color.slice(1, 3), 16);
+				const g = parseInt(color.slice(3, 5), 16);
+				const b = parseInt(color.slice(5, 7), 16);
+				return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+			}
+			return color;
+		};
+
+		const primary = getCSSVar("--color-primary-950");
+		const secondary = getCSSVar("--color-secondary-950");
+		const accent = getCSSVar("--color-accent");
+		const background = getCSSVar("--color-background");
+		const border = getCSSVar("--color-border");
+
 		return {
-			primary: rootStyles.getPropertyValue('--color-primary').trim(),
-			secondary: rootStyles.getPropertyValue('--color-secondary').trim(),
-			accent: rootStyles.getPropertyValue('--color-accent').trim(),
-			success: rootStyles.getPropertyValue('--color-primary-500').trim(), // Using primary-500 as success
-			warning: rootStyles.getPropertyValue('--color-secondary-500').trim(), // Using secondary-500 as warning
-			grid: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 92%)`
-				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 95%)`,
-			gridActive: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 75%)`
-				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 85%)`,
-			background: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-background').trim()}, transparent 5%)`
-				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-background').trim()}, transparent 5%)`,
-			connections: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 80%)`
-				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 85%)`,
-			particles: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 92%)`
-				: `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-primary').trim()}, transparent 95%)`,
-			hexStroke: isDark 
-				? `color-mix(in oklch, ${rootStyles.getPropertyValue('--color-border').trim()}, transparent 85%)`
-				: rootStyles.getPropertyValue('--color-primary').trim()
+			primary,
+			secondary,
+			accent,
+			success: getCSSVar("--color-primary-900"), // Using primary-500 as success
+			warning: getCSSVar("--color-secondary-900"), // Using secondary-500 as warning
+			grid: withAlpha(primary, isDark ? 0.08 : 0.05),
+			gridActive: withAlpha(primary, isDark ? 0.25 : 0.15),
+			background: withAlpha(background, 0.95),
+			connections: withAlpha(primary, isDark ? 0.2 : 0.15),
+			particles: withAlpha(primary, isDark ? 0.08 : 0.05),
+			hexStroke: isDark ? withAlpha(border, 0.15) : primary
 		};
 	};
 
@@ -123,6 +149,7 @@ Perfect for Proximity's "Google Maps for agents" concept
 
 		agents = [];
 		const colors = getColors();
+		console.log(colors);
 		const agentColors = [
 			colors.primary,
 			colors.secondary,
