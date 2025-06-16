@@ -39,24 +39,24 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 			title: "Retail site selection",
 			description: "Deploy agents across cities to analyze foot traffic, competition, and demographics. Find the perfect location in minutes, not months.",
 			position: { x: 0.2, y: 0.3 },
-			color: '#3b82f6',
-			icon: '🏪',
+			color: '#007AFF',
+			icon: '',
 			benefits: ["3x faster site analysis", "85% accuracy improvement", "Save $50K per location decision"]
 		},
 		{
 			title: "Emergency response",
 			description: "Coordinate rescue teams and resources in real-time. Optimize routes and deployment for maximum impact during critical situations.",
 			position: { x: 0.7, y: 0.25 },
-			color: '#ef4444',
-			icon: '🚨',
+			color: '#FF3B30',
+			icon: '',
 			benefits: ["40% faster response times", "Real-time coordination", "Lives saved through optimization"]
 		},
 		{
 			title: "Supply chain optimization",
 			description: "Visualize global logistics networks and identify bottlenecks instantly. Reroute shipments and optimize delivery schedules on the fly.",
 			position: { x: 0.5, y: 0.7 },
-			color: '#10b981',
-			icon: '📦',
+			color: '#34C759',
+			icon: '',
 			benefits: ["25% cost reduction", "Real-time visibility", "Automated optimization"]
 		}
 	];
@@ -268,15 +268,15 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 				const flowX = connection.from.x + (connection.to.x - connection.from.x) * flowProgress;
 				const flowY = connection.from.y + (connection.to.y - connection.from.y) * flowProgress;
 				
-				ctx.fillStyle = '#3b82f6';
+				ctx.fillStyle = '#007AFF';
 				ctx.beginPath();
-				ctx.arc(flowX, flowY, 2, 0, Math.PI * 2);
+				ctx.arc(flowX, flowY, 1.5, 0, Math.PI * 2);
 				ctx.fill();
 			}
 			
 			// Connection line
-			ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
-			ctx.lineWidth = connection.animated ? 2 : 1;
+			ctx.strokeStyle = `rgba(156, 163, 175, ${opacity})`;
+			ctx.lineWidth = connection.animated ? 1.5 : 0.5;
 			ctx.beginPath();
 			ctx.moveTo(connection.from.x, connection.from.y);
 			ctx.lineTo(connection.to.x, connection.to.y);
@@ -312,11 +312,11 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 	function drawBackgroundGrid() {
 		if (!ctx) return;
 		
-		const gridSize = 40;
+		const gridSize = 50;
 		const width = canvas.offsetWidth;
 		const height = canvas.offsetHeight;
 		
-		ctx.strokeStyle = 'rgba(59, 130, 246, 0.03)';
+		ctx.strokeStyle = 'rgba(156, 163, 175, 0.1)';
 		ctx.lineWidth = 0.5;
 		
 		// Vertical lines
@@ -413,12 +413,12 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 </script>
 
 <section class={`relative overflow-hidden ${className}`} {...rest}>
-	<div class="section-px section-py container mx-auto">
+	<div class="px-6 py-24 container mx-auto max-w-7xl">
 		<SectionHeader {title} {subtitle} />
 		
-		<div class="section-mt grid gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
+		<div class="mt-16 grid gap-16 lg:grid-cols-[1.2fr_1fr] lg:gap-24">
 			<!-- Interactive Canvas -->
-			<div class="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 relative h-[500px] overflow-hidden rounded-(--radius-xl) border shadow-sm lg:h-[600px]">
+			<div class="relative h-[500px] overflow-hidden rounded-3xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 lg:h-[600px]">
 				<canvas
 					bind:this={canvas}
 					class="absolute inset-0 size-full"
@@ -427,41 +427,38 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 				></canvas>
 				
 				<!-- Overlay Instructions -->
-				<div class="absolute top-6 left-6 right-6 z-10">
-					<div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-(--radius-lg) border p-5 shadow-lg">
-						<p class="text-callout font-medium text-slate-700 dark:text-slate-300">
-							Click on the glowing hubs to explore different use cases
+				<div class="absolute top-8 left-8 right-8 z-10">
+					<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 px-6 py-4">
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+							Click on the nodes to explore different use cases
 						</p>
 					</div>
 				</div>
 			</div>
 			
 			<!-- Use Case Details -->
-			<div class="space-y-8">
-				<div class="bg-card border-border rounded-(--radius-xl) border p-8 shadow-sm">
-					<div class="mb-6 flex items-center gap-4">
+			<div class="space-y-12">
+				<div class="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-800 p-10">
+					<div class="mb-8">
 						<div 
-							class="flex size-14 items-center justify-center rounded-full text-3xl"
-							style="background-color: {useCases[selectedUseCase].color}20; color: {useCases[selectedUseCase].color}"
-						>
-							{useCases[selectedUseCase].icon}
-						</div>
-						<h3 class="text-title1 font-semibold">{useCases[selectedUseCase].title}</h3>
+							class="w-3 h-3 rounded-full mb-6"
+							style="background-color: {useCases[selectedUseCase].color}"
+						></div>
+						<h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">{useCases[selectedUseCase].title}</h3>
+						<p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+							{useCases[selectedUseCase].description}
+						</p>
 					</div>
 					
-					<p class="text-callout text-muted-foreground mb-8 leading-relaxed">
-						{useCases[selectedUseCase].description}
-					</p>
-					
-					<div class="space-y-4">
-						<h4 class="text-headline font-semibold text-foreground">
+					<div class="space-y-6">
+						<h4 class="text-base font-semibold text-gray-900 dark:text-white">
 							Key benefits
 						</h4>
-						<ul class="space-y-3">
+						<ul class="space-y-4">
 							{#each useCases[selectedUseCase].benefits as benefit}
-								<li class="flex items-center gap-3 text-body">
+								<li class="flex items-center gap-4 text-gray-600 dark:text-gray-400">
 									<div 
-										class="size-2.5 rounded-full flex-shrink-0"
+										class="w-1.5 h-1.5 rounded-full flex-shrink-0"
 										style="background-color: {useCases[selectedUseCase].color}"
 									></div>
 									{benefit}
@@ -470,7 +467,7 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 						</ul>
 					</div>
 					
-					<div class="mt-8">
+					<div class="mt-10">
 						<Button href="/get-started" variant="primary" size="md">
 							Try this use case
 						</Button>
@@ -478,21 +475,19 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 				</div>
 				
 				<!-- Use Case Selector -->
-				<div class="space-y-3">
+				<div class="space-y-2">
 					{#each useCases as useCase, index}
 						<button
-							class="hover:bg-muted/60 flex w-full items-center gap-4 rounded-(--radius-lg) p-4 text-left transition-all duration-200 hover:shadow-sm"
-							class:bg-muted={selectedUseCase === index}
-							class:shadow-sm={selectedUseCase === index}
+							class="flex w-full items-center gap-5 rounded-2xl p-5 text-left transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+							class:bg-gray-50={selectedUseCase === index}
+							class:dark:bg-gray-800/50={selectedUseCase === index}
 							onclick={() => selectedUseCase = index}
 						>
 							<div 
-								class="flex size-10 items-center justify-center rounded-full text-lg flex-shrink-0"
-								style="background-color: {useCase.color}20; color: {useCase.color}"
-							>
-								{useCase.icon}
-							</div>
-							<span class="text-callout font-medium">{useCase.title}</span>
+								class="w-2 h-2 rounded-full flex-shrink-0"
+								style="background-color: {useCase.color}"
+							></div>
+							<span class="text-base font-medium text-gray-900 dark:text-white">{useCase.title}</span>
 						</button>
 					{/each}
 				</div>
@@ -500,10 +495,10 @@ Features animated agents, interactive hotspots, and compelling use case demonstr
 		</div>
 		
 		<!-- Enhanced Bottom Section -->
-		<div class="section-mt-sm">
-			<div class="mx-auto max-w-4xl text-center">
-				<h3 class="text-title1 mb-6 font-semibold">Start deploying agents today</h3>
-				<p class="text-body text-muted-foreground mb-8 max-w-2xl mx-auto">
+		<div class="mt-24">
+			<div class="mx-auto max-w-3xl text-center">
+				<h3 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">Start deploying agents today</h3>
+				<p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
 					Transform your geospatial analysis workflow with intelligent agents that work across any location on the globe. No GIS expertise required.
 				</p>
 				<div class="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6">
