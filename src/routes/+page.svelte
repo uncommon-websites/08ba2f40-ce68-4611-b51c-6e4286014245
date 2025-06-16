@@ -2,7 +2,7 @@
 	// Components
 	import Summary from "$lib/components/layout/Summary.svelte";
 	import Features from "$lib/components/layout/Features.svelte";
-	import Testimonials from "$lib/components/layout/Testimonials.svelte";
+	// Testimonials import removed
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
 	import LogoScroller from "$lib/components/layout/LogoScroller.svelte";
@@ -36,34 +36,7 @@
 	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage Geospatial AI Agents to generate business insights—no GIS experience needed. "
 />
 
-<Testimonials
-	testimonials={[
-		{
-			name: "Eero Simonsen",
-			position: "Lead Data Analyst",
-			company: "Nordic Insights",
-			quote:
-				"With Proximity, I cut my weekly analysis time from two days to just a few hours. Faster answers means I can focus on strategy, not data wrangling.",
-			image: "/generated/image-a-professional-male-data-analyst-in-a-mo.webp"
-		},
-		{
-			name: "Lina Chavez",
-			position: "Geospatial Data Scientist",
-			company: "Vertex Metrics",
-			quote:
-				"Proximity eliminated manual data errors that used to keep us up at night. Our project reviews run smoother, with far less risk and rework.",
-			image: "/generated/image-a-female-data-scientist-in-a-contemporar.webp"
-		},
-		{
-			name: "Viktor Haas",
-			position: "SVP, Business Operations",
-			company: "Horizon Market Group",
-			quote:
-				"We've saved over $30,000 this quarter by reducing outside GIS spend with Proximity's agent platform. It pays for itself in weeks.",
-			image: "/generated/image-a-senior-business-executive-in-a-sophist.webp"
-		}
-	]}
-/>
+<!-- Testimonials section removed -->
 
 <Features
 	title="Key features"
