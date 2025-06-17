@@ -77,7 +77,7 @@
 	// Create pulsing dots at fixed locations
 	function createPulsingDots() {
 		const dots = [];
-		const numDots = 8;
+		const numDots = 20;
 
 		for (let i = 0; i < numDots; i++) {
 			const locationIndex = Math.floor(Math.random() * landLocations.length);
@@ -91,7 +91,7 @@
 				location,
 				isVisible: true,
 				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.01 + Math.random() * 0.005,
+				pulseSpeed: 0.008 + Math.random() * 0.004, // Slower, smoother pulsing
 				visibilityDuration: 8000 + Math.random() * 4000, // 8-12 seconds visible
 				invisibilityDuration: 3000 + Math.random() * 2000, // 3-5 seconds invisible
 				lastToggleTime: Date.now() + Math.random() * 5000,
@@ -110,8 +110,8 @@
 			// Update pulse phase
 			dot.pulsePhase += dot.pulseSpeed;
 
-			// Calculate pulse scale (1.0 to 1.1) - more subtle
-			dot.scale = 1 + 0.1 * Math.sin(dot.pulsePhase);
+			// Calculate pulse scale - very smooth and subtle
+			dot.scale = 1 + 0.15 * Math.sin(dot.pulsePhase);
 
 			// Handle visibility toggling
 			const timeSinceToggle = currentTime - dot.lastToggleTime;
@@ -220,7 +220,7 @@
 		<!-- Pulsing dots at fixed locations -->
 		{#each movingDots as dot}
 			{#if dot.isVisible}
-				<g class="pulsing-dot" transform="translate({dot.x}, {dot.y}) scale({dot.scale})">
+				<g class="pulsing-dot" transform="translate({dot.x}, {dot.y}) scale({dot.scale * 0.33})">
 					<!-- Outer pulse ring -->
 					<circle
 						cx="0"
@@ -229,12 +229,12 @@
 						fill="none"
 						stroke="var(--color-primary-400)"
 						stroke-width="1"
-						opacity="0.4"
+						opacity="0.1"
 						class="pulse-ring"
 					/>
 
 					<!-- Main dot -->
-					<circle cx="0" cy="0" r="4" fill="var(--color-primary-500)" class="dot-core" />
+					<circle cx="0" cy="0" r="4" fill="var(--color-primary-500)" opacity="0.1" class="dot-core" />
 
 					<!-- Inner glow -->
 					<circle
@@ -242,7 +242,7 @@
 						cy="0"
 						r="2"
 						fill="var(--color-primary-300)"
-						opacity="0.8"
+						opacity="0.1"
 						class="dot-glow"
 					/>
 				</g>
@@ -261,16 +261,16 @@
 	}
 
 	.pulse-ring {
-		animation: pulse-ring 20s ease-in-out infinite;
+		animation: pulse-ring 4s ease-in-out infinite;
 	}
 
 	.dot-core {
-		filter: drop-shadow(0 0 4px var(--color-primary-500));
-		animation: dot-pulse 20s ease-in-out infinite;
+		filter: drop-shadow(0 0 2px var(--color-primary-500));
+		animation: dot-pulse 4s ease-in-out infinite;
 	}
 
 	.dot-glow {
-		animation: glow-pulse 20s ease-in-out infinite;
+		animation: glow-pulse 4s ease-in-out infinite;
 	}
 
 	@keyframes hex-flicker {
@@ -287,15 +287,15 @@
 
 	@keyframes pulse-ring {
 		0% {
-			opacity: 0.2;
+			opacity: 0.05;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.05;
-			transform: scale(1.2);
+			opacity: 0.15;
+			transform: scale(1.5);
 		}
 		100% {
-			opacity: 0.2;
+			opacity: 0.05;
 			transform: scale(1);
 		}
 	}
@@ -303,24 +303,24 @@
 	@keyframes dot-pulse {
 		0%,
 		100% {
-			opacity: 1;
+			opacity: 0.05;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.9;
-			transform: scale(1.05);
+			opacity: 0.15;
+			transform: scale(1.2);
 		}
 	}
 
 	@keyframes glow-pulse {
 		0%,
 		100% {
-			opacity: 0.8;
+			opacity: 0.05;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.6;
-			transform: scale(1.1);
+			opacity: 0.12;
+			transform: scale(1.3);
 		}
 	}
 </style>
