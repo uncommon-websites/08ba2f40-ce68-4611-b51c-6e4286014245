@@ -3,51 +3,6 @@
 	const props: HTMLAttributes<SVGSVGElement> = $props();
 </script>
 
-<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="" {...props}>
-<g>
-<!-- Central hub/node -->
-<circle cx="250" cy="250" r="25" fill="currentColor"/>
-
-<!-- Hexagonal grid pattern -->
-<g stroke="currentColor" stroke-width="3" fill="none">
-<!-- Inner hexagon -->
-<polygon points="250,200 285,225 285,275 250,300 215,275 215,225"/>
-
-<!-- Outer hexagons -->
-<polygon points="250,120 320,165 320,235 250,280 180,235 180,165"/>
-<polygon points="180,95 250,140 320,95 390,140 390,210 320,255 250,210 180,255 110,210 110,140"/>
-
-<!-- Connection lines -->
-<line x1="250" y1="250" x2="250" y2="200"/>
-<line x1="250" y1="250" x2="285" y2="225"/>
-<line x1="250" y1="250" x2="285" y2="275"/>
-<line x1="250" y1="250" x2="215" y2="275"/>
-<line x1="250" y1="250" x2="215" y2="225"/>
-
-<!-- Agent nodes -->
-<circle cx="180" cy="165" r="8" fill="currentColor"/>
-<circle cx="320" cy="165" r="8" fill="currentColor"/>
-<circle cx="390" cy="210" r="8" fill="currentColor"/>
-<circle cx="320" cy="255" r="8" fill="currentColor"/>
-<circle cx="180" cy="255" r="8" fill="currentColor"/>
-<circle cx="110" cy="210" r="8" fill="currentColor"/>
-
-<!-- Data flow indicators -->
-<circle cx="215" cy="190" r="4" fill="currentColor" opacity="0.6"/>
-<circle cx="285" cy="190" r="4" fill="currentColor" opacity="0.6"/>
-<circle cx="320" cy="225" r="4" fill="currentColor" opacity="0.6"/>
-<circle cx="285" cy="310" r="4" fill="currentColor" opacity="0.6"/>
-<circle cx="215" cy="310" r="4" fill="currentColor" opacity="0.6"/>
-<circle cx="180" cy="225" r="4" fill="currentColor" opacity="0.6"/>
-</g>
-
-<!-- Letter P integration -->
-<g fill="currentColor">
-<rect x="350" y="350" width="8" height="80"/>
-<rect x="350" y="350" width="30" height="8"/>
-<rect x="350" y="385" width="25" height="8"/>
-<rect x="375" y="358" width="8" height="27"/>
-</g>
-</g>
+<svg viewBox="0 0 500 224" fill="none" xmlns="http://www.w3.org/2000/svg" class="" {...props}>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M102.831 52.1866V103.639H51.3784H-0.0742188V112.015V120.391H51.3784H102.831V171.844V223.296H111.207H119.583V171.844V120.391H171.036H222.488V112.015V103.639H171.036H119.583V52.1866V0.733997H111.207H102.831V52.1866ZM274.726 56.371L242.604 112.027L274.722 167.672L306.839 223.317L371.909 223.007L436.98 222.698L468.498 168.254C485.834 138.31 500.011 113.002 500.002 112.015C499.993 111.028 485.815 85.7205 468.494 55.7763L437.002 1.33228L371.924 1.02357L306.846 0.714844L274.726 56.371ZM451.241 65.8718C465.695 90.8382 477.274 112.107 476.975 113.136C476.675 114.165 464.898 134.929 450.804 159.28L425.179 203.553L371.964 203.864L318.749 204.175L292.181 158.161L265.615 112.147L292.214 66.0118L318.812 19.8768L371.888 20.1771L424.964 20.4774L451.241 65.8718Z" fill="black"/>
 </svg>
-
