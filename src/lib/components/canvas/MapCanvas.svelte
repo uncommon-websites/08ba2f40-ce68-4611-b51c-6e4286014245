@@ -64,7 +64,7 @@
 						y,
 						id: `hex-${row}-${col}`,
 						flickerDelay: Math.random() * 5000,
-						flickerDuration: 100 + Math.random() * 200,
+						flickerDuration: 500 + Math.random() * 1000,
 						isActive: Math.random() > 0.95 // Only 5% of hexes are active
 					});
 				}
@@ -91,9 +91,9 @@
 				location,
 				isVisible: true,
 				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.05 + Math.random() * 0.03,
-				visibilityDuration: 3000 + Math.random() * 2000, // 3-5 seconds visible
-				invisibilityDuration: 1000 + Math.random() * 1000, // 1-2 seconds invisible
+				pulseSpeed: 0.01 + Math.random() * 0.005,
+				visibilityDuration: 8000 + Math.random() * 4000, // 8-12 seconds visible
+				invisibilityDuration: 3000 + Math.random() * 2000, // 3-5 seconds invisible
 				lastToggleTime: Date.now() + Math.random() * 5000,
 				scale: 1
 			});
@@ -110,8 +110,8 @@
 			// Update pulse phase
 			dot.pulsePhase += dot.pulseSpeed;
 
-			// Calculate pulse scale (1.0 to 1.3)
-			dot.scale = 1 + 0.3 * Math.sin(dot.pulsePhase);
+			// Calculate pulse scale (1.0 to 1.1) - more subtle
+			dot.scale = 1 + 0.1 * Math.sin(dot.pulsePhase);
 
 			// Handle visibility toggling
 			const timeSinceToggle = currentTime - dot.lastToggleTime;
@@ -138,7 +138,7 @@
 		// Update hex grid flickering
 		hexGrid = hexGrid.map((hex) => {
 			if (hex.isActive) {
-				const shouldFlicker = Math.random() < 0.002;
+				const shouldFlicker = Math.random() < 0.0005;
 				if (shouldFlicker) {
 					hex.flickerTime = currentTime + hex.flickerDuration;
 				}
@@ -151,8 +151,8 @@
 	}
 
 	$effect(() => {
-		// Update projection when dimensions change - make map bigger to fill viewport
-		projection.fitSize([width, height], { type: "Sphere" });
+		// Update projection when dimensions change - make map 1.5x larger and fit screen height
+		projection.fitSize([width * 1.5, height * 1.5], { type: "Sphere" });
 		graticule = geoGraticule10();
 
 		// Prepare the outline (see https://github.com/d3/d3-geo#_path).
@@ -257,20 +257,20 @@
 	}
 
 	.hex-grid {
-		animation: hex-flicker 15s ease-in-out;
+		animation: hex-flicker 30s ease-in-out;
 	}
 
 	.pulse-ring {
-		animation: pulse-ring 10s ease-in-out infinite;
+		animation: pulse-ring 20s ease-in-out infinite;
 	}
 
 	.dot-core {
 		filter: drop-shadow(0 0 4px var(--color-primary-500));
-		animation: dot-pulse 10s ease-in-out infinite;
+		animation: dot-pulse 20s ease-in-out infinite;
 	}
 
 	.dot-glow {
-		animation: glow-pulse 10s ease-in-out infinite;
+		animation: glow-pulse 20s ease-in-out infinite;
 	}
 
 	@keyframes hex-flicker {
@@ -278,24 +278,24 @@
 			opacity: 0;
 		}
 		50% {
-			opacity: 0.4;
+			opacity: 0.15;
 		}
 		100% {
-			opacity: 0.2;
+			opacity: 0.1;
 		}
 	}
 
 	@keyframes pulse-ring {
 		0% {
-			opacity: 0.4;
+			opacity: 0.2;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.1;
-			transform: scale(1.5);
+			opacity: 0.05;
+			transform: scale(1.2);
 		}
 		100% {
-			opacity: 0.4;
+			opacity: 0.2;
 			transform: scale(1);
 		}
 	}
@@ -307,8 +307,8 @@
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.7;
-			transform: scale(1.1);
+			opacity: 0.9;
+			transform: scale(1.05);
 		}
 	}
 
@@ -319,8 +319,8 @@
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.4;
-			transform: scale(1.2);
+			opacity: 0.6;
+			transform: scale(1.1);
 		}
 	}
 </style>
