@@ -23,8 +23,7 @@ A minimalist teaser for the about page.
 	const teamMember: TeamMember = {
 		name: "Kornel Grunwald",
 		role: "Co-founder & CEO",
-		image:
-			"/generated/image-a-confident-male-tech-founder-dressed-ca.webp"
+		image: "/uploaded/kornel.png"
 	};
 </script>
 

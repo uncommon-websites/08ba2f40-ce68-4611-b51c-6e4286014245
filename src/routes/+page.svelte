@@ -2,10 +2,8 @@
 	// Components
 	import Summary from "$lib/components/layout/Summary.svelte";
 	import Features from "$lib/components/layout/Features.svelte";
-	// Testimonials import removed
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
-	// LogoScroller import removed
 	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
 
 	// Icons
@@ -15,20 +13,19 @@
 	import ActivityIcon from "~icons/lucide/activity";
 	import NetworkIcon from "~icons/lucide/network";
 	import UseCases from "$lib/components/layout/UseCases.svelte";
+	import { cta } from "$lib/navigation";
 </script>
 
 <CenteredTextOnlyHero
+	callsToAction={[cta]}
 	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
 />
-<!-- LogoScroller section removed -->
 
 <Summary
 	title="What we do"
 	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage Geospatial AI Agents to generate business insights—no GIS experience needed. "
 />
-
-<!-- Testimonials section removed -->
 
 <Features
 	title="Key features"
@@ -110,7 +107,5 @@
 	subtitle="Geospatial insights, minus the complexity"
 	description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
 	imageSrc="/path/to/new/image.webp"
-	callsToAction={[
-		{ href: "/waitlist", label: "Join waitlist", variant: "primary" }
-	]}
+	callsToAction={[cta]}
 />

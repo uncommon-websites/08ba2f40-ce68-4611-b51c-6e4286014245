@@ -79,7 +79,7 @@
 					<p class="text-headline text-emphasis-low">
 						{description}
 					</p>
-					<div class="flex flex-col md:flex-row md:flex-wrap gap-2 w-full">
+					<div class="flex w-full flex-col gap-2 md:flex-row md:flex-wrap">
 						{#each callsToAction as cta}
 							<Button class="w-full md:w-auto" href={cta.href} variant={cta.variant || "primary"}
 								>{cta.label}</Button
@@ -88,11 +88,11 @@
 					</div>
 				</div>
 			</div>
-			<img
+			<!-- <img
 				src={imageSrc}
 				alt="Visual comparison showing product benefits"
 				class="hidden aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover lg:block"
-			/>
+			/> -->
 		</div>
 	</section>
 </div>
