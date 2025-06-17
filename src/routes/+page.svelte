@@ -111,7 +111,6 @@
 	description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
 	imageSrc="/path/to/new/image.webp"
 	callsToAction={[
-		{ href: "/get-started", label: "Get started", variant: "primary" },
-		{ href: "/contact", label: "Talk to sales", variant: "secondary" }
+		{ href: "/waitlist", label: "Join waitlist", variant: "primary" }
 	]}
 />
