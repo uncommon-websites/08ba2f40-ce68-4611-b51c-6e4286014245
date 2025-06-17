@@ -58,10 +58,7 @@
   subtitle="Two technologists with a mission to simplify geospatial data."
   stakeholders={[
     {
-      name: "Kornel Grunwald",
-      position: "CEO & Co-founder",
-      bio: "Kornel blends experience as a data analyst and technology leader to make geospatial insight accessible for all.",
-      image: "/generated/image-a-friendly-professional-headshot-of-a-te.webp"
+      image: "/path/to/new/image.webp"
     },
     {
       name: "Szymon Moliński",
