@@ -52,12 +52,12 @@
 	function generateHexGrid() {
 		const hexSize = 20;
 		const grid = [];
-		
+
 		for (let row = 0; row < Math.ceil(height / (hexSize * 1.5)); row++) {
 			for (let col = 0; col < Math.ceil(width / (hexSize * Math.sqrt(3))); col++) {
-				const x = col * hexSize * Math.sqrt(3) + (row % 2) * hexSize * Math.sqrt(3) / 2;
+				const x = col * hexSize * Math.sqrt(3) + ((row % 2) * hexSize * Math.sqrt(3)) / 2;
 				const y = row * hexSize * 1.5;
-				
+
 				if (x >= 0 && x <= width && y >= 0 && y <= height) {
 					grid.push({
 						x,
@@ -70,7 +70,7 @@
 				}
 			}
 		}
-		
+
 		return grid;
 	}
 
@@ -105,22 +105,22 @@
 	// Animation function for pulsing dots
 	function animateDots() {
 		const currentTime = Date.now();
-		
+
 		movingDots = movingDots.map((dot) => {
 			// Update pulse phase
 			dot.pulsePhase += dot.pulseSpeed;
-			
+
 			// Calculate pulse scale (1.0 to 1.3)
 			dot.scale = 1 + 0.3 * Math.sin(dot.pulsePhase);
 
 			// Handle visibility toggling
 			const timeSinceToggle = currentTime - dot.lastToggleTime;
 			const currentDuration = dot.isVisible ? dot.visibilityDuration : dot.invisibilityDuration;
-			
+
 			if (timeSinceToggle > currentDuration) {
 				dot.isVisible = !dot.isVisible;
 				dot.lastToggleTime = currentTime;
-				
+
 				// When becoming invisible, pick a new random location for next appearance
 				if (!dot.isVisible) {
 					const newLocationIndex = Math.floor(Math.random() * landLocations.length);
@@ -136,7 +136,7 @@
 		});
 
 		// Update hex grid flickering
-		hexGrid = hexGrid.map(hex => {
+		hexGrid = hexGrid.map((hex) => {
 			if (hex.isActive) {
 				const shouldFlicker = Math.random() < 0.002;
 				if (shouldFlicker) {
@@ -183,7 +183,7 @@
 						cancelAnimationFrame(animationId);
 					}
 					animateDots();
-				}, 1000);
+				}, 2000);
 			}
 		});
 
@@ -207,7 +207,7 @@
 		{#each hexGrid as hex}
 			{#if hex.isActive && hex.active}
 				<polygon
-					points={`${hex.x},${hex.y-8} ${hex.x+7},${hex.y-4} ${hex.x+7},${hex.y+4} ${hex.x},${hex.y+8} ${hex.x-7},${hex.y+4} ${hex.x-7},${hex.y-4}`}
+					points={`${hex.x},${hex.y - 8} ${hex.x + 7},${hex.y - 4} ${hex.x + 7},${hex.y + 4} ${hex.x},${hex.y + 8} ${hex.x - 7},${hex.y + 4} ${hex.x - 7},${hex.y - 4}`}
 					fill="none"
 					stroke="var(--color-primary-400)"
 					stroke-width="0.5"
@@ -232,16 +232,10 @@
 						opacity="0.4"
 						class="pulse-ring"
 					/>
-					
+
 					<!-- Main dot -->
-					<circle
-						cx="0"
-						cy="0"
-						r="4"
-						fill="var(--color-primary-500)"
-						class="dot-core"
-					/>
-					
+					<circle cx="0" cy="0" r="4" fill="var(--color-primary-500)" class="dot-core" />
+
 					<!-- Inner glow -->
 					<circle
 						cx="0"
@@ -263,20 +257,20 @@
 	}
 
 	.hex-grid {
-		animation: hex-flicker 0.15s ease-in-out;
+		animation: hex-flicker 15s ease-in-out;
 	}
 
 	.pulse-ring {
-		animation: pulse-ring 2s ease-in-out infinite;
+		animation: pulse-ring 10s ease-in-out infinite;
 	}
 
 	.dot-core {
 		filter: drop-shadow(0 0 4px var(--color-primary-500));
-		animation: dot-pulse 2s ease-in-out infinite;
+		animation: dot-pulse 10s ease-in-out infinite;
 	}
 
 	.dot-glow {
-		animation: glow-pulse 2s ease-in-out infinite;
+		animation: glow-pulse 10s ease-in-out infinite;
 	}
 
 	@keyframes hex-flicker {
