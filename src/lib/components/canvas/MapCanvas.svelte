@@ -19,6 +19,18 @@
 	// feature object, it generates an SVG path data string.
 	const path = geoPath(projection);
 
+	// Mouse tracking and map movement
+	let mouseX = $state(0);
+	let mouseY = $state(0);
+	let mapOffsetX = $state(0);
+	let mapOffsetY = $state(0);
+	let containerElement = $state(null);
+
+	// Map bounds for constraint calculation
+	let mapScale = $state(0);
+	const baseMapWidth = 1000; // Approximate world map width at scale 1
+	const baseMapHeight = 500; // Approximate world map height at scale 1
+
 	// Land-based locations for pulsing dots - expanded list for better distribution
 	const landLocations = [
 		{ name: "New York", coords: [-74.006, 40.7128] },
@@ -156,12 +168,56 @@
 		animationId = requestAnimationFrame(animateElements);
 	}
 
+	// Mouse movement handler
+	function handleMouseMove(event) {
+		if (!containerElement) return;
+
+		const rect = containerElement.getBoundingClientRect();
+		const centerX = rect.width / 2;
+		const centerY = rect.height / 2;
+		
+		// Get mouse position relative to container center
+		mouseX = event.clientX - rect.left - centerX;
+		mouseY = event.clientY - rect.top - centerY;
+
+		// Calculate movement factor (how much the map should move)
+		const movementFactor = 0.3; // Adjust this to control sensitivity
+		
+		// Calculate desired offset (opposite to mouse position)
+		const desiredOffsetX = -mouseX * movementFactor;
+		const desiredOffsetY = -mouseY * movementFactor;
+
+		// Calculate map bounds
+		const actualMapWidth = baseMapWidth * (mapScale / 100);
+		const actualMapHeight = baseMapHeight * (mapScale / 100);
+		
+		// Calculate maximum allowed offsets to keep map within container
+		const maxOffsetX = Math.max(0, (actualMapWidth - width) / 2);
+		const maxOffsetY = Math.max(0, (actualMapHeight - height) / 2);
+
+		// Constrain offsets to prevent map from going beyond container edges
+		mapOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX));
+		mapOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY));
+
+		// Update projection with new translation
+		projection.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY]);
+
+		// Recreate pulsing dots with new projection
+		if (pulsingDots.length > 0) {
+			pulsingDots = pulsingDots.map(dot => {
+				const [newX, newY] = projection(dot.location.coords);
+				return { ...dot, x: newX, y: newY };
+			});
+		}
+	}
+
 	$effect(() => {
 		// Center the map perfectly in viewport
 		const scale = Math.min(width, height) * 0.4;
+		mapScale = scale;
 		projection
 			.scale(scale)
-			.translate([width / 2, height / 2])
+			.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY])
 			.center([0, 20]);
 
 		graticule = geoGraticule10();
@@ -194,7 +250,13 @@
 	});
 </script>
 
-<div class="h-screen w-full overflow-hidden" bind:clientWidth={width} bind:clientHeight={height}>
+<div 
+	class="h-screen w-full overflow-hidden cursor-none" 
+	bind:clientWidth={width} 
+	bind:clientHeight={height}
+	bind:this={containerElement}
+	onmousemove={handleMouseMove}
+>
 	<svg viewBox="0 0 {width} {height}" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
 		<!-- Subtle background gradient -->
 		<defs>
