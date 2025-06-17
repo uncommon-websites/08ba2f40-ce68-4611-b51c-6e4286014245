@@ -159,10 +159,10 @@
 		return lines.slice(0, 6); // Limit to 6 connections to keep it subtle
 	}
 
-	// Create subtle pulsing dots on land areas
+	// Create dynamic pulsing dots on land areas - exactly 30 dots
 	function createPulsingDots() {
 		const dots = [];
-		const numDots = 40; // More dots for better coverage
+		const numDots = 30; // Exactly 30 dots as requested
 
 		for (let i = 0; i < numDots; i++) {
 			const locationIndex = Math.floor(Math.random() * landLocations.length);
@@ -176,12 +176,14 @@
 				location,
 				isVisible: true,
 				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.003 + Math.random() * 0.004, // Slower, more subtle pulsing
-				visibilityDuration: 15000 + Math.random() * 10000,
-				invisibilityDuration: 1000 + Math.random() * 2000,
-				lastToggleTime: Date.now() + Math.random() * 8000,
+				pulseSpeed: 0.02 + Math.random() * 0.03, // Faster, more dynamic pulsing
+				visibilityDuration: 3000 + Math.random() * 2000, // Shorter visibility for more dynamic feel
+				invisibilityDuration: 500 + Math.random() * 1000, // Shorter invisibility
+				lastToggleTime: Date.now() + Math.random() * 5000,
 				scale: 1,
-				intensity: 0.3 + Math.random() * 0.2 // Much more subtle
+				intensity: 0.6 + Math.random() * 0.4, // More visible intensity
+				baseSize: 2 + Math.random() * 3, // Variable base sizes
+				maxPulseScale: 1.5 + Math.random() * 1.0 // Variable pulse intensity
 			});
 		}
 
@@ -192,10 +194,16 @@
 	function animateElements() {
 		const currentTime = Date.now();
 
-		// Animate pulsing dots
+		// Animate pulsing dots with smooth in/out transitions
 		movingDots = movingDots.map((dot) => {
 			dot.pulsePhase += dot.pulseSpeed;
-			dot.scale = 1 + 0.2 * Math.sin(dot.pulsePhase);
+			
+			// Create smooth pulsing effect with variable intensity
+			const pulseValue = Math.sin(dot.pulsePhase);
+			dot.scale = 1 + (dot.maxPulseScale - 1) * Math.abs(pulseValue);
+			
+			// Add smooth opacity pulsing
+			dot.currentOpacity = dot.intensity * (0.4 + 0.6 * Math.abs(pulseValue));
 
 			const timeSinceToggle = currentTime - dot.lastToggleTime;
 			const currentDuration = dot.isVisible ? dot.visibilityDuration : dot.invisibilityDuration;
@@ -204,6 +212,7 @@
 				dot.isVisible = !dot.isVisible;
 				dot.lastToggleTime = currentTime;
 
+				// When dot becomes invisible, move it to a new random location
 				if (!dot.isVisible) {
 					const newLocationIndex = Math.floor(Math.random() * landLocations.length);
 					const newLocation = landLocations[newLocationIndex];
@@ -211,6 +220,11 @@
 					dot.x = newX;
 					dot.y = newY;
 					dot.location = newLocation;
+					
+					// Reset pulse properties for variety
+					dot.pulseSpeed = 0.02 + Math.random() * 0.03;
+					dot.maxPulseScale = 1.5 + Math.random() * 1.0;
+					dot.baseSize = 2 + Math.random() * 3;
 				}
 			}
 
@@ -409,40 +423,55 @@
 			{/if}
 		{/each}
 
-		<!-- Subtle pulsing dots on land -->
+		<!-- Dynamic pulsing dots on land -->
 		{#each movingDots as dot}
 			{#if dot.isVisible}
-				<g class="pulsing-dot subtle" transform="translate({dot.x}, {dot.y}) scale({dot.scale * 0.2})">
-					<!-- Subtle outer pulse -->
+				<g class="pulsing-dot dynamic" transform="translate({dot.x}, {dot.y}) scale({dot.scale})">
+					<!-- Outer pulse ring -->
 					<circle
 						cx="0"
 						cy="0"
-						r="6"
+						r={dot.baseSize * 3}
 						fill="none"
 						stroke="var(--color-primary-400)"
-						stroke-width="0.5"
-						opacity={0.04 * dot.intensity}
-						class="pulse-ring subtle"
+						stroke-width="1"
+						opacity={dot.currentOpacity * 0.3}
+						class="pulse-ring dynamic"
+						filter="url(#subtle-glow)"
 					/>
 
-					<!-- Main subtle dot -->
+					<!-- Middle pulse ring -->
+					<circle
+						cx="0"
+						cy="0"
+						r={dot.baseSize * 2}
+						fill="none"
+						stroke="var(--color-primary-500)"
+						stroke-width="1.5"
+						opacity={dot.currentOpacity * 0.5}
+						class="pulse-ring-mid dynamic"
+						filter="url(#subtle-glow)"
+					/>
+
+					<!-- Main dot core -->
 					<circle 
 						cx="0" 
 						cy="0" 
-						r="2" 
+						r={dot.baseSize} 
 						fill="var(--color-primary-500)" 
-						opacity={0.08 * dot.intensity} 
-						class="dot-core subtle"
+						opacity={dot.currentOpacity} 
+						class="dot-core dynamic"
+						filter="url(#glow)"
 					/>
 
-					<!-- Very subtle inner glow -->
+					<!-- Inner bright center -->
 					<circle
 						cx="0"
 						cy="0"
-						r="1"
+						r={dot.baseSize * 0.5}
 						fill="var(--color-primary-300)"
-						opacity={0.1 * dot.intensity}
-						class="dot-glow subtle"
+						opacity={dot.currentOpacity * 1.2}
+						class="dot-center dynamic"
 					/>
 				</g>
 			{/if}
@@ -483,20 +512,24 @@
 		animation: hex-flicker-enhanced 25s ease-in-out infinite;
 	}
 
-	.pulsing-dot.subtle {
-		animation: dot-breathe-subtle 8s ease-in-out infinite;
+	.pulsing-dot.dynamic {
+		animation: dot-breathe-dynamic 2s ease-in-out infinite;
 	}
 
-	.pulse-ring.subtle {
-		animation: pulse-ring-subtle 6s ease-in-out infinite;
+	.pulse-ring.dynamic {
+		animation: pulse-ring-dynamic 2.5s ease-in-out infinite;
 	}
 
-	.dot-core.subtle {
-		animation: dot-pulse-subtle 5s ease-in-out infinite;
+	.pulse-ring-mid.dynamic {
+		animation: pulse-ring-mid-dynamic 2s ease-in-out infinite;
 	}
 
-	.dot-glow.subtle {
-		animation: glow-pulse-subtle 4s ease-in-out infinite;
+	.dot-core.dynamic {
+		animation: dot-pulse-dynamic 1.8s ease-in-out infinite;
+	}
+
+	.dot-center.dynamic {
+		animation: dot-center-dynamic 1.5s ease-in-out infinite;
 	}
 
 	@keyframes subtle-shift {
@@ -533,45 +566,66 @@
 		100% { opacity: 0.1; }
 	}
 
-	@keyframes dot-breathe-subtle {
-		0%, 100% { transform: scale(1); }
-		50% { transform: scale(1.02); }
+	@keyframes dot-breathe-dynamic {
+		0%, 100% { 
+			transform: scale(1); 
+			opacity: 1;
+		}
+		50% { 
+			transform: scale(1.1); 
+			opacity: 0.8;
+		}
 	}
 
-	@keyframes pulse-ring-subtle {
+	@keyframes pulse-ring-dynamic {
 		0% {
-			opacity: 0.01;
-			transform: scale(1);
+			opacity: 0;
+			transform: scale(0.5);
 		}
 		50% {
-			opacity: 0.06;
-			transform: scale(1.3);
+			opacity: 0.4;
+			transform: scale(1.2);
 		}
 		100% {
-			opacity: 0.01;
-			transform: scale(1);
+			opacity: 0;
+			transform: scale(2);
 		}
 	}
 
-	@keyframes dot-pulse-subtle {
-		0%, 100% {
-			opacity: 0.05;
-			transform: scale(1);
+	@keyframes pulse-ring-mid-dynamic {
+		0% {
+			opacity: 0;
+			transform: scale(0.8);
 		}
-		50% {
-			opacity: 0.12;
-			transform: scale(1.05);
-		}
-	}
-
-	@keyframes glow-pulse-subtle {
-		0%, 100% {
-			opacity: 0.08;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.15;
+		60% {
+			opacity: 0.6;
 			transform: scale(1.1);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(1.5);
+		}
+	}
+
+	@keyframes dot-pulse-dynamic {
+		0%, 100% {
+			opacity: 0.8;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1.15);
+		}
+	}
+
+	@keyframes dot-center-dynamic {
+		0%, 100% {
+			opacity: 0.6;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1.3);
 		}
 	}
 
