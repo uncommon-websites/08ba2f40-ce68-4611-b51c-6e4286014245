@@ -170,38 +170,10 @@
 	}
 
 	// Mouse movement handler with smooth CSS transforms
+	function // Mouse movement handler with smooth CSS transforms
 	function handleMouseMove(event) {
-		if (!containerElement || !svgElement) return;
-
-		const rect = containerElement.getBoundingClientRect();
-		const centerX = rect.width / 2;
-		const centerY = rect.height / 2;
-		
-		// Get mouse position relative to container center
-		mouseX = event.clientX - rect.left - centerX;
-		mouseY = event.clientY - rect.top - centerY;
-
-		// Calculate movement factor (how much the map should move)
-		const movementFactor = 0.15; // Reduced for smoother movement
-		
-		// Calculate desired offset (opposite to mouse position for parallax effect)
-		const desiredOffsetX = -mouseX * movementFactor;
-		const desiredOffsetY = -mouseY * movementFactor;
-
-		// Calculate map bounds for constraints
-		const actualMapWidth = baseMapWidth * (mapScale / 100);
-		const actualMapHeight = baseMapHeight * (mapScale / 100);
-		
-		// Calculate maximum allowed offsets to keep map within reasonable bounds
-		const maxOffsetX = Math.min(50, Math.max(0, (actualMapWidth - width) / 8));
-		const maxOffsetY = Math.min(50, Math.max(0, (actualMapHeight - height) / 8));
-
-		// Constrain offsets
-		const constrainedOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX));
-		const constrainedOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY));
-
 		// Apply smooth CSS transform to the entire SVG
-		svgElement.style.transform = `translate(${constrainedOffsetX}px, ${constrainedOffsetY}px)`;
+		// svgElement.style.transform = `translate(${constrainedOffsetX}px, ${constrainedOffsetY}px)`;
 	}
 
 	$effect(() => {
@@ -244,7 +216,7 @@
 </script>
 
 <div 
-	class="h-screen w-full overflow-hidden cursor-none" 
+	class="h-screen w-full overflow-hidden" 
 	bind:clientWidth={width} 
 	bind:clientHeight={height}
 	bind:this={containerElement}
