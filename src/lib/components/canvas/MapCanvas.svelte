@@ -159,10 +159,10 @@
 		return lines.slice(0, 6); // Limit to 6 connections to keep it subtle
 	}
 
-	// Create pulsing dots at fixed locations
+	// Create subtle pulsing dots on land areas
 	function createPulsingDots() {
 		const dots = [];
-		const numDots = 25;
+		const numDots = 40; // More dots for better coverage
 
 		for (let i = 0; i < numDots; i++) {
 			const locationIndex = Math.floor(Math.random() * landLocations.length);
@@ -176,12 +176,12 @@
 				location,
 				isVisible: true,
 				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.006 + Math.random() * 0.008,
-				visibilityDuration: 12000 + Math.random() * 8000,
-				invisibilityDuration: 2000 + Math.random() * 3000,
+				pulseSpeed: 0.003 + Math.random() * 0.004, // Slower, more subtle pulsing
+				visibilityDuration: 15000 + Math.random() * 10000,
+				invisibilityDuration: 1000 + Math.random() * 2000,
 				lastToggleTime: Date.now() + Math.random() * 8000,
 				scale: 1,
-				intensity: 0.8 + Math.random() * 0.4
+				intensity: 0.3 + Math.random() * 0.2 // Much more subtle
 			});
 		}
 
@@ -279,8 +279,8 @@
 	}
 
 	$effect(() => {
-		// Center the map perfectly in viewport with proper scaling
-		const scale = Math.min(width, height) * 0.15;
+		// Center the map perfectly in viewport with much larger scaling for zoom
+		const scale = Math.min(width, height) * 0.4;
 		projection
 			.scale(scale)
 			.translate([width / 2, height / 2])
@@ -409,54 +409,40 @@
 			{/if}
 		{/each}
 
-		<!-- Enhanced pulsing dots -->
+		<!-- Subtle pulsing dots on land -->
 		{#each movingDots as dot}
 			{#if dot.isVisible}
-				<g class="pulsing-dot enhanced" transform="translate({dot.x}, {dot.y}) scale({dot.scale * 0.4})">
-					<!-- Outer pulse ring -->
+				<g class="pulsing-dot subtle" transform="translate({dot.x}, {dot.y}) scale({dot.scale * 0.2})">
+					<!-- Subtle outer pulse -->
 					<circle
 						cx="0"
 						cy="0"
-						r="12"
+						r="6"
 						fill="none"
 						stroke="var(--color-primary-400)"
-						stroke-width="1"
-						opacity={0.08 * dot.intensity}
-						class="pulse-ring outer"
-						filter="url(#glow)"
+						stroke-width="0.5"
+						opacity={0.04 * dot.intensity}
+						class="pulse-ring subtle"
 					/>
 
-					<!-- Middle pulse ring -->
-					<circle
-						cx="0"
-						cy="0"
-						r="8"
-						fill="none"
-						stroke="var(--color-primary-400)"
-						stroke-width="1"
-						opacity={0.12 * dot.intensity}
-						class="pulse-ring middle"
-					/>
-
-					<!-- Main dot -->
+					<!-- Main subtle dot -->
 					<circle 
 						cx="0" 
 						cy="0" 
-						r="4" 
+						r="2" 
 						fill="var(--color-primary-500)" 
-						opacity={0.15 * dot.intensity} 
-						class="dot-core enhanced"
-						filter="url(#glow)"
+						opacity={0.08 * dot.intensity} 
+						class="dot-core subtle"
 					/>
 
-					<!-- Inner glow -->
+					<!-- Very subtle inner glow -->
 					<circle
 						cx="0"
 						cy="0"
-						r="2"
+						r="1"
 						fill="var(--color-primary-300)"
-						opacity={0.2 * dot.intensity}
-						class="dot-glow enhanced"
+						opacity={0.1 * dot.intensity}
+						class="dot-glow subtle"
 					/>
 				</g>
 			{/if}
@@ -497,24 +483,20 @@
 		animation: hex-flicker-enhanced 25s ease-in-out infinite;
 	}
 
-	.pulsing-dot.enhanced {
-		animation: dot-breathe 6s ease-in-out infinite;
+	.pulsing-dot.subtle {
+		animation: dot-breathe-subtle 8s ease-in-out infinite;
 	}
 
-	.pulse-ring.outer {
-		animation: pulse-ring-outer 5s ease-in-out infinite;
+	.pulse-ring.subtle {
+		animation: pulse-ring-subtle 6s ease-in-out infinite;
 	}
 
-	.pulse-ring.middle {
-		animation: pulse-ring-middle 4s ease-in-out infinite 0.5s;
+	.dot-core.subtle {
+		animation: dot-pulse-subtle 5s ease-in-out infinite;
 	}
 
-	.dot-core.enhanced {
-		animation: dot-pulse-enhanced 4s ease-in-out infinite;
-	}
-
-	.dot-glow.enhanced {
-		animation: glow-pulse-enhanced 3s ease-in-out infinite;
+	.dot-glow.subtle {
+		animation: glow-pulse-subtle 4s ease-in-out infinite;
 	}
 
 	@keyframes subtle-shift {
@@ -551,63 +533,44 @@
 		100% { opacity: 0.1; }
 	}
 
-	@keyframes dot-breathe {
+	@keyframes dot-breathe-subtle {
 		0%, 100% { transform: scale(1); }
-		50% { transform: scale(1.05); }
+		50% { transform: scale(1.02); }
 	}
 
-	@keyframes pulse-ring-outer {
+	@keyframes pulse-ring-subtle {
 		0% {
-			opacity: 0.02;
-			transform: scale(0.8);
+			opacity: 0.01;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.06;
+			transform: scale(1.3);
+		}
+		100% {
+			opacity: 0.01;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes dot-pulse-subtle {
+		0%, 100% {
+			opacity: 0.05;
+			transform: scale(1);
 		}
 		50% {
 			opacity: 0.12;
-			transform: scale(1.8);
-		}
-		100% {
-			opacity: 0.02;
-			transform: scale(0.8);
+			transform: scale(1.05);
 		}
 	}
 
-	@keyframes pulse-ring-middle {
-		0% {
-			opacity: 0.05;
+	@keyframes glow-pulse-subtle {
+		0%, 100% {
+			opacity: 0.08;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 0.18;
-			transform: scale(1.4);
-		}
-		100% {
-			opacity: 0.05;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes dot-pulse-enhanced {
-		0%, 100% {
-			opacity: 0.1;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.25;
-			transform: scale(1.15);
-		}
-	}
-
-	@keyframes glow-pulse-enhanced {
-		0%, 100% {
 			opacity: 0.15;
-			transform: scale(1);
-		}
-		33% {
-			opacity: 0.3;
-			transform: scale(1.2);
-		}
-		66% {
-			opacity: 0.25;
 			transform: scale(1.1);
 		}
 	}
@@ -617,16 +580,5 @@
 		transition: opacity 0.3s ease;
 	}
 
-	/* Subtle hover effects for interactivity */
-	svg:hover .map-land {
-		fill: var(--color-gray-150);
-	}
-
-	svg:hover .pulsing-dot {
-		animation-duration: 3s;
-	}
-
-	svg:hover .hex-grid {
-		animation-duration: 15s;
-	}
+	/* Removed all hover effects as requested */
 </style>
