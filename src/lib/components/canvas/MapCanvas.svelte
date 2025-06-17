@@ -23,6 +23,7 @@
 	let mouseX = $state(0);
 	let mouseY = $state(0);
 	let mapOffsetX = $state(0);
+	let animationFrameId: number | null = $state(null);
 	let mapOffsetY = $state(0);
 	let containerElement = $state(null);
 
@@ -195,20 +196,21 @@
 		const maxOffsetX = Math.max(0, (actualMapWidth - width) / 2);
 		const maxOffsetY = Math.max(0, (actualMapHeight - height) / 2);
 
-		// Constrain offsets to prevent map from going beyond container edges
-		mapOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX));
-		mapOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY));
+		// Smoothly update offsets using animation frame
+		const updateOffsets = () => {
+			mapOffsetX = mapOffsetX + (Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX)) - mapOffsetX) * 0.1;
+			mapOffsetY = mapOffsetY + (Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY)) - mapOffsetY) * 0.1;
+			projection.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY]);
 
-		// Update projection with new translation
-		projection.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY]);
+			if (pulsingDots.length > 0) {
+				pulsingDots = pulsingDots.map(dot => {
+					const [newX, newY] = projection(dot.location.coords);
+					return { ...dot, x: newX, y: newY };
+				});
+			}
+		};
 
-		// Recreate pulsing dots with new projection
-		if (pulsingDots.length > 0) {
-			pulsingDots = pulsingDots.map(dot => {
-				const [newX, newY] = projection(dot.location.coords);
-				return { ...dot, x: newX, y: newY };
-			});
-		}
+		updateOffsets();
 	}
 
 	$effect(() => {
