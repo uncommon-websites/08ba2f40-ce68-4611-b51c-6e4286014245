@@ -174,16 +174,20 @@
 				x,
 				y,
 				location,
-				isVisible: true,
+				isVisible: Math.random() > 0.3, // Start with some dots visible, some not
 				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.02 + Math.random() * 0.03, // Faster, more dynamic pulsing
-				visibilityDuration: 3000 + Math.random() * 2000, // Shorter visibility for more dynamic feel
-				invisibilityDuration: 500 + Math.random() * 1000, // Shorter invisibility
-				lastToggleTime: Date.now() + Math.random() * 5000,
+				pulseSpeed: 0.015 + Math.random() * 0.02, // Slower, more subtle pulsing
+				fadePhase: Math.random() * Math.PI * 2,
+				fadeSpeed: 0.008 + Math.random() * 0.012, // Slow fade speed for subtlety
+				visibilityDuration: 4000 + Math.random() * 6000, // Longer visibility for subtlety
+				invisibilityDuration: 2000 + Math.random() * 4000, // Longer invisibility
+				lastToggleTime: Date.now() + Math.random() * 8000,
 				scale: 1,
-				intensity: 0.6 + Math.random() * 0.4, // More visible intensity
-				baseSize: 2 + Math.random() * 3, // Variable base sizes
-				maxPulseScale: 1.5 + Math.random() * 1.0 // Variable pulse intensity
+				baseOpacity: 0.3 + Math.random() * 0.4, // Lower base opacity for subtlety
+				currentOpacity: 0,
+				targetOpacity: 0,
+				baseSize: 1.5 + Math.random() * 2, // Smaller, more subtle sizes
+				maxPulseScale: 1.2 + Math.random() * 0.5 // Gentler pulse intensity
 			});
 		}
 
@@ -197,20 +201,20 @@
 		// Animate pulsing dots with smooth in/out transitions
 		movingDots = movingDots.map((dot) => {
 			dot.pulsePhase += dot.pulseSpeed;
+			dot.fadePhase += dot.fadeSpeed;
 			
-			// Create smooth pulsing effect with variable intensity
+			// Create subtle pulsing effect
 			const pulseValue = Math.sin(dot.pulsePhase);
-			dot.scale = 1 + (dot.maxPulseScale - 1) * Math.abs(pulseValue);
+			dot.scale = 1 + (dot.maxPulseScale - 1) * Math.abs(pulseValue) * 0.5; // Gentler scaling
 			
-			// Add smooth opacity pulsing
-			dot.currentOpacity = dot.intensity * (0.4 + 0.6 * Math.abs(pulseValue));
-
+			// Handle visibility transitions with smooth fading
 			const timeSinceToggle = currentTime - dot.lastToggleTime;
 			const currentDuration = dot.isVisible ? dot.visibilityDuration : dot.invisibilityDuration;
 
 			if (timeSinceToggle > currentDuration) {
 				dot.isVisible = !dot.isVisible;
 				dot.lastToggleTime = currentTime;
+				dot.targetOpacity = dot.isVisible ? dot.baseOpacity : 0;
 
 				// When dot becomes invisible, move it to a new random location
 				if (!dot.isVisible) {
@@ -221,11 +225,23 @@
 					dot.y = newY;
 					dot.location = newLocation;
 					
-					// Reset pulse properties for variety
-					dot.pulseSpeed = 0.02 + Math.random() * 0.03;
-					dot.maxPulseScale = 1.5 + Math.random() * 1.0;
-					dot.baseSize = 2 + Math.random() * 3;
+					// Reset properties for variety
+					dot.pulseSpeed = 0.015 + Math.random() * 0.02;
+					dot.fadeSpeed = 0.008 + Math.random() * 0.012;
+					dot.maxPulseScale = 1.2 + Math.random() * 0.5;
+					dot.baseSize = 1.5 + Math.random() * 2;
+					dot.baseOpacity = 0.3 + Math.random() * 0.4;
 				}
+			}
+
+			// Smooth opacity interpolation for subtle fade in/out
+			const fadeSpeed = 0.02;
+			dot.currentOpacity += (dot.targetOpacity - dot.currentOpacity) * fadeSpeed;
+			
+			// Add subtle fade oscillation when visible
+			if (dot.isVisible && dot.currentOpacity > 0.1) {
+				const fadeOscillation = Math.sin(dot.fadePhase) * 0.2 + 0.8; // Gentle oscillation
+				dot.currentOpacity = dot.currentOpacity * fadeOscillation;
 			}
 
 			return dot;
@@ -425,31 +441,18 @@
 
 		<!-- Dynamic pulsing dots on land -->
 		{#each movingDots as dot}
-			{#if dot.isVisible}
-				<g class="pulsing-dot dynamic" transform="translate({dot.x}, {dot.y}) scale({dot.scale})">
+			{#if dot.currentOpacity > 0.01}
+				<g class="pulsing-dot subtle" transform="translate({dot.x}, {dot.y}) scale({dot.scale})" style="opacity: {dot.currentOpacity}">
 					<!-- Outer pulse ring -->
 					<circle
 						cx="0"
 						cy="0"
-						r={dot.baseSize * 3}
+						r={dot.baseSize * 2.5}
 						fill="none"
 						stroke="var(--color-primary-400)"
-						stroke-width="1"
-						opacity={dot.currentOpacity * 0.3}
-						class="pulse-ring dynamic"
-						filter="url(#subtle-glow)"
-					/>
-
-					<!-- Middle pulse ring -->
-					<circle
-						cx="0"
-						cy="0"
-						r={dot.baseSize * 2}
-						fill="none"
-						stroke="var(--color-primary-500)"
-						stroke-width="1.5"
-						opacity={dot.currentOpacity * 0.5}
-						class="pulse-ring-mid dynamic"
+						stroke-width="0.8"
+						opacity="0.2"
+						class="pulse-ring subtle"
 						filter="url(#subtle-glow)"
 					/>
 
@@ -459,19 +462,19 @@
 						cy="0" 
 						r={dot.baseSize} 
 						fill="var(--color-primary-500)" 
-						opacity={dot.currentOpacity} 
-						class="dot-core dynamic"
-						filter="url(#glow)"
+						opacity="0.8" 
+						class="dot-core subtle"
+						filter="url(#subtle-glow)"
 					/>
 
 					<!-- Inner bright center -->
 					<circle
 						cx="0"
 						cy="0"
-						r={dot.baseSize * 0.5}
+						r={dot.baseSize * 0.4}
 						fill="var(--color-primary-300)"
-						opacity={dot.currentOpacity * 1.2}
-						class="dot-center dynamic"
+						opacity="0.9"
+						class="dot-center subtle"
 					/>
 				</g>
 			{/if}
@@ -512,24 +515,21 @@
 		animation: hex-flicker-enhanced 25s ease-in-out infinite;
 	}
 
-	.pulsing-dot.dynamic {
-		animation: dot-breathe-dynamic 2s ease-in-out infinite;
+	.pulsing-dot.subtle {
+		animation: dot-breathe-subtle 3s ease-in-out infinite;
+		transition: opacity 0.8s ease-in-out;
 	}
 
-	.pulse-ring.dynamic {
-		animation: pulse-ring-dynamic 2.5s ease-in-out infinite;
+	.pulse-ring.subtle {
+		animation: pulse-ring-subtle 4s ease-in-out infinite;
 	}
 
-	.pulse-ring-mid.dynamic {
-		animation: pulse-ring-mid-dynamic 2s ease-in-out infinite;
+	.dot-core.subtle {
+		animation: dot-pulse-subtle 2.5s ease-in-out infinite;
 	}
 
-	.dot-core.dynamic {
-		animation: dot-pulse-dynamic 1.8s ease-in-out infinite;
-	}
-
-	.dot-center.dynamic {
-		animation: dot-center-dynamic 1.5s ease-in-out infinite;
+	.dot-center.subtle {
+		animation: dot-center-subtle 2s ease-in-out infinite;
 	}
 
 	@keyframes subtle-shift {
@@ -566,66 +566,47 @@
 		100% { opacity: 0.1; }
 	}
 
-	@keyframes dot-breathe-dynamic {
+	@keyframes dot-breathe-subtle {
 		0%, 100% { 
 			transform: scale(1); 
-			opacity: 1;
 		}
 		50% { 
-			transform: scale(1.1); 
-			opacity: 0.8;
+			transform: scale(1.05); 
 		}
 	}
 
-	@keyframes pulse-ring-dynamic {
-		0% {
-			opacity: 0;
-			transform: scale(0.5);
-		}
-		50% {
-			opacity: 0.4;
-			transform: scale(1.2);
-		}
-		100% {
-			opacity: 0;
-			transform: scale(2);
-		}
-	}
-
-	@keyframes pulse-ring-mid-dynamic {
+	@keyframes pulse-ring-subtle {
 		0% {
 			opacity: 0;
 			transform: scale(0.8);
 		}
-		60% {
-			opacity: 0.6;
+		50% {
+			opacity: 0.15;
 			transform: scale(1.1);
 		}
 		100% {
 			opacity: 0;
-			transform: scale(1.5);
+			transform: scale(1.4);
 		}
 	}
 
-	@keyframes dot-pulse-dynamic {
+	@keyframes dot-pulse-subtle {
 		0%, 100% {
-			opacity: 0.8;
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.08);
+		}
+	}
+
+	@keyframes dot-center-subtle {
+		0%, 100% {
+			opacity: 0.9;
 			transform: scale(1);
 		}
 		50% {
 			opacity: 1;
-			transform: scale(1.15);
-		}
-	}
-
-	@keyframes dot-center-dynamic {
-		0%, 100% {
-			opacity: 0.6;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 1;
-			transform: scale(1.3);
+			transform: scale(1.1);
 		}
 	}
 
