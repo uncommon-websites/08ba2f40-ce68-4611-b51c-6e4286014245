@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { geoMercator, geoGraticule10, geoPath } from "d3-geo";
 	import { json } from "d3-fetch";
 	import * as topojson from "topojson-client";
