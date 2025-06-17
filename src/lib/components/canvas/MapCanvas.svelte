@@ -23,9 +23,9 @@
 	let mouseX = $state(0);
 	let mouseY = $state(0);
 	let mapOffsetX = $state(0);
-	let animationFrameId: number | null = $state(null);
 	let mapOffsetY = $state(0);
 	let containerElement = $state(null);
+	let svgElement = $state(null);
 
 	// Map bounds for constraint calculation
 	let mapScale = $state(0);
@@ -169,9 +169,9 @@
 		animationId = requestAnimationFrame(animateElements);
 	}
 
-	// Mouse movement handler
+	// Mouse movement handler with smooth CSS transforms
 	function handleMouseMove(event) {
-		if (!containerElement) return;
+		if (!containerElement || !svgElement) return;
 
 		const rect = containerElement.getBoundingClientRect();
 		const centerX = rect.width / 2;
@@ -182,35 +182,26 @@
 		mouseY = event.clientY - rect.top - centerY;
 
 		// Calculate movement factor (how much the map should move)
-		const movementFactor = 0.3; // Adjust this to control sensitivity
+		const movementFactor = 0.15; // Reduced for smoother movement
 		
-		// Calculate desired offset (opposite to mouse position)
+		// Calculate desired offset (opposite to mouse position for parallax effect)
 		const desiredOffsetX = -mouseX * movementFactor;
 		const desiredOffsetY = -mouseY * movementFactor;
 
-		// Calculate map bounds
+		// Calculate map bounds for constraints
 		const actualMapWidth = baseMapWidth * (mapScale / 100);
 		const actualMapHeight = baseMapHeight * (mapScale / 100);
 		
-		// Calculate maximum allowed offsets to keep map within container
-		const maxOffsetX = Math.max(0, (actualMapWidth - width) / 2);
-		const maxOffsetY = Math.max(0, (actualMapHeight - height) / 2);
+		// Calculate maximum allowed offsets to keep map within reasonable bounds
+		const maxOffsetX = Math.min(50, Math.max(0, (actualMapWidth - width) / 8));
+		const maxOffsetY = Math.min(50, Math.max(0, (actualMapHeight - height) / 8));
 
-		// Smoothly update offsets using animation frame
-		const updateOffsets = () => {
-			mapOffsetX = mapOffsetX + (Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX)) - mapOffsetX) * 0.1;
-			mapOffsetY = mapOffsetY + (Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY)) - mapOffsetY) * 0.1;
-			projection.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY]);
+		// Constrain offsets
+		const constrainedOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, desiredOffsetX));
+		const constrainedOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, desiredOffsetY));
 
-			if (pulsingDots.length > 0) {
-				pulsingDots = pulsingDots.map(dot => {
-					const [newX, newY] = projection(dot.location.coords);
-					return { ...dot, x: newX, y: newY };
-				});
-			}
-		};
-
-		updateOffsets();
+		// Apply smooth CSS transform to the entire SVG
+		svgElement.style.transform = `translate(${constrainedOffsetX}px, ${constrainedOffsetY}px)`;
 	}
 
 	$effect(() => {
@@ -219,7 +210,7 @@
 		mapScale = scale;
 		projection
 			.scale(scale)
-			.translate([width / 2 + mapOffsetX, height / 2 + mapOffsetY])
+			.translate([width / 2, height / 2]) // Fixed center position, no offset here
 			.center([0, 20]);
 
 		graticule = geoGraticule10();
@@ -259,7 +250,12 @@
 	bind:this={containerElement}
 	onmousemove={handleMouseMove}
 >
-	<svg viewBox="0 0 {width} {height}" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
+	<svg 
+		viewBox="0 0 {width} {height}" 
+		class="h-full w-full map-svg" 
+		preserveAspectRatio="xMidYMid meet"
+		bind:this={svgElement}
+	>
 		<!-- Subtle background gradient -->
 		<defs>
 			<radialGradient id="bg-gradient" cx="50%" cy="50%" r="70%">
@@ -327,6 +323,11 @@
 </div>
 
 <style>
+	.map-svg {
+		transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		will-change: transform;
+	}
+
 	.pulsing-dot {
 		pointer-events: none;
 		transition: opacity 1.5s ease-in-out;
