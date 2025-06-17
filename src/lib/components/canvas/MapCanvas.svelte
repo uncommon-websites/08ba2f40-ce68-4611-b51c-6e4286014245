@@ -74,118 +74,62 @@
 		return grid;
 	}
 
-	// Create moving dots with paths between land locations
-	function createMovingDots() {
+	// Create pulsing dots at fixed locations
+	function createPulsingDots() {
 		const dots = [];
-		const numDots = 6;
+		const numDots = 8;
 
 		for (let i = 0; i < numDots; i++) {
-			const startIndex = Math.floor(Math.random() * landLocations.length);
-			let endIndex = Math.floor(Math.random() * landLocations.length);
-			while (endIndex === startIndex) {
-				endIndex = Math.floor(Math.random() * landLocations.length);
-			}
-
-			const start = landLocations[startIndex];
-			const end = landLocations[endIndex];
-			const [startX, startY] = projection(start.coords);
-			const [endX, endY] = projection(end.coords);
-
-			// Create hexagonal path points
-			const pathPoints = [];
-			const numSegments = 8;
-			for (let j = 0; j <= numSegments; j++) {
-				const t = j / numSegments;
-				const x = startX + (endX - startX) * t;
-				const y = startY + (endY - startY) * t;
-				pathPoints.push({ x, y, active: false, flickerTime: 0 });
-			}
+			const locationIndex = Math.floor(Math.random() * landLocations.length);
+			const location = landLocations[locationIndex];
+			const [x, y] = projection(location.coords);
 
 			dots.push({
 				id: i,
-				startX,
-				startY,
-				endX,
-				endY,
-				currentX: startX,
-				currentY: startY,
-				progress: 0,
-				speed: 0.003 + Math.random() * 0.002,
-				pathPoints,
-				startLocation: start,
-				endLocation: end,
-				delay: i * 1500 + Math.random() * 2000,
-				flickerPhase: Math.random() * Math.PI * 2
+				x,
+				y,
+				location,
+				isVisible: true,
+				pulsePhase: Math.random() * Math.PI * 2,
+				pulseSpeed: 0.05 + Math.random() * 0.03,
+				visibilityDuration: 3000 + Math.random() * 2000, // 3-5 seconds visible
+				invisibilityDuration: 1000 + Math.random() * 1000, // 1-2 seconds invisible
+				lastToggleTime: Date.now() + Math.random() * 5000,
+				scale: 1
 			});
 		}
 
 		return dots;
 	}
 
-	// Animation function
+	// Animation function for pulsing dots
 	function animateDots() {
 		const currentTime = Date.now();
 		
 		movingDots = movingDots.map((dot) => {
-			// Update progress
-			dot.progress += dot.speed;
-			dot.flickerPhase += 0.1;
+			// Update pulse phase
+			dot.pulsePhase += dot.pulseSpeed;
+			
+			// Calculate pulse scale (1.0 to 1.3)
+			dot.scale = 1 + 0.3 * Math.sin(dot.pulsePhase);
 
-			// Calculate current position using smooth interpolation
-			const t = Math.min(dot.progress, 1);
-			const smoothT = t * t * (3 - 2 * t);
-
-			const newX = dot.startX + (dot.endX - dot.startX) * smoothT;
-			const newY = dot.startY + (dot.endY - dot.startY) * smoothT;
-
-			dot.currentX = newX;
-			dot.currentY = newY;
-
-			// Update path points with flickering effect
-			dot.pathPoints = dot.pathPoints.map((point, index) => {
-				const distanceFromCurrent = Math.abs(index - (t * (dot.pathPoints.length - 1)));
-				const isNearCurrent = distanceFromCurrent < 3;
-				const flickerChance = isNearCurrent ? 0.3 : 0.05;
+			// Handle visibility toggling
+			const timeSinceToggle = currentTime - dot.lastToggleTime;
+			const currentDuration = dot.isVisible ? dot.visibilityDuration : dot.invisibilityDuration;
+			
+			if (timeSinceToggle > currentDuration) {
+				dot.isVisible = !dot.isVisible;
+				dot.lastToggleTime = currentTime;
 				
-				// Create flickering effect
-				const shouldFlicker = Math.random() < flickerChance;
-				if (shouldFlicker) {
-					point.flickerTime = currentTime + 150 + Math.random() * 100;
+				// When becoming invisible, pick a new random location for next appearance
+				if (!dot.isVisible) {
+					const newLocationIndex = Math.floor(Math.random() * landLocations.length);
+					const newLocation = landLocations[newLocationIndex];
+					const [newX, newY] = projection(newLocation.coords);
+					dot.x = newX;
+					dot.y = newY;
+					dot.location = newLocation;
 				}
-				
-				point.active = currentTime < point.flickerTime;
-				return point;
-			});
-
-			// Reset when reaching destination
-			if (dot.progress >= 1) {
-				let newEndIndex = Math.floor(Math.random() * landLocations.length);
-				const currentEndIndex = landLocations.findIndex((loc) => loc.name === dot.endLocation.name);
-				while (newEndIndex === currentEndIndex) {
-					newEndIndex = Math.floor(Math.random() * landLocations.length);
-				}
-
-				const newEnd = landLocations[newEndIndex];
-				const [newEndX, newEndY] = projection(newEnd.coords);
-
-				// Create new hexagonal path
-				const pathPoints = [];
-				const numSegments = 8;
-				for (let j = 0; j <= numSegments; j++) {
-					const t = j / numSegments;
-					const x = dot.currentX + (newEndX - dot.currentX) * t;
-					const y = dot.currentY + (newEndY - dot.currentY) * t;
-					pathPoints.push({ x, y, active: false, flickerTime: 0 });
-				}
-
-				dot.startX = dot.currentX;
-				dot.startY = dot.currentY;
-				dot.endX = newEndX;
-				dot.endY = newEndY;
-				dot.startLocation = dot.endLocation;
-				dot.endLocation = newEnd;
-				dot.progress = 0;
-				dot.pathPoints = pathPoints;
 			}
 
 			return dot;
@@ -207,7 +151,7 @@
 	}
 
 	$effect(() => {
-		// Update projection when dimensions change
+		// Update projection when dimensions change - make map bigger to fill viewport
 		projection.fitSize([width, height], { type: "Sphere" });
 		graticule = geoGraticule10();
 
@@ -228,9 +172,9 @@
 			// and border-shapes
 			borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
 
-			// Initialize moving dots and hex grid after projection is set up
+			// Initialize pulsing dots and hex grid after projection is set up
 			if (width > 0 && height > 0) {
-				movingDots = createMovingDots();
+				movingDots = createPulsingDots();
 				hexGrid = generateHexGrid();
 
 				// Start animation after a brief delay
@@ -273,53 +217,48 @@
 			{/if}
 		{/each}
 
-		<!-- Moving dots with hexagonal trail patterns -->
+		<!-- Pulsing dots at fixed locations -->
 		{#each movingDots as dot}
-			<g class="moving-dot">
-				<!-- Hexagonal path trail -->
-				{#each dot.pathPoints as point, index}
-					{#if point.active}
-						<polygon
-							points={`${point.x},${point.y-3} ${point.x+2.5},${point.y-1.5} ${point.x+2.5},${point.y+1.5} ${point.x},${point.y+3} ${point.x-2.5},${point.y+1.5} ${point.x-2.5},${point.y-1.5}`}
-							fill="var(--color-primary-400)"
-							opacity="0.6"
-							class="trail-hex"
-						/>
-					{/if}
-				{/each}
-
-				<!-- Connection lines between active points -->
-				{#each dot.pathPoints as point, index}
-					{#if point.active && index < dot.pathPoints.length - 1}
-						{@const nextPoint = dot.pathPoints[index + 1]}
-						{#if nextPoint.active}
-							<line
-								x1={point.x}
-								y1={point.y}
-								x2={nextPoint.x}
-								y2={nextPoint.y}
-								stroke="var(--color-primary-500)"
-								stroke-width="1"
-								opacity="0.4"
-								class="connection-line"
-							/>
-						{/if}
-					{/if}
-				{/each}
-
-				<!-- Main moving dot -->
-				<polygon
-					points={`${dot.currentX},${dot.currentY-4} ${dot.currentX+3.5},${dot.currentY-2} ${dot.currentX+3.5},${dot.currentY+2} ${dot.currentX},${dot.currentY+4} ${dot.currentX-3.5},${dot.currentY+2} ${dot.currentX-3.5},${dot.currentY-2}`}
-					fill="var(--color-primary-500)"
-					class="dot-core-hex"
-				/>
-			</g>
+			{#if dot.isVisible}
+				<g class="pulsing-dot" transform="translate({dot.x}, {dot.y}) scale({dot.scale})">
+					<!-- Outer pulse ring -->
+					<circle
+						cx="0"
+						cy="0"
+						r="8"
+						fill="none"
+						stroke="var(--color-primary-400)"
+						stroke-width="1"
+						opacity="0.4"
+						class="pulse-ring"
+					/>
+					
+					<!-- Main dot -->
+					<circle
+						cx="0"
+						cy="0"
+						r="4"
+						fill="var(--color-primary-500)"
+						class="dot-core"
+					/>
+					
+					<!-- Inner glow -->
+					<circle
+						cx="0"
+						cy="0"
+						r="2"
+						fill="var(--color-primary-300)"
+						opacity="0.8"
+						class="dot-glow"
+					/>
+				</g>
+			{/if}
 		{/each}
 	</svg>
 </div>
 
 <style>
-	.moving-dot {
+	.pulsing-dot {
 		pointer-events: none;
 	}
 
@@ -327,17 +266,17 @@
 		animation: hex-flicker 0.15s ease-in-out;
 	}
 
-	.trail-hex {
-		animation: trail-flicker 0.2s ease-in-out;
+	.pulse-ring {
+		animation: pulse-ring 2s ease-in-out infinite;
 	}
 
-	.connection-line {
-		animation: line-pulse 0.3s ease-in-out;
+	.dot-core {
+		filter: drop-shadow(0 0 4px var(--color-primary-500));
+		animation: dot-pulse 2s ease-in-out infinite;
 	}
 
-	.dot-core-hex {
-		filter: drop-shadow(0 0 2px var(--color-primary-500));
-		animation: hex-pulse 3s ease-in-out infinite;
+	.dot-glow {
+		animation: glow-pulse 2s ease-in-out infinite;
 	}
 
 	@keyframes hex-flicker {
@@ -352,42 +291,42 @@
 		}
 	}
 
-	@keyframes trail-flicker {
+	@keyframes pulse-ring {
 		0% {
-			opacity: 0;
-			transform: scale(0.8);
+			opacity: 0.4;
+			transform: scale(1);
 		}
 		50% {
-			opacity: 0.8;
-			transform: scale(1.1);
+			opacity: 0.1;
+			transform: scale(1.5);
 		}
 		100% {
-			opacity: 0.6;
+			opacity: 0.4;
 			transform: scale(1);
 		}
 	}
 
-	@keyframes line-pulse {
-		0% {
-			opacity: 0;
-		}
-		50% {
-			opacity: 0.6;
-		}
-		100% {
-			opacity: 0.4;
-		}
-	}
-
-	@keyframes hex-pulse {
+	@keyframes dot-pulse {
 		0%,
 		100% {
 			opacity: 1;
 			transform: scale(1);
 		}
 		50% {
+			opacity: 0.7;
+			transform: scale(1.1);
+		}
+	}
+
+	@keyframes glow-pulse {
+		0%,
+		100% {
 			opacity: 0.8;
-			transform: scale(1.05);
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.4;
+			transform: scale(1.2);
 		}
 	}
 </style>
