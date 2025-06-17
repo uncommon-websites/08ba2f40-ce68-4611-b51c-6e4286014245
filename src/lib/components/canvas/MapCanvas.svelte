@@ -188,8 +188,8 @@
 	});
 </script>
 
-<div class="size-full" bind:clientWidth={width} bind:clientHeight={height}>
-	<svg viewBox="0 0 {width} {height}" class="size-full" preserveAspectRatio="xMidYMid meet">
+<div class="h-screen w-full" bind:clientWidth={width} bind:clientHeight={height}>
+	<svg viewBox="0 0 {width} {height}" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
 		<!-- <path d={path(outline)} fill="#fff" /> -->
 		<!-- <path d={path(graticule)} stroke="var(--color-gray-900)" fill="none" /> -->
 		<path d={path(land)} fill="var(--color-gray-100)" />
