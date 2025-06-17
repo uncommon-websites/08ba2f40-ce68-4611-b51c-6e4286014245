@@ -4,17 +4,50 @@
 </script>
 
 <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="" {...props}>
-	<g clip-path="url(#clip0_3125_159)">
-		<path
-			fill-rule="evenodd"
-			clip-rule="evenodd"
-			d="M102.831 190.187V241.639H51.3784H-0.0742188V250.015V258.391H51.3784H102.831V309.844V361.296H111.207H119.583V309.844V258.391H171.036H222.488V250.015V241.639H171.036H119.583V190.187V138.734H111.207H102.831V190.187ZM274.726 194.371L242.604 250.027L274.722 305.672L306.839 361.317L371.909 361.007L436.98 360.698L468.498 306.254C485.834 276.31 500.011 251.002 500.002 250.015C499.993 249.028 485.815 223.72 468.494 193.776L437.002 139.332L371.924 139.024L306.846 138.715L274.726 194.371ZM451.241 203.872C465.695 228.838 477.274 250.107 476.975 251.136C476.675 252.165 464.898 272.929 450.804 297.28L425.179 341.553L371.964 341.864L318.749 342.175L292.181 296.161L265.615 250.147L292.214 204.012L318.812 157.877L371.888 158.177L424.964 158.477L451.241 203.872Z"
-			fill="black"
-		/>
-	</g>
-	<defs>
-		<clipPath id="clip0_3125_159">
-			<rect width="500" height="500" fill="white" />
-		</clipPath>
-	</defs>
+<g>
+<!-- Central hub/node -->
+<circle cx="250" cy="250" r="25" fill="currentColor"/>
+
+<!-- Hexagonal grid pattern -->
+<g stroke="currentColor" stroke-width="3" fill="none">
+<!-- Inner hexagon -->
+<polygon points="250,200 285,225 285,275 250,300 215,275 215,225"/>
+
+<!-- Outer hexagons -->
+<polygon points="250,120 320,165 320,235 250,280 180,235 180,165"/>
+<polygon points="180,95 250,140 320,95 390,140 390,210 320,255 250,210 180,255 110,210 110,140"/>
+
+<!-- Connection lines -->
+<line x1="250" y1="250" x2="250" y2="200"/>
+<line x1="250" y1="250" x2="285" y2="225"/>
+<line x1="250" y1="250" x2="285" y2="275"/>
+<line x1="250" y1="250" x2="215" y2="275"/>
+<line x1="250" y1="250" x2="215" y2="225"/>
+
+<!-- Agent nodes -->
+<circle cx="180" cy="165" r="8" fill="currentColor"/>
+<circle cx="320" cy="165" r="8" fill="currentColor"/>
+<circle cx="390" cy="210" r="8" fill="currentColor"/>
+<circle cx="320" cy="255" r="8" fill="currentColor"/>
+<circle cx="180" cy="255" r="8" fill="currentColor"/>
+<circle cx="110" cy="210" r="8" fill="currentColor"/>
+
+<!-- Data flow indicators -->
+<circle cx="215" cy="190" r="4" fill="currentColor" opacity="0.6"/>
+<circle cx="285" cy="190" r="4" fill="currentColor" opacity="0.6"/>
+<circle cx="320" cy="225" r="4" fill="currentColor" opacity="0.6"/>
+<circle cx="285" cy="310" r="4" fill="currentColor" opacity="0.6"/>
+<circle cx="215" cy="310" r="4" fill="currentColor" opacity="0.6"/>
+<circle cx="180" cy="225" r="4" fill="currentColor" opacity="0.6"/>
+</g>
+
+<!-- Letter P integration -->
+<g fill="currentColor">
+<rect x="350" y="350" width="8" height="80"/>
+<rect x="350" y="350" width="30" height="8"/>
+<rect x="350" y="385" width="25" height="8"/>
+<rect x="375" y="358" width="8" height="27"/>
+</g>
+</g>
 </svg>
+
