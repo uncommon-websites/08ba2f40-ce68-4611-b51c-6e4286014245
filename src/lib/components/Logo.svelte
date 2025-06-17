@@ -4,43 +4,17 @@
 </script>
 
 <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="" {...props}>
-  <!-- Map Grid Background -->
-  <g opacity="0.1">
-    <path d="M0 100h500M0 200h500M0 300h500M0 400h500" stroke="currentColor" stroke-width="1"/>
-    <path d="M100 0v500M200 0v500M300 0v500M400 0v500" stroke="currentColor" stroke-width="1"/>
-  </g>
-  
-  <!-- Central Location Pin -->
-  <g transform="translate(250, 180)">
-    <path d="M0 80c-22.091 0-40-17.909-40-40s17.909-40 40-40 40 17.909 40 40c0 22.091-17.909 40-40 40z" fill="currentColor"/>
-    <circle cx="0" cy="40" r="15" fill="white"/>
-    <path d="M0 80l-20 40h40l-20-40z" fill="currentColor"/>
-  </g>
-  
-  <!-- Agent Nodes -->
-  <circle cx="150" cy="120" r="8" fill="currentColor" opacity="0.8"/>
-  <circle cx="350" cy="140" r="8" fill="currentColor" opacity="0.8"/>
-  <circle cx="120" cy="280" r="8" fill="currentColor" opacity="0.8"/>
-  <circle cx="380" cy="300" r="8" fill="currentColor" opacity="0.8"/>
-  <circle cx="200" cy="380" r="8" fill="currentColor" opacity="0.8"/>
-  <circle cx="320" cy="360" r="8" fill="currentColor" opacity="0.8"/>
-  
-  <!-- Connection Lines -->
-  <g opacity="0.4" stroke="currentColor" stroke-width="2" fill="none">
-    <path d="M230 200l-80-80"/>
-    <path d="M270 200l80-60"/>
-    <path d="M230 220l-110 60"/>
-    <path d="M270 220l110 80"/>
-    <path d="M240 260l-40 120"/>
-    <path d="M260 260l60 100"/>
-  </g>
-  
-  <!-- Hexagonal Pattern Overlay -->
-  <g opacity="0.3" stroke="currentColor" stroke-width="1.5" fill="none">
-    <polygon points="100,80 120,90 120,110 100,120 80,110 80,90"/>
-    <polygon points="380,100 400,110 400,130 380,140 360,130 360,110"/>
-    <polygon points="80,320 100,330 100,350 80,360 60,350 60,330"/>
-    <polygon points="420,340 440,350 440,370 420,380 400,370 400,350"/>
-  </g>
+	<g clip-path="url(#clip0_3125_159)">
+		<path
+			fill-rule="evenodd"
+			clip-rule="evenodd"
+			d="M102.831 190.187V241.639H51.3784H-0.0742188V250.015V258.391H51.3784H102.831V309.844V361.296H111.207H119.583V309.844V258.391H171.036H222.488V250.015V241.639H171.036H119.583V190.187V138.734H111.207H102.831V190.187ZM274.726 194.371L242.604 250.027L274.722 305.672L306.839 361.317L371.909 361.007L436.98 360.698L468.498 306.254C485.834 276.31 500.011 251.002 500.002 250.015C499.993 249.028 485.815 223.72 468.494 193.776L437.002 139.332L371.924 139.024L306.846 138.715L274.726 194.371ZM451.241 203.872C465.695 228.838 477.274 250.107 476.975 251.136C476.675 252.165 464.898 272.929 450.804 297.28L425.179 341.553L371.964 341.864L318.749 342.175L292.181 296.161L265.615 250.147L292.214 204.012L318.812 157.877L371.888 158.177L424.964 158.477L451.241 203.872Z"
+			fill="black"
+		/>
+	</g>
+	<defs>
+		<clipPath id="clip0_3125_159">
+			<rect width="500" height="500" fill="white" />
+		</clipPath>
+	</defs>
 </svg>
-
