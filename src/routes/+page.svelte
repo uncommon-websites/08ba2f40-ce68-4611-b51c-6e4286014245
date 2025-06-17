@@ -5,7 +5,7 @@
 	// Testimonials import removed
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
-	import LogoScroller from "$lib/components/layout/LogoScroller.svelte";
+	// LogoScroller import removed
 	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
 
 	// Icons
@@ -21,15 +21,7 @@
 	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
 />
-<LogoScroller
-	label="Trusted by industry leaders"
-	logoUrls={[
-		"https://logo.clearbit.com/tesla.com",
-		"https://logo.clearbit.com/mckinsey.com",
-		"https://logo.clearbit.com/walmart.com",
-		"https://logo.clearbit.com/amazon.com"
-	]}
-/>
+<!-- LogoScroller section removed -->
 
 <Summary
 	title="What we do"
