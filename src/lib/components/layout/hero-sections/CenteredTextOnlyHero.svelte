@@ -52,7 +52,10 @@ Takes up the full viewport height and centers content vertically.
 			data-enter-container
 		>
 			<div class="grid max-w-prose place-items-center justify-center gap-6 lg:max-w-[80ch]">
-				<h1 class="text-display w-full text-balance lg:!text-7xl dark:text-shadow-lg" data-enter>
+				<h1
+					class="text-display w-full !font-bold text-balance lg:!text-7xl dark:text-shadow-lg"
+					data-enter
+				>
 					<span class="block"><AnimateText text={title} /></span>
 				</h1>
 
