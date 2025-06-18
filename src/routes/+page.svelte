@@ -4,7 +4,7 @@
 	import Features from "$lib/components/layout/Features.svelte";
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
-	import InteractiveGlobeHero from "$lib/components/layout/hero-sections/InteractiveGlobeHero.svelte";
+	import Hero from "$lib/components/layout/hero-sections/Hero.svelte";
 
 	// Icons
 	import GlobeIcon from "~icons/lucide/globe";
@@ -16,10 +16,11 @@
 	import { cta } from "$lib/navigation";
 </script>
 
-<InteractiveGlobeHero
+<Hero
 	callsToAction={[cta]}
 	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
+	imageSrc="/generated/image-a-professional-data-analyst-is-standing-.webp"
 />
 
 <Summary
@@ -106,6 +107,6 @@
 	title="Put agents on the map"
 	subtitle="Geospatial insights, minus the complexity"
 	description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
-	imageSrc="/path/to/new/image.webp"
+	imageSrc="/generated/image-a-professional-data-analyst-is-standing-.webp"
 	callsToAction={[cta]}
 />
