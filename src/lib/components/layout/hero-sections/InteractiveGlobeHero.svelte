@@ -155,7 +155,7 @@
 		return points;
 	}
 
-	$: pointCloudPoints = showPointCloud ? generatePointCloudPoints() : [];
+	let pointCloudPoints = $derived(showPointCloud ? generatePointCloudPoints() : []);
 </script>
 
 <section class="relative h-screen w-full overflow-hidden bg-white">
