@@ -4,7 +4,7 @@
 	import Features from "$lib/components/layout/Features.svelte";
 	import CallToAction from "$lib/components/layout/CallToAction.svelte";
 	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
-	import CenteredTextOnlyHero from "$lib/components/layout/hero-sections/CenteredTextOnlyHero.svelte";
+	import InteractiveGlobeHero from "$lib/components/layout/hero-sections/InteractiveGlobeHero.svelte";
 
 	// Icons
 	import GlobeIcon from "~icons/lucide/globe";
@@ -16,7 +16,7 @@
 	import { cta } from "$lib/navigation";
 </script>
 
-<CenteredTextOnlyHero
+<InteractiveGlobeHero
 	callsToAction={[cta]}
 	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map—no GIS skills required."
