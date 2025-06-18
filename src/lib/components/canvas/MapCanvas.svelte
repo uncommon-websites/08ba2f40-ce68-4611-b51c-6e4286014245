@@ -169,13 +169,6 @@
 		animationId = requestAnimationFrame(animateElements);
 	}
 
-	// Mouse movement handler with smooth CSS transforms
-	function // Mouse movement handler with smooth CSS transforms
-	function handleMouseMove(event) {
-		// Apply smooth CSS transform to the entire SVG
-		// svgElement.style.transform = `translate(${constrainedOffsetX}px, ${constrainedOffsetY}px)`;
-	}
-
 	$effect(() => {
 		// Center the map perfectly in viewport
 		const scale = Math.min(width, height) * 0.4;
