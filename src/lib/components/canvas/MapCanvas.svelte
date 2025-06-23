@@ -265,7 +265,7 @@
 					<circle 
 						cx="0" 
 						cy="0" 
-						r={dot.baseSize * (1 + dot.pulseIntensity * 0.3 * Math.sin(dot.pulsePhase))} 
+						r={dot.baseSize * (1 + dot.pulseIntensity * 0.4 * Math.sin(dot.pulsePhase))} 
 						fill="var(--color-primary-500)" 
 						opacity="0.8" 
 						class="dot-core"
