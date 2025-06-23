@@ -20,14 +20,14 @@
 		class="section-px relative z-10 container mx-auto grid h-full content-between items-start gap-16 gap-x-32 pt-10 lg:grid-cols-2 lg:gap-32"
 	>
 		<!-- Navigation sections with editorial styling -->
-		<div class="text-headline flex items-center gap-4">
+		<div class="text-headline flex items-center gap-4 hidden">
 			<!-- <Logo class="size-7" /> -->
 			<div class="text-headline">
 				{CONFIG.companyName}<sup class="ml-0.5 align-super text-[.25em]" style="color: var(--color-foreground);">TM</sup>
 			</div>
 		</div>
 
-		<ul class="grid grid-cols-2 gap-8 gap-y-16 lg:grid-cols-3">
+		<ul class="grid grid-cols-2 gap-8 gap-y-16 lg:grid-cols-3 hidden">
 			{#each navigation
 				.filter((item) => item.showInFooter !== false)
 				.sort((a, b) => (b?.children?.length || 0) - (a?.children?.length || 0)) as section}
