@@ -21,6 +21,7 @@
 	title="A world map for your agents"
 	subtitle="Deploy and manage intelligent agents across a global, interactive map, no GIS skills required. "
 	imageSrc="/generated/image-a-professional-data-analyst-is-standing-.webp"
+	centered={true}
 />
 
 <Summary
