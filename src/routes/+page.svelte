@@ -108,6 +108,6 @@
 	title="Put agents on the map"
 	subtitle="Geospatial insights, minus the complexity"
 	description="Join forward-thinking analysts using Proximity to deploy AI agents anywhere on the globe—no GIS background needed. Surface insights, speed up analysis, and focus on business value, not wrangling data."
-	imageSrc="/uploaded/1750706356387-mzh2nws.png"
+	imageSrc="/uploaded/1750708863133-sud670l.png"
 	callsToAction={[cta]}
 />
