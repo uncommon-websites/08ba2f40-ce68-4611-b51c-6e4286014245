@@ -90,8 +90,8 @@
 			</div>
 			<div class="hidden lg:block relative overflow-hidden">
 				<img
-					src="/generated/image-a-serene-coastline-at-dusk-with-a-person.webp"
-					alt="80s sci-fi digital space map with planets"
+					src={imageSrc}
+					alt="Futuristic satellite in space with digital effects"
 					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter contrast-150 saturate-200 hue-rotate-180 brightness-75"
 					style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;"
 				/>
