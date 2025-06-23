@@ -90,12 +90,16 @@
 			</div>
 			<div class="hidden lg:block relative overflow-hidden">
 				<img
-					src="/generated/image-a-group-of-people-engaged-in-a-focused-d.webp"
-					alt="Abstract 80s sci-fi space visualization"
-					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter contrast-125 saturate-150 hue-rotate-180"
+					src="/generated/image-a-serene-coastline-at-dusk-with-a-person.webp"
+					alt="80s sci-fi digital space map with planets"
+					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter contrast-150 saturate-200 hue-rotate-180 brightness-75"
+					style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;"
 				/>
-				<div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-cyan-500/20 mix-blend-overlay rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
-				<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(0,0,0,0.3)_100%)] rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-gradient-to-br from-cyan-400/30 via-purple-500/40 to-pink-500/30 mix-blend-screen rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(0,255,255,0.1)_60deg,transparent_120deg,rgba(255,0,255,0.1)_180deg,transparent_240deg,rgba(255,255,0,0.1)_300deg,transparent_360deg)] rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(0,255,255,0.2)_0%,transparent_50%),radial-gradient(circle_at_70%_30%,rgba(255,0,255,0.2)_0%,transparent_50%)] rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-[linear-gradient(45deg,transparent_48%,rgba(0,255,255,0.3)_49%,rgba(0,255,255,0.3)_51%,transparent_52%),linear-gradient(-45deg,transparent_48%,rgba(255,0,255,0.3)_49%,rgba(255,0,255,0.3)_51%,transparent_52%)] bg-[length:20px_20px] opacity-40 rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(0,0,0,0.4)_100%)] rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
 			</div>
 		</div>
 	</section>
