@@ -88,11 +88,15 @@
 					</div>
 				</div>
 			</div>
-			<!-- <img
-				src={imageSrc}
-				alt="Visual comparison showing product benefits"
-				class="hidden aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover lg:block"
-			/> -->
+			<div class="hidden lg:block relative overflow-hidden">
+				<img
+					src="/generated/image-a-group-of-people-engaged-in-a-focused-d.webp"
+					alt="Abstract 80s sci-fi space visualization"
+					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter contrast-125 saturate-150 hue-rotate-180"
+				/>
+				<div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-cyan-500/20 mix-blend-overlay rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+				<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(0,0,0,0.3)_100%)] rounded-[calc(max(var(--inner-radius),.25rem))]"></div>
+			</div>
 		</div>
 	</section>
 </div>
