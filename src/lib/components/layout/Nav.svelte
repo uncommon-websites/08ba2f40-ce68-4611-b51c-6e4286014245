@@ -43,7 +43,7 @@
 		<a href="/" class="flex items-center gap-3.5">
 			<Logo class="z-50 size-7" />
 
-			<span class="font-sans font-extrabold tracking-tighter text-gray-700 uppercase"
+			<span class="font-sans font-bold tracking-tight text-gray-700 uppercase"
 				>{CONFIG.companyName}</span
 			>
 		</a>
