@@ -12,6 +12,18 @@
 	--color-current: currentColor;
 }
 
+:root {
+	--font-family: Inter, sans-serif !important;
+	font-feature-settings:
+		"liga" 1,
+		"calt" 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+	:root {
+		--font-family: InterVariable, sans-serif !important;
+	}
+}
+
 @theme inline {
 	/* Emphasis */
 	--color-emphasis-dim: var(--color-muted-foreground);
