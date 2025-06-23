@@ -64,10 +64,10 @@
 	}: Props = $props();
 </script>
 
-<div class="bg-background" {...rest}>
+<div class="bg-background h-screen flex flex-col" {...rest}>
 	<header
 		class={[
-			"section-px container mx-auto grid items-end gap-16 gap-y-9 py-12 pt-24 text-balance",
+			"section-px container mx-auto grid items-end gap-16 gap-y-9 py-8 pt-20 text-balance flex-shrink-0",
 			centered ? "place-items-center text-center" : " xl:grid-cols-[1fr_auto]"
 		]}
 		data-enter-container
@@ -114,7 +114,7 @@
 	</header>
 
 	{#if imageSrc}
-		<div class="col-span-full aspect-video" data-enter>
+		<div class="flex-1 min-h-0" data-enter>
 			<MapCanvas />
 		</div>
 	{/if}

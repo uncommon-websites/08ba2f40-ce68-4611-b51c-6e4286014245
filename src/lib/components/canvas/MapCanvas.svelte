@@ -209,7 +209,7 @@
 </script>
 
 <div 
-	class="h-screen w-full overflow-hidden" 
+	class="h-full w-full overflow-hidden" 
 	bind:clientWidth={width} 
 	bind:clientHeight={height}
 	bind:this={containerElement}
