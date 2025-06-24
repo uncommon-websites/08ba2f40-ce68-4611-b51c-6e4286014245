@@ -53,7 +53,7 @@
 		{ name: "Singapore", coords: [103.8198, 1.3521] },
 		{ name: "Dubai", coords: [55.2708, 25.2048] },
 		{ name: "Toronto", coords: [-79.3832, 43.6532] },
-		{ name: "Seoul", coords: [126.9780, 37.5665] },
+		{ name: "Seoul", coords: [126.978, 37.5665] },
 		{ name: "Paris", coords: [2.3522, 48.8566] },
 		{ name: "Los Angeles", coords: [-118.2437, 34.0522] },
 		{ name: "Chicago", coords: [-87.6298, 41.8781] },
@@ -72,16 +72,16 @@
 		{ name: "Budapest", coords: [19.0402, 47.4979] },
 		{ name: "Lisbon", coords: [-9.1393, 38.7223] },
 		{ name: "Barcelona", coords: [2.1734, 41.3851] },
-		{ name: "Milan", coords: [9.1900, 45.4642] },
-		{ name: "Munich", coords: [11.5820, 48.1351] },
+		{ name: "Milan", coords: [9.19, 45.4642] },
+		{ name: "Munich", coords: [11.582, 48.1351] },
 		{ name: "Frankfurt", coords: [8.6821, 50.1109] },
 		{ name: "Hamburg", coords: [9.9937, 53.5511] },
 		{ name: "Cologne", coords: [6.9603, 50.9375] },
-		{ name: "Lyon", coords: [4.8357, 45.7640] },
+		{ name: "Lyon", coords: [4.8357, 45.764] },
 		{ name: "Marseille", coords: [5.3698, 43.2965] },
 		{ name: "Nice", coords: [7.2619, 43.7102] },
 		{ name: "Geneva", coords: [6.1432, 46.2044] },
-		{ name: "Bern", coords: [7.4474, 46.9480] },
+		{ name: "Bern", coords: [7.4474, 46.948] },
 		{ name: "Luxembourg", coords: [6.1296, 49.8153] },
 		{ name: "Dublin", coords: [-6.2603, 53.3498] }
 	];
@@ -134,16 +134,16 @@
 		pulsingDots = pulsingDots.map((dot) => {
 			// Update pulse phase for gentle pulsing
 			dot.pulsePhase += dot.pulseSpeed;
-			
+
 			// Check if it's time to toggle visibility
 			if (currentTime >= dot.nextFadeToggle) {
 				dot.isVisible = !dot.isVisible;
-				dot.targetOpacity = dot.isVisible ? (0.6 + Math.random() * 0.4) : 0;
-				
+				dot.targetOpacity = dot.isVisible ? 0.6 + Math.random() * 0.4 : 0;
+
 				// Set next toggle time
 				const duration = dot.isVisible ? dot.visibleDuration : dot.invisibleDuration;
 				dot.nextFadeToggle = currentTime + duration;
-				
+
 				// When becoming invisible, optionally move to new location for variety
 				if (!dot.isVisible && Math.random() > 0.7) {
 					const newLocationIndex = Math.floor(Math.random() * landLocations.length);
@@ -208,46 +208,55 @@
 	});
 </script>
 
-<div 
-	class="h-full w-full overflow-hidden" 
-	bind:clientWidth={width} 
+<div
+	class="h-full w-full overflow-hidden"
+	bind:clientWidth={width}
 	bind:clientHeight={height}
 	bind:this={containerElement}
-	onmousemove={handleMouseMove}
 >
-	<svg 
-		viewBox="0 0 {width} {height}" 
-		class="h-full w-full map-svg" 
+	<svg
+		viewBox="0 0 {width} {height}"
+		class="map-svg h-full w-full"
 		preserveAspectRatio="xMidYMid meet"
 		bind:this={svgElement}
 	>
 		<!-- Subtle background gradient -->
 		<defs>
 			<radialGradient id="bg-gradient" cx="50%" cy="50%" r="70%">
-				<stop offset="0%" stop-color="var(--color-gray-50)" stop-opacity="0.3"/>
-				<stop offset="100%" stop-color="var(--color-gray-100)" stop-opacity="0.1"/>
+				<stop offset="0%" stop-color="var(--color-gray-50)" stop-opacity="0.3" />
+				<stop offset="100%" stop-color="var(--color-gray-100)" stop-opacity="0.1" />
 			</radialGradient>
-			
+
 			<filter id="subtle-glow">
-				<feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-				<feMerge> 
-					<feMergeNode in="coloredBlur"/>
-					<feMergeNode in="SourceGraphic"/>
+				<feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+				<feMerge>
+					<feMergeNode in="coloredBlur" />
+					<feMergeNode in="SourceGraphic" />
 				</feMerge>
 			</filter>
 		</defs>
 
 		<!-- Background -->
-		<rect width="100%" height="100%" fill="url(#bg-gradient)" class="map-background"/>
+		<rect width="100%" height="100%" fill="url(#bg-gradient)" class="map-background" />
 
 		<!-- Map elements -->
-		<path d={path(land)} fill="var(--color-gray-100)" class="map-land"/>
-		<path d={path(borders)} fill="none" stroke="var(--color-gray-200)" stroke-width="0.5" class="map-borders"/>
+		<path d={path(land)} fill="var(--color-gray-100)" class="map-land" />
+		<path
+			d={path(borders)}
+			fill="none"
+			stroke="var(--color-gray-200)"
+			stroke-width="0.5"
+			class="map-borders"
+		/>
 
 		<!-- Exactly 30 pulsing dots on land with subtle fade in/out -->
 		{#each pulsingDots as dot}
 			{#if dot.opacity > 0.01}
-				<g class="pulsing-dot" transform="translate({dot.x}, {dot.y})" style="opacity: {dot.opacity}">
+				<g
+					class="pulsing-dot"
+					transform="translate({dot.x}, {dot.y})"
+					style="opacity: {dot.opacity}"
+				>
 					<!-- Outer pulse ring -->
 					<circle
 						cx="0"
@@ -262,12 +271,12 @@
 					/>
 
 					<!-- Main dot core -->
-					<circle 
-						cx="0" 
-						cy="0" 
-						r={dot.baseSize * (1 + dot.pulseIntensity * 0.4 * Math.sin(dot.pulsePhase))} 
-						fill="var(--color-primary-500)" 
-						opacity="0.8" 
+					<circle
+						cx="0"
+						cy="0"
+						r={dot.baseSize * (1 + dot.pulseIntensity * 0.4 * Math.sin(dot.pulsePhase))}
+						fill="var(--color-primary-500)"
+						opacity="0.8"
 						class="dot-core"
 						filter="url(#subtle-glow)"
 					/>
@@ -323,13 +332,23 @@
 	}
 
 	@keyframes subtle-shift {
-		0%, 100% { opacity: 0.3; }
-		50% { opacity: 0.5; }
+		0%,
+		100% {
+			opacity: 0.3;
+		}
+		50% {
+			opacity: 0.5;
+		}
 	}
 
 	@keyframes border-pulse {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.7; }
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.7;
+		}
 	}
 
 	@keyframes pulse-ring-subtle {
@@ -348,7 +367,8 @@
 	}
 
 	@keyframes dot-pulse-subtle {
-		0%, 100% {
+		0%,
+		100% {
 			transform: scale(1);
 		}
 		50% {
@@ -357,7 +377,8 @@
 	}
 
 	@keyframes dot-center-glow {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 0.8;
 			transform: scale(1);
 		}
