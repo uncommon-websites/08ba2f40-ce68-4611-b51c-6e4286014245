@@ -34,17 +34,17 @@
 </script>
 
 <SecondaryHero
-	title="Geospatial insights, without the GIS"
-	subtitle="Deploy AI agents on a global, interactive map—no mapping expertise required"
+	title="Unlock the power of geospatial data"
+	subtitle="Proximity: The Google Maps for agents."
 	imageSrc="/mockups/airport-screen-1750069576821.png"
 />
 
 <!-- Story Section -->
 <Story
 	paragraphs={[
-    "For years, geospatial data was locked behind technical walls and complex tools, used only by a small group of GIS specialists. We saw a big gap: so many data analysts needed location insights, but the barrier to entry was steep.",
-    "That’s why Kornel Grunwald and Szymon Moliński built Proximity—pairing cutting-edge AI with a map interface inspired by the best strategy games. With Proximity, anyone can deploy AI agents across a global grid, see results in real time, and actually interact with geospatial data, no learning curve required.",
-    "Today, Proximity empowers all kinds of teams to make smarter market moves, select sites, and uncover trends—not just map experts. We believe geospatial thinking should be easy, intuitive, and open to everyone who makes data-driven decisions."
+    "For years, geospatial data was complex and inaccessible, limited to GIS specialists. We saw an opportunity: to empower data analysts with location insights, without the steep learning curve.",
+    "That's why Kornel Grunwald and Szymon Moliński created Proximity—a platform that combines cutting-edge AI with an intuitive map interface. With Proximity, anyone can deploy AI agents on a global grid, visualize results in real-time, and interact with geospatial data, regardless of their GIS experience.",
+    "Today, Proximity is helping teams make smarter decisions, from market moves to site selection. We believe geospatial thinking should be easy, intuitive, and accessible to everyone who makes data-driven decisions."
 ]}
 />
 
