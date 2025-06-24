@@ -19,11 +19,7 @@
 	// feature object, it generates an SVG path data string.
 	const path = geoPath(projection);
 
-	// Mouse tracking and map movement
-	let mouseX = $state(0);
-	let mouseY = $state(0);
-	let mapOffsetX = $state(0);
-	let mapOffsetY = $state(0);
+// Mouse tracking and map movement
 	let containerElement = $state(null);
 	let svgElement = $state(null);
 
