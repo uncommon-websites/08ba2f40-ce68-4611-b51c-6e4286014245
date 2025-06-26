@@ -115,7 +115,7 @@
 
 	{#if imageSrc}
 		<div class="min-h-0 flex-1" data-enter>
-			<!-- <MapCanvas /> -->
+			<MapCanvas />
 		</div>
 	{/if}
 </div>
