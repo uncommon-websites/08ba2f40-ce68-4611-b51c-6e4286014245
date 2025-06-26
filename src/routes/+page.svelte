@@ -13,7 +13,6 @@
 	import ActivityIcon from "~icons/lucide/activity";
 	import NetworkIcon from "~icons/lucide/network";
 	import UseCases from "$lib/components/layout/UseCases.svelte";
-	import WorldAnimation from "$lib/components/layout/WorldAnimation.svelte";
 	import { cta } from "$lib/navigation";
 </script>
 
@@ -66,8 +65,6 @@
 		}
 	]}
 />
-
-<WorldAnimation />
 
 <!-- <UseCases
 	title="Use Cases"
