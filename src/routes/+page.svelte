@@ -1,29 +1,30 @@
 <script lang="ts">
 	// Components
-	import Summary from "$lib/components/layout/Summary.svelte";
-	import Features from "$lib/components/layout/Features.svelte";
-	import CallToAction from "$lib/components/layout/CallToAction.svelte";
-	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
 	import Hero from "$lib/components/layout/hero-sections/Hero.svelte";
+	import WaitlistModal from "$lib/components/layout/WaitlistModal.svelte";
 
-	// Icons
-	import GlobeIcon from "~icons/lucide/globe";
-	import UserCheckIcon from "~icons/lucide/user-check";
-	import DatabaseIcon from "~icons/lucide/database";
-	import ActivityIcon from "~icons/lucide/activity";
-	import NetworkIcon from "~icons/lucide/network";
-	import UseCases from "$lib/components/layout/UseCases.svelte";
-	import { cta } from "$lib/navigation";
+	// State
+	let showWaitlistModal = $state(false);
+
+	// CTA that opens modal instead of navigating
+	const modalCta = {
+		label: "Join waitlist",
+		href: "#",
+		onclick: () => { showWaitlistModal = true; }
+	};
 </script>
 
 <Hero
-	callsToAction={[cta]}
+	callsToAction={[modalCta]}
 	title="A world map for your agents"
-	subtitle="Deploy and manage intelligent agents across a global, interactive map, no GIS skills required. "
+	subtitle="Deploy and manage intelligent agents across a global, interactive map, no GIS skills required."
 	imageSrc="/generated/image-a-professional-data-analyst-is-standing-.webp"
 	centered={true}
 />
 
+<WaitlistModal bind:open={showWaitlistModal} />
+
+<!-- Removed sections for single-screen landing page
 <Summary
 	title="What we do"
 	text="Proximity makes geospatial data accessible for all data professionals. Deploy and manage Geospatial AI Agents to generate business insights—no GIS experience needed. "
@@ -111,3 +112,4 @@
 	imageSrc="/uploaded/1750711033391-hvyaayf.png"
 	callsToAction={[cta]}
 />
+-->

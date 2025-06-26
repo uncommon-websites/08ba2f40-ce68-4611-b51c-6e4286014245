@@ -13,7 +13,7 @@
 
 	import { MediaQuery } from "svelte/reactivity";
 	import { browser } from "$app/environment";
-	import { page } from "$app/state";
+	import { page } from "$app/stores";
 	import { CONFIG } from "$lib/content";
 	import { navHeight } from "$lib/state/nav.svelte";
 
@@ -21,6 +21,9 @@
 
 	// Props
 	let { data, children } = $props();
+
+	// Check if we're on the homepage for single-screen layout
+	const isHomepage = $derived($page.route?.id === "/");
 
 	// onMount(() => {
 	// 	if (!browser) return;
@@ -106,5 +109,7 @@
 
 	{@render children()}
 
-	<Footer />
+	{#if !isHomepage}
+		<Footer />
+	{/if}
 </div>

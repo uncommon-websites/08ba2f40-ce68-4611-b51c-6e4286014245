@@ -51,6 +51,7 @@
 		callsToAction?: Array<{
 			href: string;
 			label: string;
+			onclick?: () => void;
 		}>; // A maximum of two calls to action, with the first one being primary and the second one being secondary
 	};
 
@@ -97,13 +98,15 @@
 			<div class="flex gap-4" data-enter>
 				{#each callsToAction as cta, index}
 					<Button
-						href={cta.href}
+						href={cta.onclick ? undefined : cta.href}
+						onclick={cta.onclick}
 						size="lg"
 						variant={index % 2 === 0 ? "primary" : "secondary"}
 						class="max-lg:hidden">{cta.label}</Button
 					>
 					<Button
-						href={cta.href}
+						href={cta.onclick ? undefined : cta.href}
+						onclick={cta.onclick}
 						size="md"
 						variant={index % 2 === 0 ? "primary" : "secondary"}
 						class="lg:hidden">{cta.label}</Button
