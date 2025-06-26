@@ -32,7 +32,7 @@
 	// Components
 	import AnimateText from "$lib/components/animation/AnimateText.svelte";
 	import Button from "$lib/components/ui/Button.svelte";
-	import MapCanvas from "$lib/components/canvas/MapCanvas.svelte";
+	// import MapCanvas from "$lib/components/canvas/MapCanvas.svelte";
 
 	// Constants
 	import { cta } from "$lib/navigation";
@@ -115,7 +115,7 @@
 
 	{#if imageSrc}
 		<div class="min-h-0 flex-1" data-enter>
-			<MapCanvas />
+			<!-- <MapCanvas /> -->
 		</div>
 	{/if}
 </div>

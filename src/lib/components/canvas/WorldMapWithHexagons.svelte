@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	// World map with hexagonal overlay implementation
 	let width = $state(0);
 	let height = $state(0);
@@ -60,7 +62,7 @@
 			const py = y + size * Math.sin(angle);
 			points.push(`${px},${py}`);
 		}
-		return `M${points.join('L')}Z`;
+		return `M${points.join("L")}Z`;
 	}
 
 	// Create active hexagons with agents
@@ -72,7 +74,7 @@
 
 		for (let i = 0; i < numActiveHexes; i++) {
 			const randomHex = hexGrid[Math.floor(Math.random() * hexGrid.length)];
-			
+
 			active.push({
 				...randomHex,
 				id: `active-${i}`,
@@ -136,14 +138,14 @@
 		animationId = requestAnimationFrame(animateHexGrid);
 	}
 
-	$effect(() => {
+	onMount(() => {
 		if (width > 0 && height > 0) {
 			// Calculate hex size based on viewport
 			hexSize = Math.max(6, Math.min(width, height) / 80);
-			
+
 			// Generate hexagonal grid
 			hexGrid = generateHexGrid();
-			
+
 			// Create active hexagons with agents
 			activeHexes = createActiveHexes();
 
@@ -165,7 +167,7 @@
 </script>
 
 <div
-	class="h-full w-full overflow-hidden relative"
+	class="relative h-full w-full overflow-hidden"
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 	bind:this={containerElement}
@@ -206,13 +208,15 @@
 		<!-- World Countries -->
 		<g class="countries">
 			<!-- All country paths from the world.svg -->
-			<path d="M1383 261.6l1.5 1.8-2.9 0.8-2.4 1.1-5.9 0.8-5.3 1.3-2.4 2.8 1.9 2.7 1.4 3.2-2 2.7 0.8 2.5-0.9 2.3-5.2-0.2 3.1 4.2-3.1 1.7-1.4 3.8 1.1 3.9-1.8 1.8-2.1-0.6-4 0.9-0.2 1.7-4.1 0-2.3 3.7 0.8 5.4-6.6 2.7-3.9-0.6-0.9 1.4-3.4-0.8-5.3 1-9.6-3.3 3.9-5.8-1.1-4.1-4.3-1.1-1.2-4.1-2.7-5.1 1.6-3.5-2.5-1 0.5-4.7 0.6-8 5.9 2.5 3.9-0.9 0.4-2.9 4-0.9 2.6-2-0.2-5.1 4.2-1.3 0.3-2.2 2.9 1.7 1.6 0.2 3 0 4.3 1.4 1.8 0.7 3.4-2 2.1 1.2 0.9-2.9 3.2 0.1 0.6-0.9-0.2-2.6 1.7-2.2 3.3 1.4-0.1 2 1.7 0.3 0.9 5.4 2.7 2.1 1.5-1.4 2.2-0.6 2.5-2.9 3.8 0.5 5.4 0z" 
-				fill="var(--color-gray-200)" 
-				stroke="var(--color-gray-300)" 
-				stroke-width="0.3" 
+			<path
+				d="M1383 261.6l1.5 1.8-2.9 0.8-2.4 1.1-5.9 0.8-5.3 1.3-2.4 2.8 1.9 2.7 1.4 3.2-2 2.7 0.8 2.5-0.9 2.3-5.2-0.2 3.1 4.2-3.1 1.7-1.4 3.8 1.1 3.9-1.8 1.8-2.1-0.6-4 0.9-0.2 1.7-4.1 0-2.3 3.7 0.8 5.4-6.6 2.7-3.9-0.6-0.9 1.4-3.4-0.8-5.3 1-9.6-3.3 3.9-5.8-1.1-4.1-4.3-1.1-1.2-4.1-2.7-5.1 1.6-3.5-2.5-1 0.5-4.7 0.6-8 5.9 2.5 3.9-0.9 0.4-2.9 4-0.9 2.6-2-0.2-5.1 4.2-1.3 0.3-2.2 2.9 1.7 1.6 0.2 3 0 4.3 1.4 1.8 0.7 3.4-2 2.1 1.2 0.9-2.9 3.2 0.1 0.6-0.9-0.2-2.6 1.7-2.2 3.3 1.4-0.1 2 1.7 0.3 0.9 5.4 2.7 2.1 1.5-1.4 2.2-0.6 2.5-2.9 3.8 0.5 5.4 0z"
+				fill="var(--color-gray-200)"
+				stroke="var(--color-gray-300)"
+				stroke-width="0.3"
 				opacity="0.8"
-				class="country afghanistan" />
-			
+				class="country afghanistan"
+			/>
+
 			<!-- Add more country paths as needed - for brevity, showing just Afghanistan -->
 			<!-- You can include all the paths from the world.svg file -->
 		</g>
@@ -222,7 +226,7 @@
 			<!-- Base hexagonal grid -->
 			{#each hexGrid as hex}
 				<path
-					d={createHexagonPath(hex.x * (width/2000), hex.y * (height/857), hexSize)}
+					d={createHexagonPath(hex.x * (width / 2000), hex.y * (height / 857), hexSize)}
 					fill="none"
 					stroke="var(--color-primary-300)"
 					stroke-width="0.3"
@@ -237,7 +241,11 @@
 					<g class="active-hex" style="opacity: {hex.opacity}">
 						<!-- Hex background with glow -->
 						<path
-							d={createHexagonPath(hex.x * (width/2000), hex.y * (height/857), hexSize * (1.2 + 0.1 * Math.sin(hex.pulsePhase)))}
+							d={createHexagonPath(
+								hex.x * (width / 2000),
+								hex.y * (height / 857),
+								hexSize * (1.2 + 0.1 * Math.sin(hex.pulsePhase))
+							)}
 							fill="var(--color-primary-100)"
 							stroke="var(--color-primary-500)"
 							stroke-width="1"
@@ -248,12 +256,14 @@
 
 						<!-- Agent indicator in center -->
 						<circle
-							cx={hex.x * (width/2000)}
-							cy={hex.y * (height/857)}
+							cx={hex.x * (width / 2000)}
+							cy={hex.y * (height / 857)}
 							r={hexSize * 0.25 * (1 + 0.2 * Math.sin(hex.pulsePhase))}
-							fill={hex.agentType === 0 ? 'var(--color-primary-500)' : 
-								  hex.agentType === 1 ? 'var(--color-blue-500)' : 
-								  'var(--color-green-500)'}
+							fill={hex.agentType === 0
+								? "var(--color-primary-500)"
+								: hex.agentType === 1
+									? "var(--color-blue-500)"
+									: "var(--color-green-500)"}
 							opacity="0.9"
 							class="agent-indicator"
 							filter="url(#hex-glow)"
@@ -261,13 +271,15 @@
 
 						<!-- Agent pulse ring -->
 						<circle
-							cx={hex.x * (width/2000)}
-							cy={hex.y * (height/857)}
+							cx={hex.x * (width / 2000)}
+							cy={hex.y * (height / 857)}
 							r={hexSize * 0.4 * (1 + 0.3 * Math.sin(hex.pulsePhase + Math.PI))}
 							fill="none"
-							stroke={hex.agentType === 0 ? 'var(--color-primary-400)' : 
-									hex.agentType === 1 ? 'var(--color-blue-400)' : 
-									'var(--color-green-400)'}
+							stroke={hex.agentType === 0
+								? "var(--color-primary-400)"
+								: hex.agentType === 1
+									? "var(--color-blue-400)"
+									: "var(--color-green-400)"}
 							stroke-width="0.8"
 							opacity="0.5"
 							class="agent-pulse"
@@ -290,7 +302,9 @@
 	}
 
 	.countries .country {
-		transition: fill 0.3s ease, opacity 0.3s ease;
+		transition:
+			fill 0.3s ease,
+			opacity 0.3s ease;
 		cursor: pointer;
 	}
 
@@ -323,7 +337,8 @@
 	}
 
 	@keyframes ocean-pulse {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 0.1;
 		}
 		50% {
@@ -332,7 +347,8 @@
 	}
 
 	@keyframes hex-grid-pulse {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 1;
 		}
 		50% {
@@ -341,7 +357,8 @@
 	}
 
 	@keyframes hex-glow {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 0.4;
 			transform: scale(1);
 		}
@@ -352,7 +369,8 @@
 	}
 
 	@keyframes agent-pulse {
-		0%, 100% {
+		0%,
+		100% {
 			transform: scale(1);
 			opacity: 0.9;
 		}
