@@ -1,200 +1,160 @@
 <script lang="ts">
-	import { geoMercator, geoGraticule10, geoPath } from "d3-geo";
-	import { json } from "d3-fetch";
-	import * as topojson from "topojson-client";
-
-	let land = $state();
-	let borders = $state();
-	let outline = $state();
-
-	// Specify the chart's dimensions.
+	// Hexagonal grid map implementation
 	let width = $state(0);
 	let height = $state(0);
-
-	let graticule = $state();
-	// Prepare Projection.
-	const projection = geoMercator();
-
-	// Prepare Path-Generator: given a GeoJSON geometry or
-	// feature object, it generates an SVG path data string.
-	const path = geoPath(projection);
-
-// Mouse tracking and map movement
 	let containerElement = $state(null);
 	let svgElement = $state(null);
 
-	// Map bounds for constraint calculation
-	let mapScale = $state(0);
-	const baseMapWidth = 1000; // Approximate world map width at scale 1
-	const baseMapHeight = 500; // Approximate world map height at scale 1
-
-	// Land-based locations for pulsing dots - expanded list for better distribution
-	const landLocations = [
-		{ name: "New York", coords: [-74.006, 40.7128] },
-		{ name: "London", coords: [-0.1276, 51.5074] },
-		{ name: "Tokyo", coords: [139.6917, 35.6895] },
-		{ name: "Sydney", coords: [151.2093, -33.8688] },
-		{ name: "São Paulo", coords: [-46.6333, -23.5505] },
-		{ name: "Mumbai", coords: [72.8777, 19.076] },
-		{ name: "Lagos", coords: [3.3792, 6.5244] },
-		{ name: "Berlin", coords: [13.405, 52.52] },
-		{ name: "Cairo", coords: [31.2357, 30.0444] },
-		{ name: "Moscow", coords: [37.6173, 55.7558] },
-		{ name: "Beijing", coords: [116.4074, 39.9042] },
-		{ name: "Mexico City", coords: [-99.1332, 19.4326] },
-		{ name: "Buenos Aires", coords: [-58.3816, -34.6037] },
-		{ name: "Cape Town", coords: [18.4241, -33.9249] },
-		{ name: "Bangkok", coords: [100.5018, 13.7563] },
-		{ name: "Istanbul", coords: [28.9784, 41.0082] },
-		{ name: "Singapore", coords: [103.8198, 1.3521] },
-		{ name: "Dubai", coords: [55.2708, 25.2048] },
-		{ name: "Toronto", coords: [-79.3832, 43.6532] },
-		{ name: "Seoul", coords: [126.978, 37.5665] },
-		{ name: "Paris", coords: [2.3522, 48.8566] },
-		{ name: "Los Angeles", coords: [-118.2437, 34.0522] },
-		{ name: "Chicago", coords: [-87.6298, 41.8781] },
-		{ name: "Madrid", coords: [-3.7038, 40.4168] },
-		{ name: "Rome", coords: [12.4964, 41.9028] },
-		{ name: "Amsterdam", coords: [4.9041, 52.3676] },
-		{ name: "Stockholm", coords: [18.0686, 59.3293] },
-		{ name: "Helsinki", coords: [24.9384, 60.1699] },
-		{ name: "Oslo", coords: [10.7522, 59.9139] },
-		{ name: "Copenhagen", coords: [12.5683, 55.6761] },
-		{ name: "Vienna", coords: [16.3738, 48.2082] },
-		{ name: "Zurich", coords: [8.5417, 47.3769] },
-		{ name: "Brussels", coords: [4.3517, 50.8503] },
-		{ name: "Warsaw", coords: [21.0122, 52.2297] },
-		{ name: "Prague", coords: [14.4378, 50.0755] },
-		{ name: "Budapest", coords: [19.0402, 47.4979] },
-		{ name: "Lisbon", coords: [-9.1393, 38.7223] },
-		{ name: "Barcelona", coords: [2.1734, 41.3851] },
-		{ name: "Milan", coords: [9.19, 45.4642] },
-		{ name: "Munich", coords: [11.582, 48.1351] },
-		{ name: "Frankfurt", coords: [8.6821, 50.1109] },
-		{ name: "Hamburg", coords: [9.9937, 53.5511] },
-		{ name: "Cologne", coords: [6.9603, 50.9375] },
-		{ name: "Lyon", coords: [4.8357, 45.764] },
-		{ name: "Marseille", coords: [5.3698, 43.2965] },
-		{ name: "Nice", coords: [7.2619, 43.7102] },
-		{ name: "Geneva", coords: [6.1432, 46.2044] },
-		{ name: "Bern", coords: [7.4474, 46.948] },
-		{ name: "Luxembourg", coords: [6.1296, 49.8153] },
-		{ name: "Dublin", coords: [-6.2603, 53.3498] }
-	];
-
-	// Exactly 30 pulsing dots on land
-	let pulsingDots = $state([]);
+	// Hexagonal grid configuration
+	let hexSize = $state(12); // Size of each hexagon
+	let hexGrid = $state([]);
+	let activeHexes = $state([]);
 	let animationId = $state(null);
 
-	// Create exactly 30 pulsing dots on land locations
-	function createPulsingDots() {
-		const dots = [];
-		const numDots = 30; // Exactly 30 dots as requested
+	// Generate hexagonal grid coordinates
+	function generateHexGrid() {
+		const hexes = [];
+		const hexWidth = hexSize * Math.sqrt(3);
+		const hexHeight = hexSize * 2;
+		const vertSpacing = hexHeight * 0.75;
 
-		for (let i = 0; i < numDots; i++) {
-			// Randomly select a land location
-			const locationIndex = Math.floor(Math.random() * landLocations.length);
-			const location = landLocations[locationIndex];
-			const [x, y] = projection(location.coords);
+		// Calculate how many hexagons fit in the viewport
+		const cols = Math.ceil(width / hexWidth) + 2;
+		const rows = Math.ceil(height / vertSpacing) + 2;
 
-			dots.push({
-				id: i,
-				x,
-				y,
-				location,
-				// Fade properties for subtle in/out transitions
+		// Start from negative offset to ensure full coverage
+		const startX = -hexWidth;
+		const startY = -hexHeight;
+
+		for (let row = 0; row < rows; row++) {
+			for (let col = 0; col < cols; col++) {
+				const x = startX + col * hexWidth + (row % 2) * (hexWidth / 2);
+				const y = startY + row * vertSpacing;
+
+				// Only include hexagons that are visible in the viewport
+				if (x > -hexWidth && x < width + hexWidth && y > -hexHeight && y < height + hexHeight) {
+					hexes.push({
+						id: `${row}-${col}`,
+						x,
+						y,
+						row,
+						col,
+						isActive: false,
+						opacity: 0.1 + Math.random() * 0.2,
+						pulsePhase: Math.random() * Math.PI * 2,
+						pulseSpeed: 0.01 + Math.random() * 0.02
+					});
+				}
+			}
+		}
+
+		return hexes;
+	}
+
+	// Generate hexagon path
+	function createHexagonPath(x, y, size) {
+		const points = [];
+		for (let i = 0; i < 6; i++) {
+			const angle = (Math.PI / 3) * i;
+			const px = x + size * Math.cos(angle);
+			const py = y + size * Math.sin(angle);
+			points.push(`${px},${py}`);
+		}
+		return `M${points.join('L')}Z`;
+	}
+
+	// Create active hexagons with agents
+	function createActiveHexes() {
+		if (hexGrid.length === 0) return [];
+
+		const numActiveHexes = 25; // Number of active hexagons with agents
+		const active = [];
+
+		for (let i = 0; i < numActiveHexes; i++) {
+			const randomHex = hexGrid[Math.floor(Math.random() * hexGrid.length)];
+			
+			active.push({
+				...randomHex,
+				id: `active-${i}`,
+				isActive: true,
 				opacity: 0,
-				targetOpacity: Math.random() > 0.5 ? 0.6 + Math.random() * 0.4 : 0, // Start some visible, some invisible
-				fadeSpeed: 0.01 + Math.random() * 0.02, // Slow, subtle fade speed
-				// Pulse properties for gentle pulsing effect
-				pulsePhase: Math.random() * Math.PI * 2,
-				pulseSpeed: 0.02 + Math.random() * 0.03, // Gentle pulse speed
-				baseSize: 2 + Math.random() * 3, // Varied sizes
-				pulseIntensity: 0.3 + Math.random() * 0.4, // Subtle pulse intensity
-				// Timing for fade in/out cycles
-				nextFadeToggle: Date.now() + Math.random() * 5000,
-				visibleDuration: 3000 + Math.random() * 7000, // How long to stay visible
-				invisibleDuration: 2000 + Math.random() * 5000, // How long to stay invisible
-				isVisible: Math.random() > 0.5
+				targetOpacity: 0.7 + Math.random() * 0.3,
+				fadeSpeed: 0.015 + Math.random() * 0.02,
+				pulseIntensity: 0.3 + Math.random() * 0.4,
+				nextFadeToggle: Date.now() + Math.random() * 3000,
+				visibleDuration: 4000 + Math.random() * 6000,
+				invisibleDuration: 2000 + Math.random() * 4000,
+				isVisible: Math.random() > 0.3,
+				agentType: Math.floor(Math.random() * 3) // 0: data, 1: analysis, 2: monitoring
 			});
 		}
 
-		return dots;
+		return active;
 	}
 
-	// Animation function for pulsing dots
-	function animateElements() {
+	// Animation function for hexagonal grid
+	function animateHexGrid() {
 		const currentTime = Date.now();
 
-		// Animate the 30 pulsing dots with subtle fade in/out
-		pulsingDots = pulsingDots.map((dot) => {
-			// Update pulse phase for gentle pulsing
-			dot.pulsePhase += dot.pulseSpeed;
+		// Animate base hexagon grid with subtle pulsing
+		hexGrid = hexGrid.map((hex) => {
+			hex.pulsePhase += hex.pulseSpeed;
+			return hex;
+		});
 
-			// Check if it's time to toggle visibility
-			if (currentTime >= dot.nextFadeToggle) {
-				dot.isVisible = !dot.isVisible;
-				dot.targetOpacity = dot.isVisible ? 0.6 + Math.random() * 0.4 : 0;
+		// Animate active hexagons with agents
+		activeHexes = activeHexes.map((hex) => {
+			// Update pulse phase
+			hex.pulsePhase += hex.pulseSpeed;
 
-				// Set next toggle time
-				const duration = dot.isVisible ? dot.visibleDuration : dot.invisibleDuration;
-				dot.nextFadeToggle = currentTime + duration;
+			// Handle fade in/out cycles
+			if (currentTime >= hex.nextFadeToggle) {
+				hex.isVisible = !hex.isVisible;
+				hex.targetOpacity = hex.isVisible ? 0.7 + Math.random() * 0.3 : 0;
 
-				// When becoming invisible, optionally move to new location for variety
-				if (!dot.isVisible && Math.random() > 0.7) {
-					const newLocationIndex = Math.floor(Math.random() * landLocations.length);
-					const newLocation = landLocations[newLocationIndex];
-					const [newX, newY] = projection(newLocation.coords);
-					dot.x = newX;
-					dot.y = newY;
-					dot.location = newLocation;
+				const duration = hex.isVisible ? hex.visibleDuration : hex.invisibleDuration;
+				hex.nextFadeToggle = currentTime + duration;
+
+				// Occasionally move to a new hex location
+				if (!hex.isVisible && Math.random() > 0.6) {
+					const newHex = hexGrid[Math.floor(Math.random() * hexGrid.length)];
+					hex.x = newHex.x;
+					hex.y = newHex.y;
+					hex.row = newHex.row;
+					hex.col = newHex.col;
 				}
 			}
 
-			// Smooth opacity interpolation for subtle fade in/out
-			const opacityDiff = dot.targetOpacity - dot.opacity;
-			dot.opacity += opacityDiff * dot.fadeSpeed;
+			// Smooth opacity transition
+			const opacityDiff = hex.targetOpacity - hex.opacity;
+			hex.opacity += opacityDiff * hex.fadeSpeed;
+			hex.opacity = Math.max(0, hex.opacity);
 
-			// Ensure opacity doesn't go negative
-			dot.opacity = Math.max(0, dot.opacity);
-
-			return dot;
+			return hex;
 		});
 
-		// Continue animation
-		animationId = requestAnimationFrame(animateElements);
+		animationId = requestAnimationFrame(animateHexGrid);
 	}
 
 	$effect(() => {
-		// Center the map perfectly in viewport
-		const scale = Math.min(width, height) * 0.4;
-		mapScale = scale;
-		projection
-			.scale(scale)
-			.translate([width / 2, height / 2]) // Fixed center position, no offset here
-			.center([0, 20]);
+		if (width > 0 && height > 0) {
+			// Calculate hex size based on viewport
+			hexSize = Math.max(8, Math.min(width, height) / 60);
+			
+			// Generate hexagonal grid
+			hexGrid = generateHexGrid();
+			
+			// Create active hexagons with agents
+			activeHexes = createActiveHexes();
 
-		graticule = geoGraticule10();
-		outline = { type: "Sphere" };
-
-		// Load geo data and initialize pulsing dots
-		json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then((world) => {
-			land = topojson.feature(world, world.objects.land);
-			borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
-
-			if (width > 0 && height > 0) {
-				// Create exactly 30 pulsing dots
-				pulsingDots = createPulsingDots();
-
-				// Start animation after a brief delay
-				setTimeout(() => {
-					if (animationId) {
-						cancelAnimationFrame(animationId);
-					}
-					animateElements();
-				}, 500);
-			}
-		});
+			// Start animation
+			setTimeout(() => {
+				if (animationId) {
+					cancelAnimationFrame(animationId);
+				}
+				animateHexGrid();
+			}, 300);
+		}
 
 		return () => {
 			if (animationId) {
@@ -235,56 +195,58 @@
 		<!-- Background -->
 		<rect width="100%" height="100%" fill="url(#bg-gradient)" class="map-background" />
 
-		<!-- Map elements -->
-		<path d={path(land)} fill="var(--color-gray-100)" class="map-land" />
-		<path
-			d={path(borders)}
-			fill="none"
-			stroke="var(--color-gray-200)"
-			stroke-width="0.5"
-			class="map-borders"
-		/>
+		<!-- Hexagonal Grid Base Layer -->
+		{#each hexGrid as hex}
+			<path
+				d={createHexagonPath(hex.x, hex.y, hexSize)}
+				fill="none"
+				stroke="var(--color-gray-200)"
+				stroke-width="0.5"
+				opacity={hex.opacity + 0.1 * Math.sin(hex.pulsePhase)}
+				class="hex-grid"
+			/>
+		{/each}
 
-		<!-- Exactly 30 pulsing dots on land with subtle fade in/out -->
-		{#each pulsingDots as dot}
-			{#if dot.opacity > 0.01}
-				<g
-					class="pulsing-dot"
-					transform="translate({dot.x}, {dot.y})"
-					style="opacity: {dot.opacity}"
-				>
-					<!-- Outer pulse ring -->
-					<circle
-						cx="0"
-						cy="0"
-						r={dot.baseSize * (1.8 + dot.pulseIntensity * Math.sin(dot.pulsePhase))}
-						fill="none"
+		<!-- Active Hexagons with Agents -->
+		{#each activeHexes as hex}
+			{#if hex.opacity > 0.01}
+				<g class="active-hex" style="opacity: {hex.opacity}">
+					<!-- Hex background with glow -->
+					<path
+						d={createHexagonPath(hex.x, hex.y, hexSize * (1.1 + 0.1 * Math.sin(hex.pulsePhase)))}
+						fill="var(--color-primary-100)"
 						stroke="var(--color-primary-400)"
+						stroke-width="1.5"
+						opacity="0.4"
+						class="hex-background"
+						filter="url(#subtle-glow)"
+					/>
+
+					<!-- Agent indicator in center -->
+					<circle
+						cx={hex.x}
+						cy={hex.y}
+						r={hexSize * 0.3 * (1 + 0.2 * Math.sin(hex.pulsePhase))}
+						fill={hex.agentType === 0 ? 'var(--color-primary-500)' : 
+							  hex.agentType === 1 ? 'var(--color-blue-500)' : 
+							  'var(--color-green-500)'}
+						opacity="0.9"
+						class="agent-indicator"
+						filter="url(#subtle-glow)"
+					/>
+
+					<!-- Agent pulse ring -->
+					<circle
+						cx={hex.x}
+						cy={hex.y}
+						r={hexSize * 0.5 * (1 + 0.3 * Math.sin(hex.pulsePhase + Math.PI))}
+						fill="none"
+						stroke={hex.agentType === 0 ? 'var(--color-primary-400)' : 
+								hex.agentType === 1 ? 'var(--color-blue-400)' : 
+								'var(--color-green-400)'}
 						stroke-width="1"
-						opacity="0.3"
-						class="pulse-ring"
-						filter="url(#subtle-glow)"
-					/>
-
-					<!-- Main dot core -->
-					<circle
-						cx="0"
-						cy="0"
-						r={dot.baseSize * (1 + dot.pulseIntensity * 0.4 * Math.sin(dot.pulsePhase))}
-						fill="var(--color-primary-500)"
-						opacity="0.8"
-						class="dot-core"
-						filter="url(#subtle-glow)"
-					/>
-
-					<!-- Inner bright center -->
-					<circle
-						cx="0"
-						cy="0"
-						r={dot.baseSize * 0.4}
-						fill="var(--color-primary-300)"
-						opacity="1"
-						class="dot-center"
+						opacity="0.6"
+						class="agent-pulse"
 					/>
 				</g>
 			{/if}
@@ -298,33 +260,30 @@
 		will-change: transform;
 	}
 
-	.pulsing-dot {
-		pointer-events: none;
-		transition: opacity 1.5s ease-in-out;
-	}
-
 	.map-background {
 		animation: subtle-shift 60s ease-in-out infinite;
 	}
 
-	.map-land {
-		transition: all 0.3s ease;
+	.hex-grid {
+		transition: opacity 0.3s ease;
+		animation: hex-grid-pulse 8s ease-in-out infinite;
 	}
 
-	.map-borders {
-		animation: border-pulse 45s ease-in-out infinite;
+	.active-hex {
+		pointer-events: none;
+		transition: opacity 2s ease-in-out;
 	}
 
-	.pulse-ring {
-		animation: pulse-ring-subtle 3s ease-in-out infinite;
+	.hex-background {
+		animation: hex-glow 4s ease-in-out infinite;
 	}
 
-	.dot-core {
-		animation: dot-pulse-subtle 2.5s ease-in-out infinite;
+	.agent-indicator {
+		animation: agent-pulse 3s ease-in-out infinite;
 	}
 
-	.dot-center {
-		animation: dot-center-glow 2s ease-in-out infinite;
+	.agent-pulse {
+		animation: agent-ring-pulse 2.5s ease-in-out infinite;
 	}
 
 	@keyframes subtle-shift {
@@ -337,50 +296,52 @@
 		}
 	}
 
-	@keyframes border-pulse {
+	@keyframes hex-grid-pulse {
 		0%,
 		100% {
 			opacity: 1;
 		}
 		50% {
-			opacity: 0.7;
+			opacity: 0.6;
 		}
 	}
 
-	@keyframes pulse-ring-subtle {
+	@keyframes hex-glow {
+		0%,
+		100% {
+			opacity: 0.3;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.6;
+			transform: scale(1.05);
+		}
+	}
+
+	@keyframes agent-pulse {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 0.9;
+		}
+		50% {
+			transform: scale(1.2);
+			opacity: 1;
+		}
+	}
+
+	@keyframes agent-ring-pulse {
 		0% {
-			opacity: 0.1;
-			transform: scale(0.9);
+			opacity: 0.2;
+			transform: scale(0.8);
 		}
 		50% {
-			opacity: 0.4;
-			transform: scale(1.1);
-		}
-		100% {
-			opacity: 0.1;
-			transform: scale(1.3);
-		}
-	}
-
-	@keyframes dot-pulse-subtle {
-		0%,
-		100% {
-			transform: scale(1);
-		}
-		50% {
-			transform: scale(1.1);
-		}
-	}
-
-	@keyframes dot-center-glow {
-		0%,
-		100% {
 			opacity: 0.8;
-			transform: scale(1);
+			transform: scale(1.1);
 		}
-		50% {
-			opacity: 1;
-			transform: scale(1.15);
+		100% {
+			opacity: 0.2;
+			transform: scale(1.4);
 		}
 	}
 </style>
