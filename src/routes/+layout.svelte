@@ -105,7 +105,9 @@
 	class:touch={isTouchDevice.current === true}
 	class:no-touch={isTouchDevice.current !== true}
 >
-	<Nav />
+	{#if !isHomepage}
+		<Nav />
+	{/if}
 
 	{@render children()}
 
