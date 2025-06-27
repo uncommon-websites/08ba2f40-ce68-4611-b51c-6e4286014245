@@ -31,6 +31,7 @@
 <script lang="ts">
 	// Components
 	import AnimateText from "$lib/components/animation/AnimateText.svelte";
+	// import MapCanvas from "$lib/components/canvas/MapCanvas.svelte";
 	import Button from "$lib/components/ui/Button.svelte";
 	// import MapCanvas from "$lib/components/canvas/MapCanvas.svelte";
 
@@ -116,10 +117,5 @@
 		{/if}
 	</header>
 
-	<!-- {#if imageSrc}
-		<div class="min-h-0 flex-1" data-enter>
-		</div>
-	{/if} -->
-
-	<pre></pre>
+	<!-- <MapCanvas /> -->
 </div>
