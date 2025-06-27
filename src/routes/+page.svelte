@@ -1,7 +1,11 @@
 <script lang="ts">
+	import AboutTeaser from "$lib/components/layout/AboutTeaser.svelte";
+	import CallToAction from "$lib/components/layout/CallToAction.svelte";
+
 	// Components
 	import Hero from "$lib/components/layout/hero-sections/Hero.svelte";
 	import WaitlistModal from "$lib/components/layout/WaitlistModal.svelte";
+	import { cta } from "$lib/navigation";
 
 	// State
 	let showWaitlistModal = $state(false);
@@ -10,7 +14,9 @@
 	const modalCta = {
 		label: "Join waitlist",
 		href: "#",
-		onclick: () => { showWaitlistModal = true; }
+		onclick: () => {
+			showWaitlistModal = true;
+		}
 	};
 </script>
 
@@ -112,4 +118,3 @@
 	imageSrc="/uploaded/1750711033391-hvyaayf.png"
 	callsToAction={[cta]}
 />
--->
