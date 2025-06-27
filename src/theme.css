@@ -1,6 +1,6 @@
 @theme inline {
 	/* Theming */
-	--color-background: var(--color-white);
+	--color-background: var(--color-gray-50);
 	--color-foreground: var(--color-gray-950);
 
 	--color-card: var(--color-gray-50);
@@ -44,7 +44,7 @@
 	--color-sidebar-ring: var(--color-primary-600);
 
 	/* ALWAYS use REMs */
-	--radius: 0.5rem !important;
+	--radius: 0.75rem !important;
 	--radius-xs: calc(var(--radius) / 4);
 	--radius-sm: calc(var(--radius) / 2);
 	--radius-md: calc(var(--radius) / 1.5);
