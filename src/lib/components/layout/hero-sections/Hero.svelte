@@ -116,9 +116,10 @@
 		{/if}
 	</header>
 
-	{#if imageSrc}
+	<!-- {#if imageSrc}
 		<div class="min-h-0 flex-1" data-enter>
-			<!-- <MapCanvas /> -->
 		</div>
-	{/if}
+	{/if} -->
+
+	<pre></pre>
 </div>
