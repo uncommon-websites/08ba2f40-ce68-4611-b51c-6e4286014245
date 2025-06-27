@@ -1,11 +1,11 @@
 @theme inline {
 	/* Theming */
-	--color-background: var(--color-gray-50);
+	--color-background: oklch(0.99 0.005 15);
 	--color-foreground: var(--color-gray-950);
 
-	--color-card: var(--color-gray-50);
+	--color-card: oklch(0.98 0.008 18);
 	--color-card-foreground: var(--color-gray-950);
-	--color-card-hover: var(--color-gray-100);
+	--color-card-hover: oklch(0.96 0.01 20);
 
 	--color-popover: var(--color-white);
 	--color-popover-foreground: var(--color-gray-950);
@@ -24,8 +24,8 @@
 
 	--color-destructive: color-mix(in oklch, var(--color-primary-500), var(--color-secondary-500));
 
-	--color-border: var(--color-gray-100);
-	--color-input: var(--color-gray-100);
+	--color-border: oklch(0.94 0.015 22);
+	--color-input: oklch(0.96 0.01 20);
 	--color-ring: var(--color-primary-600);
 
 	--color-chart-1: color-mix(in oklch, var(--color-primary-600), var(--color-secondary-500));

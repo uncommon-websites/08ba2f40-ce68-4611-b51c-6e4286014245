@@ -68,6 +68,7 @@
 	class="section-my section-px relative container mx-auto flex flex-col items-start gap-8 text-pretty lg:grid xl:flex-row"
 	bind:this={containerElement}
 	class:lg:grid-cols-[1fr_2fr]={!!title}
+	style="background: linear-gradient(180deg, oklch(0.99 0.005 10) 0%, oklch(0.97 0.01 15) 50%, oklch(0.99 0.005 10) 100%)"
 	{...rest}
 >
 	{#if title}

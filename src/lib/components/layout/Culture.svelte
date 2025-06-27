@@ -36,7 +36,7 @@
 	});
 </script>
 
-<section class="bg-white dark:bg-gray-950">
+<section class="relative overflow-hidden" style="background: linear-gradient(135deg, oklch(0.98 0.01 15) 0%, oklch(0.96 0.015 18) 25%, oklch(0.94 0.02 22) 50%, oklch(0.96 0.015 18) 75%, oklch(0.98 0.01 15) 100%)">
 	<div
 		class="section-py section-px container mx-auto grid gap-8 [--gap:--spacing(8)] [--radius:var(--radius-2xl)]"
 	>
@@ -49,7 +49,8 @@
 			{#each values as value, i}
 				<div
 					bind:this={cards[i]}
-					class="relative border-t border-gray-200 pt-4 dark:border-gray-900"
+					class="relative border-t pt-4 rounded-lg p-6 backdrop-blur-sm"
+					style="border-color: oklch(0.9 0.02 25 / 0.3); background: linear-gradient(145deg, oklch(0.99 0.005 10 / 0.8) 0%, oklch(0.97 0.01 15 / 0.6) 100%)"
 				>
 					<!-- Content -->
 					<div class="text-caption z-10">

@@ -47,7 +47,7 @@
 	});
 </script>
 
-<section class="">
+<section class="relative overflow-hidden" style="background: linear-gradient(135deg, oklch(0.97 0.01 15) 0%, oklch(0.95 0.015 20) 25%, oklch(0.93 0.02 25) 50%, oklch(0.95 0.015 20) 75%, oklch(0.97 0.01 15) 100%)">
 	<div class="section-py section-px container mx-auto grid [--gap:--spacing(4)]">
 		<SectionHeader {title} {subtitle} />
 
@@ -73,11 +73,14 @@
 				<div
 					bind:this={cards[index]}
 					class={[
-						"card bg-gray-50 opacity-0 dark:bg-gray-900",
+						"card opacity-0",
 						"bg-cover",
 						"relative isolate grid aspect-[4/5] content-end items-end gap-10 overflow-hidden rounded-(--radius) bg-cover p-(--gap) [--inner-radius:calc(var(--radius)-var(--gap))] ",
-						type === "join" ? "bg-primary" : ""
+						type === "join" ? "" : "backdrop-blur-sm"
 					]}
+					style={type === "join" 
+						? "background: linear-gradient(135deg, oklch(0.9 0.03 30) 0%, oklch(0.85 0.04 35) 50%, oklch(0.8 0.05 40) 100%)" 
+						: ""}
 					style={type === "join"
 						? ""
 						: stakeholderType === "investor"
@@ -86,9 +89,10 @@
 				>
 					{#if type === "team" && stakeholderType === "team"}
 						<div
-							class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-black/0 via-black/0 to-black/30"
+							class="absolute top-0 right-0 bottom-0 left-0"
+							style="background: linear-gradient(to bottom, oklch(0.95 0.02 20 / 0) 0%, oklch(0.9 0.03 25 / 0.1) 50%, oklch(0.8 0.05 35 / 0.4) 100%)"
 						>
-							<div class="linear-blur-down absolute right-0 bottom-0 left-0 h-[25%]"></div>
+							<div class="absolute right-0 bottom-0 left-0 h-[25%]" style="background: linear-gradient(to bottom, transparent 0%, oklch(0.75 0.06 40 / 0.6) 100%)"></div>
 						</div>
 					{/if}
 

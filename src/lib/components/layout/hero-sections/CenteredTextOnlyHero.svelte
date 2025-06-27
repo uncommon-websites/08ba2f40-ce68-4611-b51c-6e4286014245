@@ -33,11 +33,15 @@ Takes up the full viewport height and centers content vertically.
 
 <div class="grid h-[calc(100vh-var(--nav-height))] grid-rows-[1fr_auto]" {...rest}>
 	<div
-		class="bg-background relative relative isolate flex items-center justify-center overflow-hidden"
+		class="relative isolate flex items-center justify-center overflow-hidden"
+		style="background: linear-gradient(135deg, oklch(0.95 0.02 20) 0%, oklch(0.92 0.03 25) 25%, oklch(0.88 0.04 30) 50%, oklch(0.85 0.05 35) 75%, oklch(0.82 0.06 40) 100%)"
 	>
+		<!-- Subtle overlay for better text readability -->
+		<div class="absolute inset-0 bg-white/10"></div>
+		
 		<!-- Canvas Map Background -->
 		{#if browser}
-			<div class="absolute inset-0">
+			<div class="absolute inset-0 opacity-20">
 				<MapCanvas class="size-full" />
 			</div>
 		{/if}

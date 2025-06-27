@@ -68,7 +68,8 @@
 <div class="" {...rest}>
 	<section class="section-px section-py container mx-auto">
 		<div
-			class="bg-card border-border grid content-start items-center justify-between gap-(--gap) rounded-(--radius) border p-(--gap) text-balance [--gap:--spacing(8)] [--inner-radius:calc(var(--radius)-var(--gap))] [--radius:var(--radius-xl)] lg:grid-cols-[2fr_1fr]"
+			class="relative grid content-start items-center justify-between gap-(--gap) rounded-(--radius) border border-white/20 p-(--gap) text-balance [--gap:--spacing(8)] [--inner-radius:calc(var(--radius)-var(--gap))] [--radius:var(--radius-xl)] lg:grid-cols-[2fr_1fr] overflow-hidden"
+			style="background: linear-gradient(135deg, oklch(0.98 0.01 15) 0%, oklch(0.95 0.02 20) 25%, oklch(0.92 0.03 25) 50%, oklch(0.89 0.04 30) 75%, oklch(0.86 0.05 35) 100%)"
 		>
 			<div class="items-between grid h-full content-between gap-16">
 				<h2 class="text-title1 mb-3 flex flex-col">
@@ -89,11 +90,13 @@
 				</div>
 			</div>
 			<div class="hidden lg:block relative overflow-hidden">
+				<!-- Gradient overlay inspired by the moodboard -->
+				<div class="absolute inset-0 z-10 rounded-[calc(max(var(--inner-radius),.25rem))]" 
+					 style="background: linear-gradient(45deg, oklch(0.85 0.05 35 / 0.3) 0%, oklch(0.88 0.04 30 / 0.2) 50%, oklch(0.92 0.02 20 / 0.1) 100%)"></div>
 				<img
 					src={imageSrc}
-					alt="Futuristic satellite in space with digital effects"
-					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter contrast-150 saturate-200 hue-rotate-180 brightness-75"
-					style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;"
+					alt="Professional team member"
+					class="aspect-[4/5] size-full max-h-full w-full rounded-[calc(max(var(--inner-radius),.25rem))] object-cover filter brightness-110 contrast-105 saturate-110"
 				/>
 			</div>
 		</div>
